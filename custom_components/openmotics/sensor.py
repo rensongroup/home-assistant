@@ -155,7 +155,7 @@ class OpenMoticsEnergySensor(OpenMoticsSensor):
         device: dict[str, Any]
 
     _attr_state_class = SensorStateClass.MEASUREMENT
-    _device_class: SensorDeviceClass
+    _attr_device_class: SensorDeviceClass
 
     def __init__(
         self,
@@ -169,7 +169,7 @@ class OpenMoticsEnergySensor(OpenMoticsSensor):
             coordinator,
             index,
             OpenMoticsEnergySensor.WrappedDevice(
-                f"energy-{device.idx}-{self._device_class}",
+                f"energy-{device.idx}-{self.device_class}",
                 device.idx,
                 device.name,
                 device,
