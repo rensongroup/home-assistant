@@ -4,10 +4,12 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 import voluptuous as vol
-from homeassistant import config_entries
+
+# from homeassistant import config_entries
+from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.const import (
     CONF_CLIENT_ID,
     CONF_CLIENT_SECRET,
@@ -17,9 +19,9 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_VERIFY_SSL,
 )
-from homeassistant.helpers import config_entry_oauth2_flow
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.config_entry_oauth2_flow import AbstractOAuth2FlowHandler
 from pyhaopenmotics import (
     AuthenticationError,
     Installation,
@@ -34,8 +36,8 @@ from .const import CONF_INSTALLATION_ID, DOMAIN, ENV_CLOUD, ENV_LOCAL
 from .exceptions import CannotConnect
 from .oauth_impl import OpenMoticsOauth2Implementation
 
-if TYPE_CHECKING:
-    from homeassistant.data_entry_flow import FlowResult
+# if TYPE_CHECKING:
+#     from homeassistant.data_entry_flow import FlowResult
 
 DEFAULT_PORT = 443
 DEFAULT_VERIFY_SSL = True
@@ -59,15 +61,13 @@ LOCAL_SCHEMA = vol.Schema(
 _LOGGER = logging.getLogger(__name__)
 
 
-@config_entries.HANDLERS.register(DOMAIN)
-class OpenMoticsFlowHandler(
-    config_entry_oauth2_flow.AbstractOAuth2FlowHandler,
-):
+# @config_entries.HANDLERS.register(DOMAIN)
+class OpenMoticsFlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):
     """Handle a config flow for OpenMotics."""
 
     VERSION = 2
     DOMAIN = DOMAIN
-    CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
+    # CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     installations: list[Installation] = []
     data: dict[str, Any] = {}
@@ -94,7 +94,7 @@ class OpenMoticsFlowHandler(
     async def async_step_user(
         self,
         user_input: dict[str, str] | None = None,
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle a flow initiated by the user."""
         # If there is a Local entry already, abort a new entry
         # If you want to manage multiple devices, do it via cloud
@@ -106,7 +106,7 @@ class OpenMoticsFlowHandler(
     async def async_step_environment(
         self,
         user_input: dict[str, Any] | None = None,
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Decide environment, cloud or local."""
         if user_input is None:
             return self.async_show_form(
@@ -134,7 +134,7 @@ class OpenMoticsFlowHandler(
     async def async_step_cloud(
         self,
         user_input: dict[str, Any] | None = None,
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle cloud flow."""
         errors = {}
 
@@ -200,13 +200,20 @@ class OpenMoticsFlowHandler(
     async def async_step_installation(
         self,
         user_input: dict[str, Any] | None = None,
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Ask user to select the Installation ID to use."""
         if user_input is None or CONF_INSTALLATION_ID not in user_input:
             # Get available installations
+            # existing_installations = []
+            # for entry in self._async_current_entries():
+            #     if CONF_INSTALLATION_ID in entry.data:
+            #         existing_installations.append(entry.data[CONF_INSTALLATION_ID])
+
+
             existing_installations = [
                 entry.data[CONF_INSTALLATION_ID]
                 for entry in self._async_current_entries()
+                if CONF_INSTALLATION_ID in entry.data
             ]
 
             installations_options = {
@@ -232,7 +239,7 @@ class OpenMoticsFlowHandler(
         _LOGGER.debug(self.data[CONF_INSTALLATION_ID])
         return await self.async_step_create_cloudentry()
 
-    async def async_step_create_cloudentry(self) -> FlowResult:
+    async def async_step_create_cloudentry(self) -> ConfigFlowResult:
         """Create a config entry at completion of a flow and authorization."""
         unique_id = self.construct_unique_id(
             "openmotics-clouddev",
@@ -250,7 +257,7 @@ class OpenMoticsFlowHandler(
     async def async_step_local(
         self,
         user_input: dict[str, Any] | None = None,
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle local flow."""
         errors = {}
 
@@ -306,7 +313,7 @@ class OpenMoticsFlowHandler(
             errors=errors,
         )
 
-    async def async_step_create_localentry(self) -> FlowResult:
+    async def async_step_create_localentry(self) -> ConfigFlowResult:
         """Create a config entry at completion of a flow and authorization."""
         unique_id = self.construct_unique_id(
             "openmotics-local",
