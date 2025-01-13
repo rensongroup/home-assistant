@@ -204,10 +204,16 @@ class OpenMoticsFlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):
         """Ask user to select the Installation ID to use."""
         if user_input is None or CONF_INSTALLATION_ID not in user_input:
             # Get available installations
+            # existing_installations = []
+            # for entry in self._async_current_entries():
+            #     if CONF_INSTALLATION_ID in entry.data:
+            #         existing_installations.append(entry.data[CONF_INSTALLATION_ID])
+
+
             existing_installations = [
                 entry.data[CONF_INSTALLATION_ID]
                 for entry in self._async_current_entries()
-                # if entry.data[CONF_INSTALLATION_ID]
+                if CONF_INSTALLATION_ID in entry.data
             ]
 
             installations_options = {
