@@ -1,22 +1,27 @@
-[build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
+[project]
 name = "openmotics"
 version = "0.0.0"
-description = "Homeassistant Custom Component for Openmotics"
-license = "AGPLv3"
-authors = ["Wouter Coppens <wouter.coppens@gmail.com>"]
+description = "Homeassistant Custom Component for Renson (Openmotics)"
+license = { text = "AGPLv3" }
+authors = [{ name = "Wouter Coppens", email = "wouter.coppens@gmail.com" }]
 readme = "README.md"
-repository = "https://github.com/openmotics/home-assistant"
+repository = "https://github.com/rensongroup/home-assistant"
 keywords = [
     "aiohttp",
     "asyncio",
     "openmotics",
-    "openmotics-api"
+    "openmotics-api",
+    "hacs",
+    "hass.io",
+    "hass",
+    "hassio",
+    "home assistant",
+    "home-assistant",
+    "homeassistant",
+    "integration",
 ]
 classifiers = [
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
@@ -25,114 +30,89 @@ classifiers = [
     "License :: OSI Approved :: GNU Affero General Public License v3"
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.11,<3.13"
-homeassistant = "^2024.1"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "homeassistant>=2024.4.0",
 # pyhaopenmotics = "0.0.1"
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.4.4"
-black = "23.12.1"
-pre-commit = "3.6.0"
-pre-commit-hooks = "4.5.0"
-ruff = "0.1.13"
-pylint = "3.0.3"
+[project.urls]
+Homepage = "https://github.com/rensongroup/home-assistant"
+Documentation = ""
+Changelog = "https://github.com/rensongroup/home-assistant/releases"
+Support = ""
+Issues = "https://github.com/rensongroup/home-assistant/issues"
+Repository = "https://github.com/rensongroup/home-assistant"
 
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-addopts = "--cov --cov-report term-missing --cov=custom_components tests"
+[tool.hatch.metadata]
+allow-direct-references = true
 
-[tool.coverage.report]
-show_missing = true
-exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
-
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-
-[tool.vulture]
-min_confidence = 80
-paths = ["custom_components", "tests"]
-
-
-[tool.mypy]
-# Specify the target platform details in config, so your developers are
-# free to run mypy on Windows, Linux, or macOS and get consistent
-# results.
-platform = "linux"
-python_version = "3.11"
-
-# flake8-mypy expects the two following for sensible formatting
-show_column_numbers = true
-
-# show error messages from unrelated files
-follow_imports = "silent"
-
-# suppress errors about unsatisfied imports
-ignore_missing_imports = true
-
-# be strict
-check_untyped_defs = true
-disallow_untyped_calls = true
-no_implicit_optional = true
-warn_incomplete_stub = true
-warn_redundant_casts = true
-warn_return_any = true
-warn_unused_configs = true
-warn_unused_ignores = true
-
-# No incremental mode
-cache_dir = "/dev/null"
-
-[[tool.mypy.overrides]]
-follow_imports = "skip"
-module = "mypy-aiohttp.*"
-
-[tool.pyright]
-include = ["custom_components"]
+[tool.hatch.build.targets.wheel]
+packages = ["custom_components/openmotics"]
 
 [tool.ruff]
-src = ["custom_components/spook"]
-select = ["ALL"]
+src = ["custom_components/openmotics"]
+
+[tool.ruff.lint]
 ignore = [
   "ANN101", # Self... explanatory
   "ANN401", # Opiniated warning on disallowing dynamically typed expressions
-  "ARG002", # Unused method argument: `kwargs`
-  # Boolean positional value in function call
-  "FBT001", "FBT002", "FBT003", 
   "D203", # Conflicts with other rules
   "D213", # Conflicts with other rules
-  "N818", # Exception name should be named with an Error suffix
   "TID252", # Relative imports
-  "TRY300", # Consider moving this statement to an `else` block
-  "RET504", # Unnecessary variable assignment before `return` statement
-]
+  "RUF012", # Just broken
 
-[tool.ruff.flake8-import-conventions.extend-aliases]
-voluptuous = "vol"
+  # Formatter conflicts
+  "COM812",
+  "COM819",
+  "D206",
+  "E501",
+  "ISC001",
+  "Q000",
+  "Q001",
+  "Q002",
+  "Q003",
+  "W191",
+]
+select = ["ALL"]
+
+[tool.ruff.lint.flake8-import-conventions.extend-aliases]
 "homeassistant.helpers.area_registry" = "ar"
 "homeassistant.helpers.config_validation" = "cv"
 "homeassistant.helpers.device_registry" = "dr"
 "homeassistant.helpers.entity_registry" = "er"
 "homeassistant.helpers.issue_registry" = "ir"
+voluptuous = "vol"
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = [
+    "homeassistant",
+]
+combine-as-imports = true
 
 [tool.pylint."MESSAGES CONTROL"]
 # Reasons disabled:
-# format - handled by black
+# format - handled by ruff
 # duplicate-code - unavoidable
 # used-before-assignment - false positives with TYPE_CHECKING structures
 disable = [
-    "format",
-    "duplicate-code",
-    "used-before-assignment",
+  "abstract-method",
+  "duplicate-code",
+  "format",
+  "unexpected-keyword-arg",
+  "used-before-assignment",
 ]
 
-[tool.semantic_release]
-version_toml = "pyproject.toml:tool.poetry.version"
-version_pattern = "custom_components/openmotics/manifest.json:\"version\": \"{version}\""
-version_variable = "custom_components/openmotics/const.py:VERSION"
-build_command = false
-upload_to_repository = false
-upload_to_release = false
-commit_subject = "chore(release): {version}"
-branch = "main"
+[tool.rye]
+managed = true
+dev-dependencies = [
+  "pre-commit>=3.6.0",
+  "pre-commit-hooks>=4.5.0",
+  "pylint>=3.1.0",
+  "ruff>=0.3.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
