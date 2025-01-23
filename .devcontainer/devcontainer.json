@@ -1,0 +1,40 @@
+{
+  "name": "moonraker-home-assistant",
+  "image": "mcr.microsoft.com/devcontainers/python:3.13",
+  "postCreateCommand": "scripts/setup",
+  "forwardPorts": [8123],
+  "portsAttributes": {
+    "8123": {
+      "label": "Home Assistant",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "charliermarsh.ruff",
+        "esbenp.prettier-vscode",
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+        "ms-python.pylint",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
+  },
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "installDirectlyFromGitHubRelease": true,
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "nodeGypDependencies": false,
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/rust:1": {}
+  }
+}

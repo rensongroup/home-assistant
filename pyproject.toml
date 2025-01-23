@@ -1,138 +1,186 @@
 [build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools==75.1.0"]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry]
+[project]
 name = "openmotics"
 version = "0.0.0"
-description = "Homeassistant Custom Component for Openmotics"
-license = "AGPLv3"
-authors = ["Wouter Coppens <wouter.coppens@gmail.com>"]
+description = "Homeassistant Custom Component for Renson (Openmotics)"
+license = { text = "AGPLv3" }
+authors = [{ name = "Wouter Coppens", email = "wouter.coppens@gmail.com" }]
 readme = "README.md"
-repository = "https://github.com/openmotics/home-assistant"
 keywords = [
-    "aiohttp",
-    "asyncio",
-    "openmotics",
-    "openmotics-api"
+  "aiohttp",
+  "asyncio",
+  "openmotics",
+  "openmotics-api",
+  "hacs",
+  "hass.io",
+  "hass",
+  "hassio",
+  "home assistant",
+  "home-assistant",
+  "homeassistant",
+  "integration",
 ]
 classifiers = [
-    "Intended Audience :: Developers",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "License :: OSI Approved :: GNU Affero General Public License v3"
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "License :: OSI Approved :: GNU Affero General Public License v3",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.11,<3.13"
-homeassistant = "^2024.1"
-# pyhaopenmotics = "0.0.1"
+requires-python = ">=3.12.0"
+dependencies = [
+  "homeassistant>=2024.10.0",
+  # pyhaopenmotics = "0.0.1"
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.4.4"
-black = "23.12.1"
-pre-commit = "3.6.0"
-pre-commit-hooks = "4.5.0"
-ruff = "0.1.13"
-pylint = "3.0.3"
-
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-addopts = "--cov --cov-report term-missing --cov=custom_components tests"
-
-[tool.coverage.report]
-show_missing = true
-exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
-
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-
-[tool.vulture]
-min_confidence = 80
-paths = ["custom_components", "tests"]
-
-
-[tool.mypy]
-# Specify the target platform details in config, so your developers are
-# free to run mypy on Windows, Linux, or macOS and get consistent
-# results.
-platform = "linux"
-python_version = "3.11"
-
-# flake8-mypy expects the two following for sensible formatting
-show_column_numbers = true
-
-# show error messages from unrelated files
-follow_imports = "silent"
-
-# suppress errors about unsatisfied imports
-ignore_missing_imports = true
-
-# be strict
-check_untyped_defs = true
-disallow_untyped_calls = true
-no_implicit_optional = true
-warn_incomplete_stub = true
-warn_redundant_casts = true
-warn_return_any = true
-warn_unused_configs = true
-warn_unused_ignores = true
-
-# No incremental mode
-cache_dir = "/dev/null"
-
-[[tool.mypy.overrides]]
-follow_imports = "skip"
-module = "mypy-aiohttp.*"
-
-[tool.pyright]
-include = ["custom_components"]
+[project.urls]
+Homepage = "https://github.com/rensongroup/home-assistant"
+# # Documentation = ""
+Changelog = "https://github.com/rensongroup/home-assistant/releases"
+# # Support = ""
+Issues = "https://github.com/rensongroup/home-assistant/issues"
+Repository = "https://github.com/rensongroup/home-assistant"
 
 [tool.ruff]
-src = ["custom_components/spook"]
-select = ["ALL"]
+target-version = "py313"
+src = ["custom_components/homeassistant"]
+
+[tool.ruff.lint]
 ignore = [
+  "ANN001", # Missing type annotation for function argument
   "ANN101", # Self... explanatory
   "ANN401", # Opiniated warning on disallowing dynamically typed expressions
-  "ARG002", # Unused method argument: `kwargs`
-  # Boolean positional value in function call
-  "FBT001", "FBT002", "FBT003", 
-  "D203", # Conflicts with other rules
-  "D213", # Conflicts with other rules
-  "N818", # Exception name should be named with an Error suffix
+  "ARG002", # used method argument: `kwargs`
+  "D203",   # Conflicts with other rules
+  "D213",   # Conflicts with other rules
   "TID252", # Relative imports
-  "TRY300", # Consider moving this statement to an `else` block
-  "RET504", # Unnecessary variable assignment before `return` statement
-]
+  "RUF012", # Just broken
 
-[tool.ruff.flake8-import-conventions.extend-aliases]
-voluptuous = "vol"
+  # Formatter conflicts
+  "COM812",
+  "COM819",
+  "D206",
+  "E501",
+  "ISC001",
+  "Q000",
+  "Q001",
+  "Q002",
+  "Q003",
+  "W191",
+
+  # Related to TODO
+  "TD002",
+  "TD003",
+  "FIX002",
+
+  # To double verify
+  "FBT001",  #  Boolean-typed positional argument in function definition
+  "FBT003",  # Boolean positional value in function call
+  "TRY300",  # Consider moving this statement to an `else` block
+  "ERA001",  # Found commented-out code
+  "TC001",   # Move application import `homeassistant.core.HomeAssistant` into a type-checking block
+  "TRY400",  # Use `logging.exception` instead of `logging.error`"
+  "PLR0911", #  Too many return statements (8 > 6)
+  "N818",    # Exception name `OpenMoticsException` should be named with an Error suffix
+]
+select = ["ALL"]
+
+[tool.ruff.lint.flake8-import-conventions.extend-aliases]
 "homeassistant.helpers.area_registry" = "ar"
 "homeassistant.helpers.config_validation" = "cv"
 "homeassistant.helpers.device_registry" = "dr"
 "homeassistant.helpers.entity_registry" = "er"
 "homeassistant.helpers.issue_registry" = "ir"
+"voluptuous" = "vol"
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = ["homeassistant"]
+combine-as-imports = true
+
+[tool.ruff.lint.per-file-ignores]
+
+# Allow for main entry & scripts to write to stdout
+"script/*" = ["T20"]
+
+# Allow relative imports within auth and within components
+"custom_components/openmotics/*" = ["TID252"]
 
 [tool.pylint."MESSAGES CONTROL"]
 # Reasons disabled:
-# format - handled by black
+# format - handled by ruff
 # duplicate-code - unavoidable
 # used-before-assignment - false positives with TYPE_CHECKING structures
 disable = [
-    "format",
-    "duplicate-code",
-    "used-before-assignment",
+  "abstract-method",
+  "duplicate-code",
+  "format",
+  "unexpected-keyword-arg",
+  "used-before-assignment",
 ]
 
-[tool.semantic_release]
-version_toml = "pyproject.toml:tool.poetry.version"
-version_pattern = "custom_components/openmotics/manifest.json:\"version\": \"{version}\""
-version_variable = "custom_components/openmotics/const.py:VERSION"
-build_command = false
-upload_to_repository = false
-upload_to_release = false
-commit_subject = "chore(release): {version}"
-branch = "main"
+[tool.mypy]
+# Stock HomeAssistant mypy configuration.
+ignore_missing_imports = true
+python_version = "3.13"
+follow_imports = "silent"
+strict_equality = true
+warn_incomplete_stub = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unused_ignores = true
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_return_any = true
+warn_unreachable = true
+
+# Custom openmotics configuration.
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = "custom_components.openmotics.*"
+ignore_missing_imports = true
+disable_error_code = [
+  "no-untyped-def",
+  "union-attr",
+  "attr-defined",
+  "no-any-return",
+  "return-value",
+  "var-annotated",
+  "arg-type",
+  "assignment",
+  "typeddict-item",
+]
+
+[tool.coverage.paths]
+source = ["custom_components/openmotics"]
+
+[tool.pyright]
+# ...
+venvPath = "."
+venv = ".venv"
+
+
+# [tool.uv]
+# managed = true
+# dev-dependencies = [
+#   "ruff",
+#   "pre-commit>=3.6.0",
+#   "pre-commit-hooks>=4.5.0",
+#   "pylint>=3.1.0",
+#   "homeassistant>=2024.11.0",
+#   "pytest-asyncio>=0.16.0",
+#   "setuptools>=62.2.0",
+#   "tomlkit>=0.12.3",
+# ]

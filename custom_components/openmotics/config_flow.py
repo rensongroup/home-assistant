@@ -1,15 +1,24 @@
 """Adds config flow for OpenMotics."""
+
 from __future__ import annotations
 
-import asyncio
 import logging
 import time
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
+from pyhaopenmotics import (
+    AuthenticationError,
+    Installation,
+    LocalGateway,
+    OpenMoticsCloud,
+    OpenMoticsConnectionError,
+    OpenMoticsConnectionSslError,
+    OpenMoticsError,
+)
 import voluptuous as vol
 
 # from homeassistant import config_entries
-from homeassistant.config_entries import ConfigFlowResult
+# from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.const import (
     CONF_CLIENT_ID,
     CONF_CLIENT_SECRET,
@@ -22,22 +31,13 @@ from homeassistant.const import (
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.config_entry_oauth2_flow import AbstractOAuth2FlowHandler
-from pyhaopenmotics import (
-    AuthenticationError,
-    Installation,
-    LocalGateway,
-    OpenMoticsCloud,
-    OpenMoticsConnectionError,
-    OpenMoticsConnectionSslError,
-    OpenMoticsError,
-)
 
 from .const import CONF_INSTALLATION_ID, DOMAIN, ENV_CLOUD, ENV_LOCAL
 from .exceptions import CannotConnect
 from .oauth_impl import OpenMoticsOauth2Implementation
 
-# if TYPE_CHECKING:
-#     from homeassistant.data_entry_flow import FlowResult
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigFlowResult
 
 DEFAULT_PORT = 443
 DEFAULT_VERIFY_SSL = True
@@ -178,10 +178,7 @@ class OpenMoticsFlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):
 
                 self.data["token"] = token
 
-            except (
-                asyncio.TimeoutError,
-                OpenMoticsError,
-            ) as err:
+            except (TimeoutError, OpenMoticsError) as err:
                 _LOGGER.error(err)
                 raise CannotConnect from err
 
@@ -208,7 +205,6 @@ class OpenMoticsFlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):
             # for entry in self._async_current_entries():
             #     if CONF_INSTALLATION_ID in entry.data:
             #         existing_installations.append(entry.data[CONF_INSTALLATION_ID])
-
 
             existing_installations = [
                 entry.data[CONF_INSTALLATION_ID]
@@ -247,9 +243,9 @@ class OpenMoticsFlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):
         )
         await self.async_set_unique_id(unique_id)
 
-        self.data[
-            "auth_implementation"
-        ] = f"{DOMAIN}-clouddev-{self.data[CONF_INSTALLATION_ID]}"
+        self.data["auth_implementation"] = (
+            f"{DOMAIN}-clouddev-{self.data[CONF_INSTALLATION_ID]}"
+        )
 
         return self.async_create_entry(title=unique_id, data=self.data)
 
@@ -294,10 +290,7 @@ class OpenMoticsFlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):
             except AuthenticationError as err:
                 _LOGGER.error("SSL certificate error: [%s]", err)
                 errors["base"] = "ssl_error"
-            except (
-                asyncio.TimeoutError,
-                OpenMoticsError,
-            ) as err:
+            except (TimeoutError, OpenMoticsError) as err:
                 _LOGGER.error("Error: %s", err)
                 errors["base"] = "cannot_connect"
             except Exception:  # pylint: disable=broad-except

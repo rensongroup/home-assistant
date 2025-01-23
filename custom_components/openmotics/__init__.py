@@ -6,6 +6,7 @@ https://github.com/openmotics/home-assistant
 
 For examples of the output of the api, look at openmotics_api.md
 """
+
 # pylint: disable=import-outside-toplevel
 from __future__ import annotations
 

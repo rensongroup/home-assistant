@@ -1,8 +1,9 @@
 """Support for HomeAssistant lights."""
+
 from __future__ import annotations
 
-import logging
 from dataclasses import dataclass
+import logging
 from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.sensor import (

@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# Stop on errors
+set -e
+
+cd "$(dirname "$0")/.."
+
+# Setup venv if not devcontainer of venv is not activated
+if [ ! -n "$DEVCONTAINER" ] && [ ! -n "$VIRTUAL_ENV" ];then
+  virtualenv .venv
+  source .venv/bin/activate
+fi
+
+# Install go2rtc
+# HA_GO2RTC_VERSION=$(curl --silent -qI https://github.com/AlexxIT/go2rtc/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}')
+# echo "https://github.com/AlexxIT/go2rtc/releases/download/${HA_GO2RTC_VERSION}/go2rtc_linux_amd64"
+# sudo curl -o  /bin/go2rtc -fL "https://github.com/AlexxIT/go2rtc/releases/download/${HA_GO2RTC_VERSION}/go2rtc_linux_amd64"
+# sudo chmod +x /bin/go2rtc
+
+# Install packages
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install -y libturbojpeg0 ffmpeg libpcap-dev
+
+# Install Python dependencies
+python3 -m  pip install --upgrade pip
+
+echo "Installing development dependencies..."
+python3 -m pip install --requirement requirements.txt
+
+# Create config folder if does not exist
+mkdir -p config
+
+hass --script ensure_config -c config
+
+if ! grep -R "logger" config/configuration.yaml >> /dev/null;then
+echo "
+
+logger:
+  default: info
+  logs:
+    custom_components.openmotics: debug
+
+# Run with debugpy and wait for debugger to connect
+debugpy:
+#   start: true
+#   wait: true
+
+# Enable this part if you want to use CodeSpaces
+# http:
+#   use_x_forwarded_for: true
+#   trusted_proxies:
+#     - 127.0.0.1
+#   ip_ban_enabled: true
+#   login_attempts_threshold: 3
+
+" >> config/configuration.yaml
+fi
