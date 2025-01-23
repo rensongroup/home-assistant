@@ -1,4 +1,5 @@
 """Diagnostics support for OpenMotics."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -19,9 +20,7 @@ async def async_get_config_entry_diagnostics(
     """Return diagnostics for a config entry."""
     coordinator: OpenMoticsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
-    diagnostics_data = {
+    return {
         "info": dict(entry.data),
         "data": coordinator.data,
     }
-
-    return diagnostics_data

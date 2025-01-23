@@ -1,4 +1,7 @@
 """Errors for the OpenMotics component."""
+
+from __future__ import annotations
+
 from homeassistant.exceptions import HomeAssistantError
 
 

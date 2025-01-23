@@ -2,28 +2,28 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Home Assistant on port 9123",
+      "label": "Run Home Assistant on port 8123",
       "type": "shell",
-      "command": "container start",
+      "command": "scripts/develop",
       "problemMatcher": []
     },
     {
-      "label": "Run Home Assistant configuration against /config",
+      "label": "Run tests",
       "type": "shell",
-      "command": "container check",
+      "command": "pytest --durations=10 --cov-report term-missing --cov=custom_components.openmotics tests",
       "problemMatcher": []
     },
     {
-      "label": "Upgrade Home Assistant to latest dev",
+      "label": "Run pre-commit hook",
       "type": "shell",
-      "command": "container install",
-      "problemMatcher": []
-    },
-    {
-      "label": "Install a specific version of Home Assistant",
-      "type": "shell",
-      "command": "container set-version",
+      "command": "pre-commit run --all-files",
       "problemMatcher": []
     }
+    // {
+    //   "label": "Generate Documentation",
+    //   "type": "shell",
+    //   "command": "sphinx-build -W -E docs docs/_build && echo http://127.0.0.1:3000/docs/_build/index.html",
+    //   "problemMatcher": []
+    // }
   ]
 }

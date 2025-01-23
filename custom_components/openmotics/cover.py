@@ -1,4 +1,5 @@
 """Support for HomeAssistant shutters."""
+
 from __future__ import annotations
 
 import logging

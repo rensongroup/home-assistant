@@ -1,4 +1,5 @@
 """Support for HomeAssistant scenes (aka group actions)."""
+
 from __future__ import annotations
 
 import logging

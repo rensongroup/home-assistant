@@ -1,16 +1,18 @@
 """Tests for `aioweenect.aioweenect`."""
 
+from __future__ import annotations
+
 import aiohttp
-import pytest
 from pyhaopenmotics import OpenMoticsCloud
 from pyhaopenmotics.const import CLOUD_API_VERSION, CLOUD_BASE_URL
+import pytest
 
 API_HOST = "apiv4.weenect.com"
 API_VERSION = "/v4"
 
 
-@pytest.mark.enable_socket()
-@pytest.mark.asyncio()
+@pytest.mark.enable_socket
+@pytest.mark.asyncio
 async def test_get_installations_with_invalid_token(aresponses):
     """Test getting installations with a timed out token."""
     aresponses.add(
@@ -18,11 +20,7 @@ async def test_get_installations_with_invalid_token(aresponses):
         f"{CLOUD_API_VERSION}/base/installations",
         "GET",
         aresponses.Response(
-            body="{"
-            '"description": "Signature has expired",'
-            '"error": "Invalid token",'
-            '"status_code": 401'
-            "}",
+            body='{"description": "Signature has expired","error": "Invalid token","status_code": 401}',
             status=401,
         ),
     )

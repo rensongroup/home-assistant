@@ -87,7 +87,7 @@ Option 1: HACS installation
 
 ![new_repository](/pictures/hacs_new_repository.png)
 
-5. Click the new repositry. In the dialog box that appears, click DOWNLOAD THIS REPOSITORY WITH HACS.
+5. Click the new repository. In the dialog box that appears, click DOWNLOAD THIS REPOSITORY WITH HACS.
 
 ![install](/pictures/hacs_download_repository.png)
 

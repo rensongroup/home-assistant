@@ -1,22 +1,33 @@
 """Support for OpenMotics thermostat(hroup)s."""
+
 from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING, Any
 
-from homeassistant.components.climate import (ATTR_HVAC_MODE, PRESET_AWAY,
-                                              ClimateEntity,
-                                              ClimateEntityFeature, HVACAction,
-                                              HVACMode)
+from homeassistant.components.climate import (
+    ATTR_HVAC_MODE,
+    PRESET_AWAY,
+    ClimateEntity,
+    ClimateEntityFeature,
+    HVACAction,
+    HVACMode,
+)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 
-from .const import (DOMAIN, NOT_IN_USE, PRESET_AUTO, PRESET_MANUAL,
-                    PRESET_PARTY, PRESET_VACATION)
+from .const import (
+    DOMAIN,
+    NOT_IN_USE,
+    PRESET_AUTO,
+    PRESET_MANUAL,
+    PRESET_PARTY,
+    PRESET_VACATION,
+)
 from .entity import OpenMoticsDevice
 
 if TYPE_CHECKING:
-    from homeassistant.config_entries import ConfigEntry
+    # from homeassistant.config_entries import ConfigEntry
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -151,12 +162,11 @@ class OpenMoticsThermostatUnit(OpenMoticsDevice, ClimateEntity):
 
     _attr_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_supported_features = (
-        ClimateEntityFeature.PRESET_MODE
-        | ClimateEntityFeature.TARGET_TEMPERATURE
+        ClimateEntityFeature.PRESET_MODE | ClimateEntityFeature.TARGET_TEMPERATURE
         # ClimateEntityFeature.TARGET_TEMPERATURE
     )
 
-    # OpenMotics thermostats go from 6 to 32 degress
+    # OpenMotics thermostats go from 6 to 32 degrees
     _attr_min_temp = 6.0
     _attr_max_temp = 32.0
 
