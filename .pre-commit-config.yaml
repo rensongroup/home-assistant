@@ -26,6 +26,15 @@ repos:
       - id: pretty-format-json
         args: [--autofix, --no-sort-keys, --no-ensure-ascii]
         exclude: node_modules|.mypy_cache
+      - id: pretty-format-json
+        args: ["--autofix", "--no-ensure-ascii", "--top-keys=domain,name"]
+        files: manifest.json
+      - id: pretty-format-json
+        args: ["--autofix", "--no-ensure-ascii", "--top-keys=name"]
+        files: hacs.json
+      - id: pretty-format-json
+        args: ["--autofix", "--no-ensure-ascii", "--no-sort-keys"]
+        files: (/strings\.json$|translations/.+\.json$)
       - id: requirements-txt-fixer
       - id: trailing-whitespace
       - id: no-commit-to-branch
