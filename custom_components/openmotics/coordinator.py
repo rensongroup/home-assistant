@@ -111,7 +111,7 @@ class OpenMoticsCloudDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
             name=name,
         )
         self.session = session
-        self._install_id = self.config_entry.data.get(CONF_INSTALLATION_ID)
+        self._install_id = self.config_entry.data.get(CONF_INSTALLATION_ID)  # type: ignore
 
         async def async_token_refresh() -> Any:
             await session.async_ensure_token_valid()
@@ -133,14 +133,14 @@ class OpenMoticsLocalDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
             hass=hass,
             name=name,
         )
-        self._install_id = self.config_entry.data.get(CONF_IP_ADDRESS)
-        ssl_context = get_ssl_context(self.config_entry.data.get(CONF_VERIFY_SSL))
+        self._install_id = self.config_entry.data.get(CONF_IP_ADDRESS)  # type: ignore
+        ssl_context = get_ssl_context(self.config_entry.data.get(CONF_VERIFY_SSL))  # type: ignore
 
         """Set up a OpenMotics controller"""
         self._omclient = LocalGateway(
-            localgw=self.config_entry.data.get(CONF_IP_ADDRESS),
-            username=self.config_entry.data.get(CONF_NAME),
-            password=self.config_entry.data.get(CONF_PASSWORD),
-            port=self.config_entry.data.get(CONF_PORT),
+            localgw=self.config_entry.data.get(CONF_IP_ADDRESS),  # type: ignore
+            username=self.config_entry.data.get(CONF_NAME),  # type: ignore
+            password=self.config_entry.data.get(CONF_PASSWORD),  # type: ignore
+            port=self.config_entry.data.get(CONF_PORT),  # type: ignore
             ssl_context=ssl_context,
         )

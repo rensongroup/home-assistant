@@ -54,7 +54,6 @@ src = ["custom_components/homeassistant"]
 [tool.ruff.lint]
 ignore = [
   "ANN001", # Missing type annotation for function argument
-  "ANN101", # Self... explanatory
   "ANN401", # Opiniated warning on disallowing dynamically typed expressions
   "ARG002", # used method argument: `kwargs`
   "D203",   # Conflicts with other rules
@@ -88,6 +87,7 @@ ignore = [
   "TRY400",  # Use `logging.exception` instead of `logging.error`"
   "PLR0911", #  Too many return statements (8 > 6)
   "N818",    # Exception name `OpenMoticsException` should be named with an Error suffix
+  "PGH003",  # Use specific rule codes when ignoring type issues
 ]
 select = ["ALL"]
 
@@ -105,10 +105,8 @@ known-first-party = ["homeassistant"]
 combine-as-imports = true
 
 [tool.ruff.lint.per-file-ignores]
-
 # Allow for main entry & scripts to write to stdout
 "script/*" = ["T20"]
-
 # Allow relative imports within auth and within components
 "custom_components/openmotics/*" = ["TID252"]
 
@@ -167,10 +165,11 @@ disable_error_code = [
 source = ["custom_components/openmotics"]
 
 [tool.pyright]
-# ...
-venvPath = "."
-venv = ".venv"
-
+reportPrivateImportUsage = "none"
+reportIncompatibleVariableOverride = "none"
+# reportMissingImports = "error"
+# reportMissingTypeStubs = false
+reportAttributeAccessIssue = false
 
 # [tool.uv]
 # managed = true

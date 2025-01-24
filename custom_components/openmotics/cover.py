@@ -102,7 +102,7 @@ class OpenMoticsShutter(OpenMoticsDevice, CoverEntity):
             self._state = self._device.status.state.upper()
             return VALUE_TO_STATE.get(self._state) == STATE_OPENING
         except (AttributeError, KeyError):
-            return STATE_UNKNOWN
+            return STATE_UNKNOWN  # type: ignore
 
     @property
     def is_closing(self) -> bool:
@@ -112,13 +112,13 @@ class OpenMoticsShutter(OpenMoticsDevice, CoverEntity):
             self._state = self._device.status.state.upper()
             return VALUE_TO_STATE.get(self._state) == STATE_CLOSING
         except (AttributeError, KeyError):
-            return STATE_UNKNOWN
+            return STATE_UNKNOWN  # type: ignore
 
     @property
     def is_closed(self) -> bool:
         """Return if the cover is closed."""
         if self.current_cover_position is None:
-            return None
+            return None  # type: ignore
         return self.current_cover_position == 0
 
     @property
@@ -143,9 +143,9 @@ class OpenMoticsShutter(OpenMoticsDevice, CoverEntity):
                     return None
                 return 100 - self._device.status.position
 
-            return STATE_UNKNOWN
+            return STATE_UNKNOWN  # type: ignore
         except (AttributeError, KeyError):
-            return STATE_UNKNOWN
+            return STATE_UNKNOWN  # type: ignore
 
     async def async_open_cover(self, **kwargs: Any) -> None:
         """Open the window cover."""

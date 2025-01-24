@@ -169,8 +169,8 @@ class OpenMoticsEnergySensor(OpenMoticsSensor):
         super().__init__(
             coordinator,
             index,
-            OpenMoticsEnergySensor.WrappedDevice(
-                f"energy-{device.idx}-{self.device_class}",
+            OpenMoticsEnergySensor.WrappedDevice(  # type: ignore
+                f"energy-{device.idx}-{self.device_class}",  # type: ignore
                 device.idx,
                 device.name,
                 device,

@@ -28,9 +28,10 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_VERIFY_SSL,
 )
-from homeassistant.helpers import config_validation as cv
+
+# from homeassistant.helpers.config_entry_oauth2_flow import AbstractOAuth2FlowHandler
+from homeassistant.helpers import config_entry_oauth2_flow, config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.config_entry_oauth2_flow import AbstractOAuth2FlowHandler
 
 from .const import CONF_INSTALLATION_ID, DOMAIN, ENV_CLOUD, ENV_LOCAL
 from .exceptions import CannotConnect
@@ -62,7 +63,9 @@ _LOGGER = logging.getLogger(__name__)
 
 
 # @config_entries.HANDLERS.register(DOMAIN)
-class OpenMoticsFlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):
+class OpenMoticsFlowHandler(
+    config_entry_oauth2_flow.AbstractOAuth2FlowHandler, domain=DOMAIN
+):
     """Handle a config flow for OpenMotics."""
 
     VERSION = 2
