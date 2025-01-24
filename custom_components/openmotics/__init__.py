@@ -40,7 +40,7 @@ async def async_setup_openmotics_installation(
     openmotics_installation,
 ) -> bool:
     """Set up the OpenMotics Installation."""
-    device_registry = await dr.async_get_registry(hass)
+    device_registry = dr.async_get(hass)
     device_registry.async_get_or_create(
         config_entry_id=entry.entry_id,
         identifiers={(DOMAIN, openmotics_installation["id"])},
@@ -73,27 +73,25 @@ async def async_setup_entry(
         # Cloud
         implementation = OpenMoticsOauth2Implementation(
             hass,
-            domain=entry.data.get(CONF_AUTH_IMPLEMENTATION),
-            client_id=entry.data.get(CONF_CLIENT_ID),
-            client_secret=entry.data.get(CONF_CLIENT_SECRET),
-            name=entry.data.get(CONF_AUTH_IMPLEMENTATION),
+            domain=entry.data.get(CONF_AUTH_IMPLEMENTATION),  # type: ignore
+            client_id=entry.data.get(CONF_CLIENT_ID),  # type: ignore
+            client_secret=entry.data.get(CONF_CLIENT_SECRET),  # type: ignore
+            name=entry.data.get(CONF_AUTH_IMPLEMENTATION),  # type: ignore
         )
         oauth2_session = OAuth2Session(hass, entry, implementation)
 
         coordinator = OpenMoticsCloudDataUpdateCoordinator(
             hass,
             session=oauth2_session,
-            name=entry.data.get(CONF_AUTH_IMPLEMENTATION),
+            name=entry.data.get(CONF_AUTH_IMPLEMENTATION),  # type: ignore
         )
 
         coordinator.omclient.installation_id = entry.data.get(CONF_INSTALLATION_ID)
 
     await coordinator.async_config_entry_first_refresh()
 
-    hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][entry.entry_id] = coordinator
+    hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
 
-    # Spin up the platforms
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True
