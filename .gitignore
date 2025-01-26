@@ -128,5 +128,8 @@ docs/
 mkdocs.yml
 .overrides
 
+# uv
+uv.lock
+
 # Homeassistant files
 config/

@@ -1,23 +1,23 @@
 {
   "domain": "openmotics",
   "name": "OpenMotics",
+  "codeowners": ["@rensongroup", "@woutercoppens"],
   "config_flow": true,
+  "dependencies": [],
   "documentation": "https://github.com/rensongroup/home-assistant",
+  "homekit": {},
+  "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/rensongroup/home-assistant/issues",
+  "quality_scale": "silver",
   "requirements": [
     "git+https://github.com/rensongroup/pyhaopenmotics.git@main#pyhaopenmotics==0.0.7"
   ],
   "ssdp": [],
+  "version": "0.0.1",
   "zeroconf": [
     {
-      "type": "_ssh._tcp.local.",
-      "name": "openmotics*"
+      "name": "openmotics*",
+      "type": "_ssh._tcp.local."
     }
-  ],
-  "homekit": {},
-  "dependencies": [],
-  "codeowners": ["@rensongroup", "@woutercoppens"],
-  "iot_class": "cloud_polling",
-  "quality_scale": "silver",
-  "version": "0.0.1"
+  ]
 }

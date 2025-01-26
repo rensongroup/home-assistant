@@ -56,3 +56,6 @@ debugpy:
 
 " >> config/configuration.yaml
 fi
+
+uv sync
+uv run pre-commit install

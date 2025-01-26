@@ -134,7 +134,9 @@ class OpenMoticsLocalDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
             name=name,
         )
         self._install_id = self.config_entry.data.get(CONF_IP_ADDRESS)  # type: ignore
-        ssl_context = get_ssl_context(self.config_entry.data.get(CONF_VERIFY_SSL))  # type: ignore
+        ssl_context = get_ssl_context(
+            verify_ssl=self.config_entry.data.get(CONF_VERIFY_SSL)
+        )
 
         """Set up a OpenMotics controller"""
         self._omclient = LocalGateway(
