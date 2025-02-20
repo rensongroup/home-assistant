@@ -9,7 +9,6 @@ from pyhaopenmotics import (
     LocalGateway,
     OpenMoticsCloud,
     OpenMoticsError,
-    get_ssl_context,
 )
 
 from homeassistant.const import (
@@ -21,6 +20,7 @@ from homeassistant.const import (
 )
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.util.ssl import get_default_context, get_default_no_verify_context
 
 from .const import CONF_INSTALLATION_ID, DEFAULT_SCAN_INTERVAL, DOMAIN
 
@@ -134,9 +134,9 @@ class OpenMoticsLocalDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
             name=name,
         )
         self._install_id = self.config_entry.data.get(CONF_IP_ADDRESS)  # type: ignore
-        ssl_context = get_ssl_context(
-            verify_ssl=self.config_entry.data.get(CONF_VERIFY_SSL) # type: ignore
-        )
+        ssl_context = get_default_context()
+        if not self.config_entry.data.get(CONF_VERIFY_SSL):
+            ssl_context = get_default_no_verify_context()
 
         """Set up a OpenMotics controller"""
         self._omclient = LocalGateway(
