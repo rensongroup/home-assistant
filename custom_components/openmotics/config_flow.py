@@ -32,6 +32,7 @@ from homeassistant.const import (
 # from homeassistant.helpers.config_entry_oauth2_flow import AbstractOAuth2FlowHandler
 from homeassistant.helpers import config_entry_oauth2_flow, config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.util.ssl import get_default_context, get_default_no_verify_context
 
 from .const import CONF_INSTALLATION_ID, DOMAIN, ENV_CLOUD, ENV_LOCAL
 from .exceptions import CannotConnect
@@ -269,13 +270,18 @@ class OpenMoticsFlowHandler(
                 CONF_VERIFY_SSL: user_input[CONF_VERIFY_SSL],
             }
             version = None
+            ssl_context = get_default_context()
+            if not self.data[CONF_VERIFY_SSL]:
+                ssl_context = get_default_no_verify_context()
+
             try:
                 omclient = LocalGateway(
                     localgw=self.data[CONF_IP_ADDRESS],
                     username=self.data[CONF_NAME],
                     password=self.data[CONF_PASSWORD],
                     port=self.data[CONF_PORT],
-                    tls=self.data[CONF_VERIFY_SSL],
+                    # tls=self.data[CONF_VERIFY_SSL],
+                    ssl_context=ssl_context,
                 )
                 await omclient.get_token()
 
