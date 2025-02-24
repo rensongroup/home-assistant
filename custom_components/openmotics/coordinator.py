@@ -60,10 +60,7 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator):
             my_sensors = await self._omclient.sensors.get_all()
             my_thermostatgroups = await self._omclient.thermostats.groups.get_all()
             my_thermostatunits = await self._omclient.thermostats.units.get_all()
-            if hasattr(self._omclient, "energysensors"):
-                my_energysensors = await self._omclient.energysensors.get_all()
-            else:
-                my_energysensors = []
+            my_energysensors = await self._omclient.energysensors.get_all()
 
         except OpenMoticsError as err:
             _LOGGER.error("Could not retrieve the data from the OpenMotics API")
