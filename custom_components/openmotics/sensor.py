@@ -60,14 +60,19 @@ async def async_setup_entry(
         if om_sensor.physical_quantity == "brightness":
             entities.append(OpenMoticsBrightness(coordinator, index, om_sensor))
 
+        if om_sensor.physical_quantity == "power":
+            entities.append(OpenMoticsPower(coordinator, index, om_sensor))
+
+    # Energy sensors only exists on the local gateway.
+    # Via the cloud, they are merged into the other sensors.
     for index, om_sensor in enumerate(coordinator.data["energysensors"]):
         if om_sensor.name is None or not om_sensor.name or om_sensor.name == NOT_IN_USE:
             continue
 
-        entities.append(OpenMoticsVoltage(coordinator, index, om_sensor))
-        entities.append(OpenMoticsFrequency(coordinator, index, om_sensor))
-        entities.append(OpenMoticsCurrent(coordinator, index, om_sensor))
-        entities.append(OpenMoticsPower(coordinator, index, om_sensor))
+        entities.append(OpenMoticsLocalVoltage(coordinator, index, om_sensor))
+        entities.append(OpenMoticsLocalFrequency(coordinator, index, om_sensor))
+        entities.append(OpenMoticsLocalCurrent(coordinator, index, om_sensor))
+        entities.append(OpenMoticsLocalPower(coordinator, index, om_sensor))
 
     if not entities:
         _LOGGER.info("No OpenMotics sensors added")
@@ -77,7 +82,7 @@ async def async_setup_entry(
 
 
 class OpenMoticsSensor(OpenMoticsDevice, SensorEntity):
-    """Representation of a OpenMotics light."""
+    """Representation of a OpenMotics sensor."""
 
     coordinator: OpenMoticsDataUpdateCoordinator
 
@@ -87,7 +92,7 @@ class OpenMoticsSensor(OpenMoticsDevice, SensorEntity):
         index: int,
         device: dict[str, Any],
     ) -> None:
-        """Initialize the light."""
+        """Initialize the sensor."""
         super().__init__(coordinator, index, device, "sensor")
 
         self._state = None
@@ -143,7 +148,24 @@ class OpenMoticsBrightness(OpenMoticsSensor):
             return None
 
 
-class OpenMoticsEnergySensor(OpenMoticsSensor):
+class OpenMoticsPower(OpenMoticsSensor):
+    """Representation of a OpenMotics humidity sensor."""
+
+    _attr_device_class = SensorDeviceClass.POWER
+    _attr_native_unit_of_measurement = UnitOfPower.WATT
+
+    @property
+    def native_value(self) -> float | None:
+        """Return % chance the aurora is visible."""
+        try:
+            self._device = self.coordinator.data["sensors"][self.index]
+            return self._device.status.power
+        except (AttributeError, KeyError):
+            return None
+
+
+# Local Gateway Energy Sensors ########################################################
+class OpenMoticsLocalEnergySensor(OpenMoticsSensor):
     """Representation of a OpenMotics energy sensor."""
 
     @dataclass
@@ -169,7 +191,7 @@ class OpenMoticsEnergySensor(OpenMoticsSensor):
         super().__init__(
             coordinator,
             index,
-            OpenMoticsEnergySensor.WrappedDevice(  # type: ignore
+            OpenMoticsLocalEnergySensor.WrappedDevice(  # type: ignore
                 f"energy-{device.idx}-{self.device_class}",  # type: ignore
                 device.idx,
                 device.name,
@@ -178,7 +200,7 @@ class OpenMoticsEnergySensor(OpenMoticsSensor):
         )
 
 
-class OpenMoticsVoltage(OpenMoticsEnergySensor):
+class OpenMoticsLocalVoltage(OpenMoticsLocalEnergySensor):
     """Representation of a OpenMotics voltage sensor."""
 
     _attr_native_unit_of_measurement = UnitOfElectricPotential.VOLT
@@ -195,7 +217,7 @@ class OpenMoticsVoltage(OpenMoticsEnergySensor):
             return None
 
 
-class OpenMoticsFrequency(OpenMoticsEnergySensor):
+class OpenMoticsLocalFrequency(OpenMoticsLocalEnergySensor):
     """Representation of a OpenMotics frequency sensor."""
 
     _attr_native_unit_of_measurement = UnitOfFrequency.HERTZ
@@ -212,7 +234,7 @@ class OpenMoticsFrequency(OpenMoticsEnergySensor):
             return None
 
 
-class OpenMoticsCurrent(OpenMoticsEnergySensor):
+class OpenMoticsLocalCurrent(OpenMoticsLocalEnergySensor):
     """Representation of a OpenMotics current sensor."""
 
     _attr_native_unit_of_measurement = UnitOfElectricCurrent.AMPERE
@@ -229,7 +251,7 @@ class OpenMoticsCurrent(OpenMoticsEnergySensor):
             return None
 
 
-class OpenMoticsPower(OpenMoticsEnergySensor):
+class OpenMoticsLocalPower(OpenMoticsLocalEnergySensor):
     """Representation of a OpenMotics power sensor."""
 
     _attr_device_class = SensorDeviceClass.POWER

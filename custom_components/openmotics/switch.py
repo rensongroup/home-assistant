@@ -103,6 +103,11 @@ class OpenMoticsSwitch(OpenMoticsDevice, SwitchEntity):
             if self.is_on:
                 return "mdi:fan"
             return "mdi:fan-off"
+        # HVAC.
+        if self._device.output_type == "HVAC":
+            if self.is_on:
+                return "mdi:hvac"
+            return "mdi:hvac-off"
         return None
 
     async def _update_state_from_result(self, result: Any, state: bool) -> None:
