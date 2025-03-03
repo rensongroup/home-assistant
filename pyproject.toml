@@ -171,8 +171,8 @@ reportAttributeAccessIssue = false
 managed = true
 dev-dependencies = [
   "ruff",
-  "pre-commit>=3.6.0",
-  "pre-commit-hooks>=4.5.0",
+  "pre-commit",
+  "pre-commit-hooks",
   #   "pylint>=3.1.0",
   #   "homeassistant>=2024.11.0",
   #   "pytest-asyncio>=0.16.0",
