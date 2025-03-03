@@ -43,7 +43,7 @@ repos:
           - --branch=master
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.9.7
+    rev: v0.9.9
     hooks:
       - id: ruff
         args:
