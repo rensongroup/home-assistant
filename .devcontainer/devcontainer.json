@@ -1,5 +1,5 @@
 {
-  "name": "moonraker-home-assistant",
+  "name": "openmotics/home-assistant",
   "image": "mcr.microsoft.com/devcontainers/python:3.13",
   "postCreateCommand": "scripts/setup",
   "forwardPorts": [8123],
@@ -16,7 +16,6 @@
         "esbenp.prettier-vscode",
         "GitHub.vscode-github-actions",
         "GitHub.vscode-pull-request-github",
-        "ms-python.pylint",
         "ms-python.python",
         "ms-python.vscode-pylance",
         "redhat.vscode-yaml",
