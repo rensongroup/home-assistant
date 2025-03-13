@@ -28,12 +28,13 @@ python3 -m  pip install --upgrade pip
 echo "Installing development dependencies..."
 python3 -m pip install --requirement requirements.txt
 
-# Create config folder if does not exist
-mkdir -p config
+# Create config dir if not present
+if [[ ! -d "${PWD}/config" ]]; then
+    mkdir -p "${PWD}/config"
+    hass --config "${PWD}/config" --script ensure_config
+fi
 
-hass --script ensure_config -c config
-
-if ! grep -R "logger" config/configuration.yaml >> /dev/null;then
+if ! grep -R "logger" "${PWD}/config/configuration.yaml" >> /dev/null;then
 echo "
 
 logger:
@@ -54,7 +55,7 @@ debugpy:
 #   ip_ban_enabled: true
 #   login_attempts_threshold: 3
 
-" >> config/configuration.yaml
+" >> "${PWD}/config/configuration.yaml"
 fi
 
 uv sync
