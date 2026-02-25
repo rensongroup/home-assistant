@@ -1,10 +1,15 @@
 # OpenMotics Home Assistant integration Beta
 
-**BETA WARNING: this Beta release contains a significant amount of changes to support Outputs, Lights, Scenes and Shutters for the OpenMotics Gateway. It equally uses v0.0.1 of the pyHAopenmotics API, which also contains a significant amount of changes. It has been tested but may contain some bugs in existing or new functionality. Use in your live environment at your own risk.**
+**BETA WARNING: this Beta release contains a significant amount of changes to support Outputs, Lights, Scenes and
+Shutters for the OpenMotics Gateway. It equally uses v0.0.1 of the pyHAopenmotics API, which also contains a significant
+amount of changes. It has been tested but may contain some bugs in existing or new functionality. Use in your live
+environment at your own risk.**
 
 This repository contains a Home Assistant component + platforms, for the awesome OpenMotics solution.
 
-For the latest version of the OpenMotics Home Assistant Platform please use the master branch or better still install via HACS. if you want bleeding edge then checkout the dev branch, or look out for beta releases via HACS. Depending on what you choose you may need to use the Manual Code Installation described below.
+For the latest version of the OpenMotics Home Assistant Platform please use the master branch or better still install
+via HACS. if you want bleeding edge then checkout the dev branch, or look out for beta releases via HACS. Depending on
+what you choose you may need to use the Manual Code Installation described below.
 
 <!-- TOC -->
 
@@ -24,12 +29,13 @@ For the latest version of the OpenMotics Home Assistant Platform please use the 
 
 ## INTRODUCTION
 
-This custom component is developed for controlling an [OpenMotics](https://www.openmotics.com/en/) platform by using the pyHAopenmotics sdk.
+This custom component is developed for controlling an [OpenMotics](https://www.openmotics.com/en/) platform by using the
+pyHAopenmotics sdk.
 
 ## Minimum Requirements
 
-Requires a minimum of HA 2022.03. This is needed to support the new functionality and changes to config flow.
-Requires the new pyHAopenmotics v0.0.1 (or newer) sdk.
+Requires a minimum of HA 2022.03. This is needed to support the new functionality and changes to config flow. Requires
+the new pyHAopenmotics v0.0.1 (or newer) sdk.
 
 ## HOW TO INSTALL
 
@@ -58,8 +64,8 @@ Note: Since the last update of the webui, the link to the integrations is missin
 
 ![user04](/pictures/user04.png)
 
-Make sure the Client type is `Confidential` and the Grant type is `Client credentials`.
-The Redirect URI is not used right now and can have any value.
+Make sure the Client type is `Confidential` and the Grant type is `Client credentials`. The Redirect URI is not used
+right now and can have any value.
 
 ![user05](/pictures/user05.png)
 
@@ -67,11 +73,13 @@ Copy the Client ID and Client secret as you'll need it to configure the integrat
 
 ### 2. Install Home Assistant Core
 
-See [Home Assistant Official Installation Guide](https://www.home-assistant.io/installation/) to install Home Assistant Core.
+See [Home Assistant Official Installation Guide](https://www.home-assistant.io/installation/) to install Home Assistant
+Core.
 
 ### 3. Install the custom integration
 
-We highly recommend using [HACS Home Assistant Community Store](https://github.com/hacs), for more information on how to install HACS please see their documentation website at https://hacs.xyz/
+We highly recommend using [HACS Home Assistant Community Store](https://github.com/hacs), for more information on how to
+install HACS please see their documentation website at https://hacs.xyz/
 
 Option 1: HACS installation
 
@@ -81,7 +89,8 @@ Option 1: HACS installation
 
 ![custom repository](/pictures/hacs_custom_repositories.png)
 
-4. Enter `https://github.com/openmotics/home-assistant` in the address bar at the bottom left of the window. Select Integration from the Category list and click ADD.
+4. Enter `https://github.com/openmotics/home-assistant` in the address bar at the bottom left of the window. Select
+   Integration from the Category list and click ADD.
 
 ![github](/pictures/hacs_add_repository.png)
 
@@ -93,10 +102,13 @@ Option 1: HACS installation
 
 Option 2: Manual Code Installation
 
-This method is best used when you want to play with the "latest and greatest" from the repository. Moving forward, the github repository will contain two primary branches, **master** and dev. Master is the latest released, and hopefully most stable branch, whereas **dev** is the branch that we're currently working on.
+This method is best used when you want to play with the "latest and greatest" from the repository. Moving forward, the
+github repository will contain two primary branches, **master** and dev. Master is the latest released, and hopefully
+most stable branch, whereas **dev** is the branch that we're currently working on.
 
 1. Download the [openmotics-home-assistant repo](https://github.com/openmotics/home-assistant).
-2. Unzip it and copy the `custom_components/openmotics` folder to the Home Assistant configuration directory, for example `~/.homeassistant`.
+2. Unzip it and copy the `custom_components/openmotics` folder to the Home Assistant configuration directory, for
+   example `~/.homeassistant`.
 
 ![configuration directory](/pictures/copy_method.png)
 
@@ -104,7 +116,9 @@ The disadvantage of a manual installation is that you won't be notified about up
 
 ### 4. Configure the integration.
 
-Make sure you restart Home Assistant after the installation (in HACS). After the restart, go to **Configuration** in the side menu in Home Assistant and select **Integrations**. Click on **Add Integrations** in the bottom right corner and search for **Openmotics** to install. This will open the configuration menu with the default settings.
+Make sure you restart Home Assistant after the installation (in HACS). After the restart, go to **Configuration** in the
+side menu in Home Assistant and select **Integrations**. Click on **Add Integrations** in the bottom right corner and
+search for **Openmotics** to install. This will open the configuration menu with the default settings.
 
 ![New Integration](/pictures/new_integration.png)
 
@@ -114,13 +128,15 @@ Fill in the client_id and client_secret you have created in the first step.
 
 ![Integration setup_cloud](/pictures/integration_setup_cloud.png)
 
-Depending on your installation, the modules should be added to your Home Assistant automatically within a few seconds till 10 minutes.
+Depending on your installation, the modules should be added to your Home Assistant automatically within a few seconds
+till 10 minutes.
 
 # Run, Play
 
 **_Run, Play_** and let us know if there are any bugs, enhancements etc via the github issues system
 
-This plugin is a community effort and OpenMotics cannot give any warranties even though you can report any issues and we'll help as much as possible. Pull requests are always welcome.
+This plugin is a community effort and OpenMotics cannot give any warranties even though you can report any issues and
+we'll help as much as possible. Pull requests are always welcome.
 
 # License
 

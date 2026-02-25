@@ -5,10 +5,10 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, Any
 
-from homeassistant.components.climate import (
+from homeassistant.components.climate import ClimateEntity
+from homeassistant.components.climate.const import (
     ATTR_HVAC_MODE,
     PRESET_AWAY,
-    ClimateEntity,
     ClimateEntityFeature,
     HVACAction,
     HVACMode,
@@ -144,9 +144,9 @@ class OpenMoticsThermostatGroup(OpenMoticsDevice, ClimateEntity):
         self._device = self.coordinator.data["thermostatgroups"][self.index]
 
         self._attr_hvac_modes = [HVACMode.OFF]
-        if "HEATING" in om_thermostatgroup.capabilities:
+        if "HEATING" in om_thermostatgroup["capabilities"]:
             self._attr_hvac_modes.append(HVACMode.HEAT)
-        if "COOLING" in om_thermostatgroup.capabilities:
+        if "COOLING" in om_thermostatgroup["capabilities"]:
             self._attr_hvac_modes.append(HVACMode.COOL)
 
     @property
@@ -183,9 +183,9 @@ class OpenMoticsThermostatUnit(OpenMoticsDevice, ClimateEntity):
         self._device = self.coordinator.data["thermostatunits"][self.index]
 
         self._attr_hvac_modes = [HVACMode.OFF]
-        if "HEATING" in om_thermostatgroup.capabilities:
+        if "HEATING" in om_thermostatgroup["capabilities"]:
             self._attr_hvac_modes.append(HVACMode.HEAT)
-        if "COOLING" in om_thermostatgroup.capabilities:
+        if "COOLING" in om_thermostatgroup["capabilities"]:
             self._attr_hvac_modes.append(HVACMode.COOL)
 
         # Preset modes
@@ -240,7 +240,7 @@ class OpenMoticsThermostatUnit(OpenMoticsDevice, ClimateEntity):
     @property
     def current_temperature(self) -> float:
         """Return current temperature."""
-        return self._device.status.current_temperature
+        return self._device["status"]["current_temperature"]
 
     async def async_set_temperature(self, **kwargs: Any) -> None:
         """Set new target temperature."""
@@ -266,7 +266,7 @@ class OpenMoticsThermostatUnit(OpenMoticsDevice, ClimateEntity):
         """Return the temperature we try to reach."""
         try:
             self._device = self.coordinator.data["thermostatunits"][self.index]
-            return self._device.status.current_setpoint
+            return self._device["status"]["current_setpoint"]
         except (AttributeError, KeyError):
             return None
 
@@ -304,14 +304,14 @@ class OpenMoticsThermostatUnit(OpenMoticsDevice, ClimateEntity):
     ) -> None:
         if isinstance(result, dict) and result.get("_error") is None:
             if setpoint is not None:
-                self._device.status.current_setpoint = setpoint
+                self._device["status"]["current_setpoint"] = setpoint
             if om_preset_mode is not None:
-                self._device.status.active_preset = om_preset_mode
+                self._device["status"]["active_preset"] = om_preset_mode
             if hvac_mode is not None:
                 if hvac_mode == HVACMode.OFF:
-                    self._device.status.state = "OFF"
+                    self._device["status"]["state"] = "OFF"
                 else:
-                    self._device.status.state = "ON"
+                    self._device["status"]["state"] = "ON"
                     # self._device.status.mode = PRESET_MODES_INVERTED[preset_mode]
             self.async_write_ha_state()
         else:

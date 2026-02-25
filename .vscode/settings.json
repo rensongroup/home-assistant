@@ -8,30 +8,36 @@
     }
   },
   "files.exclude": {
-    "**/__pycache__": true
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    ".pytest_cache": true,
+    ".coverage": true,
+    "htmlcov": true,
+    "dist": true,
+    "*.egg-info": true
   },
-  "coverage-gutters.customizable.context-menu": true,
-  "coverage-gutters.customizable.status-bar-toggler-watchCoverageAndVisibleEditors-enabled": true,
-  "coverage-gutters.showGutterCoverage": false,
-  "coverage-gutters.showLineCoverage": true,
-  "coverage-gutters.xmlname": "coverage.xml",
-  "python.defaultInterpreterPath": ".venv/bin/python",
-  "ruff.nativeServer": "auto",
-  "python.formatting.provider": "ruff",
-  "ruff.configuration": "${workspaceFolder}/pyproject.toml",
+  // "coverage-gutters.customizable.context-menu": true,
+  // "coverage-gutters.customizable.status-bar-toggler-watchCoverageAndVisibleEditors-enabled": true,
+  // "coverage-gutters.showGutterCoverage": false,
+  // "coverage-gutters.showLineCoverage": true,
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
   "python.testing.cwd": "${workspaceFolder}",
-  "python.testing.pytestArgs": [
-    "--cov-report=xml"
+  // "python.testing.pytestArgs": ["--cov-report=xml"],
+  "ruff.nativeServer": "auto",
+  // "python.testing.pytestEnabled": true,
+  "python.analysis.extraPaths": [
+    "/config/custom_components",
+    "/workspaces/${localWorkspaceFolderBasename}/custom_components"
   ],
-  "python.testing.pytestEnabled": true,
+  "ruff.configuration": "${workspaceFolder}/pyproject.toml",
   "ruff.importStrategy": "fromEnvironment",
-  "ruff.interpreter": [
-    ".venv/bin/python"
-  ],
   "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.shell.linux": "/bin/bash",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
+  "editor.inlineSuggest.enabled": true,
   "files.trimTrailingWhitespace": true,
   "python.terminal.activateEnvInCurrentTerminal": true,
   "editor.rulers": [

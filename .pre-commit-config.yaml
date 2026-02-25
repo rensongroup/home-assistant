@@ -1,19 +1,33 @@
+---
 repos:
+  # pyproject.toml
+  - repo: https://github.com/henryiii/validate-pyproject-schema-store
+    rev: 2026.02.22
+    hooks:
+      - id: validate-pyproject
+
+  # Sync Python and pre-commit package versions
+  # pyproject.toml -> uv.lock
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.10.6
+    hooks:
+      - id: uv-lock
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
         exclude: .mypy_cache
       - id: check-ast
       - id: check-builtin-literals
       - id: check-case-conflict
-      - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-json
-        files: ^(custom_components|tests)/.+\.json$
+        exclude: (.vscode|.devcontainer)
       - id: check-shebang-scripts-are-executable
       - id: check-symlinks
       - id: check-toml
+      - id: check-xml
       - id: check-yaml
         exclude: mkdocs\.yml$|config/configuration.yaml
       - id: debug-statements
@@ -24,54 +38,58 @@ repos:
       - id: forbid-submodules
       - id: mixed-line-ending
       - id: pretty-format-json
-        args: [--autofix, --no-sort-keys, --no-ensure-ascii]
-        exclude: node_modules|.mypy_cache
-      - id: pretty-format-json
-        args: ["--autofix", "--no-ensure-ascii", "--top-keys=domain,name"]
-        files: manifest.json
-      - id: pretty-format-json
-        args: ["--autofix", "--no-ensure-ascii", "--top-keys=name"]
-        files: hacs.json
-      - id: pretty-format-json
-        args: ["--autofix", "--no-ensure-ascii", "--no-sort-keys"]
-        files: (/strings\.json$|translations/.+\.json$)
-      - id: requirements-txt-fixer
+        args: [--autofix]
+        exclude: (.vscode|.devcontainer|custom_components/openmotics/manifest.json)
+        # exclude: ^$|.devcontainer
+        # exclude: node_modules|.mypy_cache
       - id: trailing-whitespace
+      - id: check-merge-conflict
       - id: no-commit-to-branch
         args:
           - --branch=devel
           - --branch=master
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.9.9
+  - repo: https://github.com/tox-dev/pyproject-fmt
+    rev: "v2.16.2"
     hooks:
-      - id: ruff
-        args:
-          - --fix
-        exclude: ^tests/
+      - id: pyproject-fmt
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.2
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+        exclude: ^tests
       - id: ruff-format
         files: ^((custom_components/openmotics)/.+)?[^/]+\.py$
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.31.2
+    rev: 0.36.2
     hooks:
       - id: check-github-workflows
       - id: check-github-actions
       - id: check-readthedocs
 
+  # codespell is a tool to find and fix common misspellings in text files.
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
       - id: codespell
         args:
           - --ignore-words-list=hass
-          - --skip="./.*,*.csv,*.json"
+          - --skip="./.*,*.csv,*.json
           - --quiet-level=2
         exclude_types: [csv, json]
         exclude: ^tests/
 
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.25
+    hooks:
+      - id: validate-pyproject
+
+  # Bandit is a tool designed to find common security issues in Python code.
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.3
+    rev: 1.9.4
     hooks:
       - id: bandit
         args:
@@ -79,20 +97,27 @@ repos:
           - --format=custom
           - --configfile=bandit.yaml
         files: ^(script|tests)/.+\.py$
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.35.1
-    hooks:
-      - id: yamllint
-        exclude: .github
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v4.0.0-alpha.8
+  # - repo: https://github.com/adrienverge/yamllint.git
+  #   rev: v1.38.0
+  #   hooks:
+  #     - id: yamllint
+  #       exclude: .github
+
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: "v3.8.1"
     hooks:
       - id: prettier
-        exclude: node_modules
+        name: Prettier non-workflow files
+        args: ["--print-width=120", "--prose-wrap=always"]
+        exclude: ".github/workflows/|^AGENTS.md"
+      - id: prettier
+        name: Prettier workflow files
+        args: ["--print-width=240", "--prose-wrap=always"]
+        exclude: "^(?!.github/workflows/)"
 
   - repo: https://github.com/cdce8p/python-typing-update
-    rev: v0.7.0
+    rev: v0.8.1
     hooks:
       # Run `python-typing-update` hook manually from time to time
       # to update python typing syntax.
@@ -106,33 +131,36 @@ repos:
           - --keep-updates
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.1
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
 
   - repo: https://github.com/pappasam/toml-sort
-    rev: v0.24.2
+    rev: v0.24.3
     hooks:
       - id: toml-sort
         args: []
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.15.0
-    hooks:
-      - id: mypy
-        exclude: ^docs/|^tests
-        additional_dependencies:
-          - homeassistant>=2024.12.5
-          # - pyhaopenmotics>=0.0.7
-
   - repo: https://github.com/PyCQA/pylint.git
-    rev: v3.3.4
+    rev: v4.0.5
     hooks:
       - id: pylint
         args: ["--exit-zero"]
         files: ^(custom_components/openmotics)/.+\.py$
 
-  # - repo: https://github.com/RobertCraigie/pyright-python
-  #   rev: v1.1.392
-  #   hooks:
-  #     - id: pyright
+  - repo: https://github.com/facebook/pyrefly-pre-commit
+    rev: 0.53.0
+    hooks:
+      - id: pyrefly-check
+        name: Pyrefly (type checking)
+        pass_filenames: false
+        language: system # Use system-installed pyrefly
+
+  # === Security Hooks ===
+  # See references/security-setup.md for detailed guidance on each hook.
+
+  # GitHub Actions linting - catches syntax errors, invalid refs
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.11 # https://github.com/rhysd/actionlint/releases
+    hooks:
+      - id: actionlint

@@ -1,117 +1,130 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [ "hatchling" ]
+
 [project]
 name = "openmotics"
 version = "0.0.0"
 description = "Homeassistant Custom Component for Renson (Openmotics)"
-license = { text = "AGPLv3" }
-authors = [{ name = "Wouter Coppens", email = "wouter.coppens@gmail.com" }]
 readme = "README.md"
 keywords = [
   "aiohttp",
   "asyncio",
-  "openmotics",
-  "openmotics-api",
   "hacs",
-  "hass.io",
   "hass",
+  "hass.io",
   "hassio",
   "home assistant",
   "home-assistant",
   "homeassistant",
   "integration",
+  "openmotics",
+  "openmotics-api",
 ]
+license = { text = "AGPLv3" }
+authors = [ { name = "Wouter Coppens", email = "wouter.coppens@gmail.com" } ]
+requires-python = ">=3.13.2"
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU Affero General Public License v3",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Software Development :: Libraries :: Python Modules",
-  "License :: OSI Approved :: GNU Affero General Public License v3",
 ]
-
-requires-python = ">=3.12.0"
 dependencies = [
-  "homeassistant>=2024.10.0",
-  # pyhaopenmotics = "0.0.1"
+  "homeassistant>=2025.12",
+  # pyhaopenmotics >= "0.0.1"
 ]
-
-[project.urls]
-Homepage = "https://github.com/rensongroup/home-assistant"
 # # Documentation = ""
-Changelog = "https://github.com/rensongroup/home-assistant/releases"
+urls.Changelog = "https://github.com/rensongroup/home-assistant/releases"
+urls.Homepage = "https://github.com/rensongroup/home-assistant"
 # # Support = ""
-Issues = "https://github.com/rensongroup/home-assistant/issues"
-Repository = "https://github.com/rensongroup/home-assistant"
+urls.Issues = "https://github.com/rensongroup/home-assistant/issues"
+urls.Repository = "https://github.com/rensongroup/home-assistant"
+
+[dependency-groups]
+dev = [
+  { include-group = "lint" },
+  { include-group = "test" },
+  { include-group = "tools" },
+]
+test = [
+  "pytest",
+  "pytest-asyncio",
+  "pytest-cov",
+  "pytest-mock",
+  "python-dotenv",
+  "ty",
+]
+docs = [ "mkdocs" ]
+lint = [ "pyrefly", "ruff" ]
+tools = [ "prek", "ruff", "rust-just", "virtualenv" ]
+
+[tool.uv]
+managed = true
 
 [tool.ruff]
 target-version = "py313"
-src = ["custom_components/homeassistant"]
-
-[tool.ruff.lint]
-ignore = [
-  "ANN001", # Missing type annotation for function argument
-  "ANN401", # Opiniated warning on disallowing dynamically typed expressions
-  "ARG002", # used method argument: `kwargs`
-  "D203",   # Conflicts with other rules
-  "D213",   # Conflicts with other rules
-  "TID252", # Relative imports
-  "RUF012", # Just broken
-
+src = [ "custom_components/homeassistant" ]
+lint.select = [ "ALL" ]
+lint.ignore = [
+  "ANN001",  # Missing type annotation for function argument
+  "ANN401",  # Opiniated warning on disallowing dynamically typed expressions
+  "ARG002",  # used method argument: `kwargs`
   # Formatter conflicts
   "COM812",
   "COM819",
+  "D203",    # Conflicts with other rules
   "D206",
+  "D213",    # Conflicts with other rules
   "E501",
+  "ERA001",  # Found commented-out code
+  # To double verify
+  "FBT001",  # Boolean-typed positional argument in function definition
+  "FBT003",  # Boolean positional value in function call
+  "FIX002",
   "ISC001",
+  "N818",    # Exception name `OpenMoticsException` should be named with an Error suffix
+  "PGH003",  # Use specific rule codes when ignoring type issues
+  "PLR0911", # Too many return statements (8 > 6)
   "Q000",
   "Q001",
   "Q002",
   "Q003",
-  "W191",
-
+  "RUF012",  # Just broken
+  "TC001",   # Move application import `homeassistant.core.HomeAssistant` into a type-checking block
   # Related to TODO
   "TD002",
   "TD003",
-  "FIX002",
-
-  # To double verify
-  "FBT001",  #  Boolean-typed positional argument in function definition
-  "FBT003",  # Boolean positional value in function call
+  "TID252",  # Relative imports
   "TRY300",  # Consider moving this statement to an `else` block
-  "ERA001",  # Found commented-out code
-  "TC001",   # Move application import `homeassistant.core.HomeAssistant` into a type-checking block
   "TRY400",  # Use `logging.exception` instead of `logging.error`"
-  "PLR0911", #  Too many return statements (8 > 6)
-  "N818",    # Exception name `OpenMoticsException` should be named with an Error suffix
-  "PGH003",  # Use specific rule codes when ignoring type issues
+  "W191",
 ]
-select = ["ALL"]
-
-[tool.ruff.lint.flake8-import-conventions.extend-aliases]
-"homeassistant.helpers.area_registry" = "ar"
-"homeassistant.helpers.config_validation" = "cv"
-"homeassistant.helpers.device_registry" = "dr"
-"homeassistant.helpers.entity_registry" = "er"
-"homeassistant.helpers.issue_registry" = "ir"
-"voluptuous" = "vol"
-
-[tool.ruff.lint.isort]
-force-sort-within-sections = true
-known-first-party = ["homeassistant"]
-combine-as-imports = true
-
-[tool.ruff.lint.per-file-ignores]
-# Allow for main entry & scripts to write to stdout
-"script/*" = ["T20"]
 # Allow relative imports within auth and within components
-"custom_components/openmotics/*" = ["TID252"]
+lint.per-file-ignores."custom_components/openmotics/*" = [ "TID252" ]
+# Allow for main entry & scripts to write to stdout
+lint.per-file-ignores."script/*" = [ "T20" ]
+lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.area_registry" = "ar"
+lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.config_validation" = "cv"
+lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.device_registry" = "dr"
+lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.entity_registry" = "er"
+lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.issue_registry" = "ir"
+lint.flake8-import-conventions.extend-aliases."voluptuous" = "vol"
+lint.isort.combine-as-imports = true
+lint.isort.force-sort-within-sections = true
+lint.isort.known-first-party = [ "homeassistant" ]
 
-[tool.pylint."MESSAGES CONTROL"]
+[tool.pylint]
 # Reasons disabled:
 # format - handled by ruff
 # duplicate-code - unavoidable
 # used-before-assignment - false positives with TYPE_CHECKING structures
-disable = [
+"MESSAGES CONTROL".disable = [
   "abstract-method",
   "duplicate-code",
   "format",
@@ -119,67 +132,9 @@ disable = [
   "used-before-assignment",
 ]
 
-[tool.mypy]
-# Stock HomeAssistant mypy configuration.
-ignore_missing_imports = true
-python_version = "3.13"
-follow_imports = "silent"
-strict_equality = true
-warn_incomplete_stub = true
-warn_redundant_casts = true
-warn_unused_configs = true
-warn_unused_ignores = true
-check_untyped_defs = true
-disallow_incomplete_defs = true
-disallow_subclassing_any = true
-disallow_untyped_calls = true
-disallow_untyped_decorators = true
-disallow_untyped_defs = true
-no_implicit_optional = true
-warn_return_any = true
-warn_unreachable = true
-
-# Custom openmotics configuration.
-show_error_codes = true
-
-[[tool.mypy.overrides]]
-module = "custom_components.openmotics.*"
-ignore_missing_imports = true
-disable_error_code = [
-  "no-untyped-def",
-  "union-attr",
-  "attr-defined",
-  "no-any-return",
-  "return-value",
-  "var-annotated",
-  "arg-type",
-  "assignment",
-  "typeddict-item",
-]
-
-[tool.coverage.paths]
-source = ["custom_components/openmotics"]
-
-[tool.pyright]
-reportPrivateImportUsage = "none"
-reportIncompatibleVariableOverride = "none"
-# reportMissingImports = "error"
-# reportMissingTypeStubs = false
-reportAttributeAccessIssue = false
-
-[tool.uv]
-managed = true
-dev-dependencies = [
-  "ruff",
-  "pre-commit",
-  "pre-commit-hooks",
-  #   "pylint>=3.1.0",
-  #   "homeassistant>=2024.11.0",
-  #   "pytest-asyncio>=0.16.0",
-  #   "setuptools>=62.2.0",
-  #   "tomlkit>=0.12.3",
-]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[tool.pyrefly]
+project-includes = [ "custom_components/openmotics" ]
+project-excludes = [ "examples", "tests" ]
+infer-with-first-use = false
+errors.bad-argument-type = "ignore"
+errors.bad-override = "ignore"

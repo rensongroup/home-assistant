@@ -1,35 +1,32 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Home Assistant with openmotics",
-      "type": "debugpy",
-      "request": "launch",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "module": "homeassistant",
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "args": ["--debug", "-c", "config"]
-      // "preLaunchTask": "Compile English translations"
-    },
-    {
-      "name": "Python: Remote Attach",
+      "name": "Attach to Home Assistant (debugpy, docker)",
       "type": "debugpy",
       "request": "attach",
       "connect": {
         "host": "localhost",
         "port": 5678
       },
-      "pathMappings": [
-        {
-          "localRoot": "${workspaceFolder}",
-          "remoteRoot": "."
-        }
+      "justMyCode": false
+    },
+    {
+      "name": "Debug tests (pytest)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "args": [
+        "--cov=custom_components/vistapool",
+        "--cov-report=term-missing",
+        "--disable-warnings"
       ],
-      "justMyCode": true
+      "console": "integratedTerminal",
+      "justMyCode": false
     }
   ]
 }

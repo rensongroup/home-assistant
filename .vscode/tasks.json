@@ -4,8 +4,19 @@
     {
       "label": "Run Home Assistant on port 8123",
       "type": "shell",
-      "command": "scripts/develop",
-      "problemMatcher": []
+      "command": "scripts/run-ha",
+      "isBackground": true,
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "logs"
+      },
+      "problemMatcher": [
+        "$python"
+      ]
     },
     {
       "label": "Run tests",
@@ -16,14 +27,8 @@
     {
       "label": "Run pre-commit hook",
       "type": "shell",
-      "command": "pre-commit run --all-files",
+      "command": "prek run --all-files",
       "problemMatcher": []
     }
-    // {
-    //   "label": "Generate Documentation",
-    //   "type": "shell",
-    //   "command": "sphinx-build -W -E docs docs/_build && echo http://127.0.0.1:3000/docs/_build/index.html",
-    //   "problemMatcher": []
-    // }
   ]
 }

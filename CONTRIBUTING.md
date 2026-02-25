@@ -21,12 +21,14 @@ Pull requests are the best way to propose changes to the codebase.
 
 ## Any contributions you make will be under the GNU AFFERO GENERAL PUBLIC LICENSE
 
-In short, when you submit code changes, your submissions are understood to be under the same [GNU Affero General Public License](http://fsf.org) that covers the project. Feel free to contact the maintainers if that's a concern.
+In short, when you submit code changes, your submissions are understood to be under the same
+[GNU Affero General Public License](http://fsf.org) that covers the project. Feel free to contact the maintainers if
+that's a concern.
 
 ## Report bugs using Github's [issues](../../issues)
 
-GitHub issues are used to track public bugs.
-Report a bug by [opening a new issue](../../issues/new/choose); it's that easy!
+GitHub issues are used to track public bugs. Report a bug by [opening a new issue](../../issues/new/choose); it's that
+easy!
 
 ## Write bug reports with detail, background, and sample code
 
@@ -48,13 +50,12 @@ Use [black](https://github.com/ambv/black) to make sure the code follows the sty
 
 ## Test your code modification
 
-This custom component is based on [integration_blueprint template](https://github.com/custom-components/integration_blueprint).
+This custom component is based on
+[integration_blueprint template](https://github.com/custom-components/integration_blueprint).
 
-It comes with development environment in a container, easy to launch
-if you use Visual Studio Code. With this container you will have a stand alone
-Home Assistant instance running and already configured with the included
-[`.devcontainer/configuration.yaml`](./.devcontainer/configuration.yaml)
-file.
+It comes with development environment in a container, easy to launch if you use Visual Studio Code. With this container
+you will have a stand alone Home Assistant instance running and already configured with the included
+[`.devcontainer/configuration.yaml`](./.devcontainer/configuration.yaml) file.
 
 ## License
 

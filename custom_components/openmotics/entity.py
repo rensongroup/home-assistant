@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
@@ -33,20 +33,20 @@ class OpenMoticsDevice(CoordinatorEntity):
         self._index = index
         self._device = device
 
-        self._local_id = device.local_id
-        self._idx = device.idx
+        self._local_id = device["local_id"]
+        self._idx = device["idx"]
         self._type = device_type
 
         # inherited properties
-        self._attr_name = device.name
+        self._attr_name = device["name"]
         self._attr_available = True
         # Because polling is so common, Home Assistant by default assumes
         # that your entity is based on polling.
         self._attr_should_poll = False
 
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, self.unique_id)},
-            name=self.name,  # type: ignore
+            identifiers={(DOMAIN, str(self.unique_id))},
+            name=self.name if isinstance(self.name, str) else None,
             model=self._type,
             manufacturer="OpenMotics",
         )

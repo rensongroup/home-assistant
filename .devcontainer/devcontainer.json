@@ -1,7 +1,13 @@
 {
+  "containerEnv": {
+    "EXTERNALLY-MANAGED": "false"
+    // "POETRY_VIRTUALENVS_IN_PROJECT": "true"
+  },
   "name": "openmotics/home-assistant",
   "image": "mcr.microsoft.com/devcontainers/python:3.13",
-  "postCreateCommand": "scripts/setup",
+  "postCreateCommand": "bash .devcontainer/build.sh",
+  "mounts": ["source=homeassistant-config,target=/config,type=volume"],
+  // Forward the HA HTTP port and open a browser automatically when it appears.
   "forwardPorts": [8123],
   "portsAttributes": {
     "8123": {
@@ -9,25 +15,33 @@
       "onAutoForward": "notify"
     }
   },
+  // VS Code recommendations and per-workspace settings.
   "customizations": {
     "vscode": {
       "extensions": [
-        "charliermarsh.ruff",
-        "esbenp.prettier-vscode",
-        "GitHub.vscode-github-actions",
-        "GitHub.vscode-pull-request-github",
         "ms-python.python",
-        "ms-python.vscode-pylance",
         "redhat.vscode-yaml",
+        "esbenp.prettier-vscode",
+        "GitHub.vscode-pull-request-github",
+        "charliermarsh.ruff",
+        "GitHub.vscode-github-actions",
+        "ryanluker.vscode-coverage-gutters",
         "tamasfe.even-better-toml",
-        "yzhang.markdown-all-in-one"
+        // Optional: Docker tooling (handy for logs/inspecting)
+        "ms-azuretools.vscode-docker",
+        // EditorConfig support
+        "editorconfig.editorconfig"
       ]
     }
   },
   "remoteUser": "vscode",
   "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/devcontainers/features/rust:1": {}
+    "ghcr.io/va-h/devcontainers-features/uv:1": {},
+    "ghcr.io/jsburckhardt/devcontainer-features/ruff:1": {}
+    // "ghcr.io/devcontainers/features/go:1": {}
+    // "ghcr.io/devcontainers/features/node:1": {},
+    // "ghcr.io/devcontainers/features/rust:1": {}
   }
 }

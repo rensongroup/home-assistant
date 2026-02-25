@@ -192,9 +192,9 @@ class OpenMoticsLocalEnergySensor(OpenMoticsSensor):
             coordinator,
             index,
             OpenMoticsLocalEnergySensor.WrappedDevice(  # type: ignore
-                f"energy-{device.idx}-{self.device_class}",  # type: ignore
-                device.idx,
-                device.name,
+                f"energy-{device['idx']}-{self.device_class}",  # type: ignore
+                device["idx"],
+                device["name"],
                 device,
             ),
         )

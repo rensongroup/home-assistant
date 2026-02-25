@@ -11,6 +11,7 @@ from pyhaopenmotics import (
     OpenMoticsError,
 )
 
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_IP_ADDRESS,
     CONF_NAME,
@@ -29,6 +30,9 @@ if TYPE_CHECKING:
     from homeassistant.helpers.config_entry_oauth2_flow import OAuth2Session
 
 _LOGGER = logging.getLogger(__name__)
+
+type OpenMoticsCloudConfigEntry = ConfigEntry[OpenMoticsCloudDataUpdateCoordinator]
+type OpenMoticsLocalConfigEntry = ConfigEntry[OpenMoticsLocalDataUpdateCoordinator]
 
 
 class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator):
@@ -101,6 +105,8 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator):
 class OpenMoticsCloudDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
     """Query OpenMotics devices and keep track of seen conditions."""
 
+    config_entry: OpenMoticsCloudConfigEntry
+
     def __init__(self, hass: HomeAssistant, session: OAuth2Session, name: str) -> None:
         """Initialize the OpenMotics gateway."""
         super().__init__(
@@ -123,6 +129,8 @@ class OpenMoticsCloudDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
 
 class OpenMoticsLocalDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
     """Query OpenMotics devices and keep track of seen conditions."""
+
+    config_entry: OpenMoticsLocalConfigEntry
 
     def __init__(self, hass: HomeAssistant, name: str) -> None:
         """Initialize the OpenMotics gateway."""

@@ -1,7 +1,8 @@
 {
-  "name": "OpenMotics Integration",
-  "hacs": "1.34.0",
-  "homeassistant": "2024.4.0",
+  "filename": "openmotics.zip",
+  "homeassistant": "2025.1.0",
   "iot_class": "Cloud Polling",
-  "zip_release": false
+  "name": "OpenMotics Integration",
+  "render_readme": true,
+  "zip_release": true
 }

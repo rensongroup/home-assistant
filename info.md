@@ -1,12 +1,8 @@
 ## 💽 Version
 
-{% if version_installed == version_available %}
-👍 You already have the latest released version installed.
-{% endif %}
+{% if version_installed == version_available %} 👍 You already have the latest released version installed. {% endif %}
 
-{% if installed and version_installed != selected_tag %}
-🤓 Changes from version {{ version_installed }}
-{% endif %}
+{% if installed and version_installed != selected_tag %} 🤓 Changes from version {{ version_installed }} {% endif %}
 
 <h2 align="center">
    <a href="https://www.openmotics.com/en/">OpenMotics</a> and<a href="https://www.home-assistant.io"> Home Assistant</a> integration  🏡 ☀
@@ -19,7 +15,9 @@
 
 _Component to integrate with [integration_blueprint][integration_blueprint]._
 
-This integration allows visibility and control of the OpenMotics system in Home Assistant. For information about how to configure and the features included in the integration, please see the [Readme.md](https://github.com/openmotics/home-assistant/blob/master/README.md)
+This integration allows visibility and control of the OpenMotics system in Home Assistant. For information about how to
+configure and the features included in the integration, please see the
+[Readme.md](https://github.com/openmotics/home-assistant/blob/master/README.md)
 
 {% if not installed %}
 
@@ -32,8 +30,7 @@ Use hacs.io to manage the installation and update process. 🥳
 
 ## ⌨️ Manual installation
 
-Copy content of `custom_components` folder into your HA `/config/custom_components` folder
-{% endif %}
+Copy content of `custom_components` folder into your HA `/config/custom_components` folder {% endif %}
 
 ## Configuration is done in the UI
 
@@ -42,7 +39,8 @@ Copy content of `custom_components` folder into your HA `/config/custom_componen
 ---
 
 [integration_blueprint]: https://github.com/openmotics/home-assistant
-[commits-shield]: https://img.shields.io/github/commit-activity/y/custom-components/integration_blueprint.svg?style=for-the-badge
+[commits-shield]:
+  https://img.shields.io/github/commit-activity/y/custom-components/integration_blueprint.svg?style=for-the-badge
 [commits]: https://github.com/openmotics/home-assistant/commits/master
 [hacs]: https://hacs.xyz
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
