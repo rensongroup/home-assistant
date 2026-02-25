@@ -29,19 +29,19 @@ what you choose you may need to use the Manual Code Installation described below
 
 ## INTRODUCTION
 
-This custom component is developed for controlling an [OpenMotics](https://www.openmotics.com/en/) platform by using the
-pyHAopenmotics sdk.
+This custom component is developed for controlling an [OpenMotics](https://renson.net/nl-be/producten/smart-living)
+platform by using the pyHAopenmotics sdk.
 
 ## Minimum Requirements
 
-Requires a minimum of HA 2022.03. This is needed to support the new functionality and changes to config flow. Requires
-the new pyHAopenmotics v0.0.1 (or newer) sdk.
+Requires a minimum of HA 2025.12. This is needed to support the new functionality and changes to config flow. Requires
+the new pyHAopenmotics v0.0.9 (or newer) sdk.
 
 ## HOW TO INSTALL
 
 ### 1. Grant permissions to your OpenMotics installation
 
-Login to [cloud.openmotics.com](https://cloud.openmotics.com/)
+Login to [cloud.renson.eu](https://cloud.renson.eu/)
 
 ![login](/pictures/login.cloud.openmotics.com.png)
 
@@ -89,7 +89,7 @@ Option 1: HACS installation
 
 ![custom repository](/pictures/hacs_custom_repositories.png)
 
-4. Enter `https://github.com/openmotics/home-assistant` in the address bar at the bottom left of the window. Select
+4. Enter `https://github.com/rensongroup/home-assistant` in the address bar at the bottom left of the window. Select
    Integration from the Category list and click ADD.
 
 ![github](/pictures/hacs_add_repository.png)
@@ -106,7 +106,7 @@ This method is best used when you want to play with the "latest and greatest" fr
 github repository will contain two primary branches, **master** and dev. Master is the latest released, and hopefully
 most stable branch, whereas **dev** is the branch that we're currently working on.
 
-1. Download the [openmotics-home-assistant repo](https://github.com/openmotics/home-assistant).
+1. Download the [openmotics-home-assistant repo](https://github.com/rensongroup/home-assistant).
 2. Unzip it and copy the `custom_components/openmotics` folder to the Home Assistant configuration directory, for
    example `~/.homeassistant`.
 

@@ -5,7 +5,6 @@
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/rensongroup/home-assistant",
-  "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/rensongroup/home-assistant/issues",
   "requirements": ["pyhaopenmotics@git+https://github.com/rensongroup/pyhaopenmotics.git@main#pyhaopenmotics==0.0.10"],
   "ssdp": [],
