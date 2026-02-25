@@ -3,7 +3,7 @@
     "abort": {
       "invalid_auth": "Invalid client_id and client_secret",
       "missing_configuration": "The OpenMotics integration is not configured. Please follow the documentation.",
-      "ssl_error": "You have an old gateway with an oid SSL version. Please use the cloud. "
+      "ssl_error": "You have an old gateway with an oid SSL version. Please use the cloud."
     },
     "create_entry": {
       "default": "Successfully authenticated with OpenMotics."
