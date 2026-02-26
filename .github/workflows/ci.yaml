@@ -41,7 +41,7 @@ jobs:
       - name: 🏗 Install pyhaopenmotics
         run: |
           set -o pipefail
-          scripts/install_pyhaopenmotics
+          scripts/install-pyhaopenmotics
       - name: 🏗 Install pyrefly
         run: pip install pyrefly
       - name: 🚀 Run pre-commit (prek)
