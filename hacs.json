@@ -3,6 +3,6 @@
   "country": "BE",
   "filename": "openmotics.zip",
   "homeassistant": "2025.1.0",
-  "iot_class": "Cloud Polling",
+  "iot_class": "cloud_pollingg",
   "zip_release": true
 }
