@@ -1,4 +1,4 @@
-name: Pyrefly
+name: CI
 
 permissions:
   contents: read
