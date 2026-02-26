@@ -39,9 +39,16 @@ repos:
       - id: mixed-line-ending
       - id: pretty-format-json
         args: [--autofix]
-        exclude: (.vscode|.devcontainer|custom_components/openmotics/manifest.json)
-        # exclude: ^$|.devcontainer
-        # exclude: node_modules|.mypy_cache
+        exclude: (.vscode|.devcontainer|custom_components/openmotics/manifest.json|hacs.json)
+      - id: pretty-format-json
+        args: ["--autofix", "--no-ensure-ascii", "--top-keys=domain,name"]
+        files: custom_components/openmotics/manifest.json
+      - id: pretty-format-json
+        args: ["--autofix", "--no-ensure-ascii", "--top-keys=name"]
+        files: hacs.json
+      - id: pretty-format-json
+        args: ["--autofix", "--no-ensure-ascii", "--no-sort-keys"]
+        files: (/strings\.json$|translations/.+\.json$)
       - id: trailing-whitespace
       - id: check-merge-conflict
       - id: no-commit-to-branch
