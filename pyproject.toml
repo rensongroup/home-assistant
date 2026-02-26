@@ -4,7 +4,6 @@ requires = [ "hatchling" ]
 
 [project]
 name = "openmotics"
-version = "0.0.0"
 description = "Homeassistant Custom Component for Renson (Openmotics)"
 readme = "README.md"
 keywords = [
@@ -35,6 +34,7 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+dynamic = [ "version" ]
 dependencies = [
   "homeassistant>=2025.12",
   # pyhaopenmotics >= "0.0.1"
@@ -63,6 +63,9 @@ test = [
 docs = [ "mkdocs" ]
 lint = [ "pyrefly", "ruff" ]
 tools = [ "prek", "ruff", "rust-just", "virtualenv" ]
+
+[tool.hatch]
+version.path = "custom_components/openmotics/const.py"
 
 [tool.uv]
 managed = true
