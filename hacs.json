@@ -1,8 +1,7 @@
 {
   "name": "OpenMotics Integration",
-  "country": "BE",
+  "domain": "openmotics",
   "filename": "openmotics.zip",
-  "homeassistant": "2025.1.0",
-  "iot_class": "cloud_pollingg",
+  "iot_class": "cloud_polling",
   "zip_release": true
 }
