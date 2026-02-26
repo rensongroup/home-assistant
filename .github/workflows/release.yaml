@@ -1,0 +1,19 @@
+name: "Openmotics: Release"
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v6"
+      - run: zip -r ../../openmotics.zip . -x "tests/*" "*/__pycache__/*" "__pycache__/*"
+        working-directory: custom_components/openmotics
+      - uses: "softprops/action-gh-release@v2"
+        with:
+          files: "openmotics.zip"
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-b') }}
