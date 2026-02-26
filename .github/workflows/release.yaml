@@ -1,19 +1,30 @@
-name: "Openmotics: Release"
+name: Zip Release
 
 on:
-  push:
-    tags:
-      - "*"
+  release:
+    types:
+      - published
 
 jobs:
   release:
-    runs-on: "ubuntu-latest"
+    name: Release openmotics
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: "actions/checkout@v6"
-      - run: zip -r ../../openmotics.zip . -x "tests/*" "*/__pycache__/*" "__pycache__/*"
-        working-directory: custom_components/openmotics
-      - uses: "softprops/action-gh-release@v2"
+      # Step 1: Check out the code
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v6
+
+        # Step 2: Create a ZIP archive of the component directory
+      - name: 📦 Create zipped release package
+        shell: bash
+        run: |
+          cd "${{ github.workspace }}/custom_components/openmotics"
+          zip openmotics.zip -r ./
+
+      # Step 3: Upload ZIP as a release asset (for HACS)
+      - name: ⬆️ Upload zip to release
+        uses: softprops/action-gh-release@v2
         with:
-          files: "openmotics.zip"
-          generate_release_notes: true
-          prerelease: ${{ contains(github.ref_name, '-b') }}
+          files: ${{ github.workspace }}/custom_components/openmotics/openmotics.zip
