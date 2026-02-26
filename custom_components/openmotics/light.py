@@ -77,7 +77,7 @@ class OpenMoticsOutputLight(OpenMoticsDevice, LightEntity):
 
         # self._attr_supported_color_modes = set()
 
-        if "RANGE" in device["capabilities"]:
+        if "RANGE" in device.capabilities:  # pyrefly: ignore
             self._attr_supported_color_modes = {ColorMode.BRIGHTNESS}
             self._attr_color_mode = ColorMode.BRIGHTNESS
         else:
@@ -139,9 +139,11 @@ class OpenMoticsOutputLight(OpenMoticsDevice, LightEntity):
         brightness: int | None,
     ) -> None:
         if isinstance(result, dict) and result.get("_error") is None:
-            self._device["status"]["on"] = state
+            self._device.status.on = state  # pyrefly: ignore
             if brightness is not None:
-                self._device["status"]["value"] = brightness_to_percentage(brightness)
+                self._device.status.value = brightness_to_percentage(  # pyrefly: ignore
+                    brightness
+                )
             self.async_write_ha_state()
         else:
             _LOGGER.debug("Invalid result, refreshing all")
@@ -231,9 +233,11 @@ class OpenMoticsLight(OpenMoticsDevice, LightEntity):
         brightness: int | None,
     ) -> None:
         if isinstance(result, dict) and result.get("_error") is None:
-            self._device["status"]["on"] = state
+            self._device.status.on = state  # pyrefly: ignore
             if brightness is not None:
-                self._device["status"]["value"] = brightness_to_percentage(brightness)
+                self._device.status.value = brightness_to_percentage(  # pyrefly: ignore
+                    brightness
+                )  # pyrefly: ignore
             self.async_write_ha_state()
         else:
             _LOGGER.debug("Invalid result, refreshing all")

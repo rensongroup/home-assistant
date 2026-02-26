@@ -19,18 +19,17 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-python.python",
-        "redhat.vscode-yaml",
-        "esbenp.prettier-vscode",
+        "ms-python.python", // Base Python support (interpreter, debugging)
+        "ms-python.debugpy", // Python debugger
+        // "ms-python.vscode-pylance", // IntelliSense, type hints (until ty has IDE plugin)
+        "charliermarsh.ruff", // Ruff: single tool for linting + formatting
         "GitHub.vscode-pull-request-github",
-        "charliermarsh.ruff",
         "GitHub.vscode-github-actions",
-        "ryanluker.vscode-coverage-gutters",
-        "tamasfe.even-better-toml",
-        // Optional: Docker tooling (handy for logs/inspecting)
-        "ms-azuretools.vscode-docker",
-        // EditorConfig support
-        "editorconfig.editorconfig"
+        "meta.pyrefly", // Pyrefly: AI code completion
+        "ms-python.vscode-python-envs", // Python environment management
+        "tamasfe.even-better-toml", // TOML support for pyproject.toml
+        "editorconfig.editorconfig", // EditorConfig support
+        "eamodio.gitlens" // Git supercharged
       ]
     }
   },

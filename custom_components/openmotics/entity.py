@@ -12,6 +12,8 @@ from .const import DOMAIN
 if TYPE_CHECKING:
     from .coordinator import OpenMoticsDataUpdateCoordinator
 
+type NestedDeviceDict = dict[str, Any | "NestedDeviceDict"]
+
 
 class OpenMoticsDevice(CoordinatorEntity):
     """Representation a base OpenMotics device."""
@@ -22,7 +24,7 @@ class OpenMoticsDevice(CoordinatorEntity):
         self,
         coordinator: OpenMoticsDataUpdateCoordinator,
         index: int,
-        device: dict[str, Any],
+        device: NestedDeviceDict,
         device_type: str,
     ) -> None:
         """Initialize the device."""
@@ -33,12 +35,12 @@ class OpenMoticsDevice(CoordinatorEntity):
         self._index = index
         self._device = device
 
-        self._local_id = device["local_id"]
-        self._idx = device["idx"]
+        self._local_id = device.local_id  # pyrefly: ignore
+        self._idx = device.idx  # pyrefly: ignore
         self._type = device_type
 
         # inherited properties
-        self._attr_name = device["name"]
+        self._attr_name = device.name  # pyrefly: ignore
         self._attr_available = True
         # Because polling is so common, Home Assistant by default assumes
         # that your entity is based on polling.
