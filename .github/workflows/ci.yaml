@@ -1,4 +1,4 @@
-name: Pyrefly
+name: CI
 
 permissions:
   contents: read
@@ -39,7 +39,9 @@ jobs:
       - name: 🏗 Install workflow dependencies
         run: uv sync --all-extras --dev
       - name: 🏗 Install pyhaopenmotics
-        run: scripts/install_pyhaopenmotics.sh
+        run: |
+          set -o pipefail
+          scripts/install_pyhaopenmotics
       - name: 🏗 Install pyrefly
         run: pip install pyrefly
       - name: 🚀 Run pre-commit (prek)
