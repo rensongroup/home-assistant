@@ -94,17 +94,17 @@ class OpenMoticsSwitch(OpenMoticsDevice, SwitchEntity):
     def icon(self) -> str | None:
         """Return the icon to use."""
         # Valve
-        if self._device.output_type == "VALVE":
+        if self._device.output_type == "VALVE":  # pyrefly: ignore
             if self.is_on:
                 return "mdi:valve-open"
             return "mdi:valve-closed"
         # Fan / Ventilation.
-        if self._device.output_type == "VENTILATION":
+        if self._device.output_type == "VENTILATION":  # pyrefly: ignore
             if self.is_on:
                 return "mdi:fan"
             return "mdi:fan-off"
         # HVAC.
-        if self._device.output_type == "HVAC":
+        if self._device.output_type == "HVAC":  # pyrefly: ignore
             if self.is_on:
                 return "mdi:hvac"
             return "mdi:hvac-off"
@@ -112,7 +112,7 @@ class OpenMoticsSwitch(OpenMoticsDevice, SwitchEntity):
 
     async def _update_state_from_result(self, result: Any, state: bool) -> None:
         if isinstance(result, dict) and result.get("success") is True:
-            self._device.status.on = state
+            self._device.status.on = state  # pyrefly: ignore
             self.async_write_ha_state()
         else:
             _LOGGER.debug("Invalid result, refreshing all")

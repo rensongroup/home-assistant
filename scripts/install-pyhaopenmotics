@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+while getopts ":b:v:" opt; do
+  case ${opt} in
+    b ) branch=$OPTARG;;
+    v ) version=$OPTARG;;
+    \? ) echo "Usage: cmd [-b branch] [-v version]";;
+  esac
+done
+
+URL="pyhaopenmotics@git+https://github.com/rensongroup/pyhaopenmotics.git"
+
+if [ ! -z "$branch" ]; then
+    URL="${URL}@${branch}"
+else
+    URL="${URL}@main"
+fi
+
+if [ ! -z "$version" ]; then
+    URL="${URL}#pyhaopenmotics==${version}"
+fi
+echo "Removing old version"
+pip uninstall pyhaopenmotics -y
+
+echo "Installing from ${URL}"
+pip install "$URL"

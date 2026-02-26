@@ -86,7 +86,7 @@ class OpenMoticsShutter(OpenMoticsDevice, CoverEntity):
         self._supported_features |= CoverEntityFeature.CLOSE
         self._supported_features |= CoverEntityFeature.STOP
 
-        if "POSITION" in device.capabilities:
+        if "POSITION" in device.capabilities:  # pyrefly: ignore
             self._supported_features |= CoverEntityFeature.SET_POSITION
 
     @property
@@ -189,9 +189,9 @@ class OpenMoticsShutter(OpenMoticsDevice, CoverEntity):
         if isinstance(result, dict) and result.get("_error") is None:
             if state is not None:
                 self._state = STATE_TO_VALUE.get(state)
-                self._device.status.state = self._state
+                self._device.status.state = self._state  # pyrefly: ignore
             if position is not None:
-                self._device.status.position = position
+                self._device.status.position = position  # pyrefly: ignore
             self.async_write_ha_state()
         else:
             _LOGGER.debug("Invalid result, refreshing all")

@@ -23,7 +23,8 @@ To help us to resolve this issue please include the following information:
 
 ## Version of the integration
 
-If you are unsure about the version check the [github release here](https://github.com/openmotics/home-assistant/releases).
+If you are unsure about the version check the
+[github release here](https://github.com/openmotics/home-assistant/releases).
 
 <!-- If you are not using the newest version, download and try that before opening an issue.
 -->
