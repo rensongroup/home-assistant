@@ -3,6 +3,5 @@
   "filename": "openmotics.zip",
   "homeassistant": "2025.1.0",
   "iot_class": "Cloud Polling",
-  "render_readme": true,
   "zip_release": true
 }
