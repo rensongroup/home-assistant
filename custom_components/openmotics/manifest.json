@@ -13,7 +13,7 @@
   "requirements": [
     "pyhaopenmotics@git+https://github.com/rensongroup/pyhaopenmotics.git@main#pyhaopenmotics==0.0.10"
   ],
-  "version": "0.0.1",
+  "version": "2026.1002",
   "zeroconf": [
     {
       "name": "openmotics*",

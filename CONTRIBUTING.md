@@ -46,7 +46,23 @@ People _love_ thorough bug reports. I'm not even kidding.
 
 ## Use a Consistent Coding Style
 
-Use [black](https://github.com/ambv/black) to make sure the code follows the style.
+Always run
+
+```console
+$ just pre-commit-run
+```
+
+before pushing your changes.
+
+## Increase the version
+
+Run
+
+```console
+$ script/update_version.py
+```
+
+ton increase the version.
 
 ## Test your code modification
 
