@@ -69,9 +69,10 @@ jobs:
       - name: 🏗 Install pyhaopenmotics
         run: |
           set -o pipefail
+          uv tool install pip
           REQUIREMENT=$(jq -r '.requirements[] | select(startswith("pyhaopenmotics"))' custom_components/openmotics/manifest.json)
           echo "Found requirement: $REQUIREMENT"
-          uv tool install "$REQUIREMENT"
+          pip install "$REQUIREMENT"
 
       - name: 🚀 Validate pyproject.toml
         run: |
