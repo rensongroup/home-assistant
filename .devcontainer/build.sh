@@ -23,6 +23,7 @@ sudo apt-get upgrade -y
 #     libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev \
 #     libswresample-dev libavfilter-dev ffmpeg libgammu-dev build-essential
 sudo apt-get install -y libturbojpeg0 ffmpeg libpcap-dev
+sudo apt-get install -y just
 sudo apt-get clean
 
 # Install go2rtc
@@ -33,10 +34,10 @@ sudo chmod +x /bin/go2rtc
 
 # Install Python dependencies
 echo "📦 Installing Python dependencies..."
-pip install --upgrade pip
+uv pip install --upgrade pip
 
 echo "🏠 Installing Home Assistant..."
-pip install homeassistant
+uv pip install homeassistant
 
 # Create HA config dir if missing
 mkdir -p "${HA_CONFIG_DIR}"
@@ -53,13 +54,6 @@ else
   echo "[setup-ha] configuration.yaml already present; not overwriting"
 fi
 
-# Install Python development requirements (if exists)
-if [ -f "${PWD}/requirements-dev.txt" ]; then
-    pip install -r "${PWD}/requirements-dev.txt"
-    echo "[setup-ha] Installed requirements-dev.txt"
-else
-    echo "[setup-ha] requirements-dev.txt not found; skipping pip install"
-fi
 
 # Ensure HA config structure (safe; ignore errors)
 hass --script ensure_config -c "${HA_CONFIG_DIR}"

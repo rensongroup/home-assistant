@@ -24,7 +24,7 @@ if [ ! -z "$version" ]; then
     URL="${URL}#pyhaopenmotics==${version}"
 fi
 echo "Removing old version"
-pip uninstall pyhaopenmotics -y
+uv pip uninstall pyhaopenmotics
 
 echo "Installing from ${URL}"
-pip install "$URL"
+uv pip install "$URL"
