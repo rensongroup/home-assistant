@@ -79,7 +79,7 @@ jobs:
 
       - name: 🚀 Validate pyproject.toml
         run: |
-          python -m pip install validate-pyproject validate-pyproject-schema-store
+          pip install validate-pyproject validate-pyproject-schema-store
           validate-pyproject pyproject.toml
 
       - name: 🚀 Check uv.lock synchronization
