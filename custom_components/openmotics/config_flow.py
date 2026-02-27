@@ -315,6 +315,17 @@ class OpenMoticsFlowHandler(
             errors=errors,
         )
 
+    # async def async_step_reconfigure(
+    #     self, user_input: dict[str, Any] | None = None
+    # ) -> ConfigFlowResult:
+    #     """Handle reconfiguration of an entry."""
+
+    #     return await self.async_step_local(user_input)
+    #     errors: dict[str, str] = {}
+    #     reconfigure_entry = self._get_reconfigure_entry()
+
+    #     if user_input is not None:
+
     async def async_step_create_localentry(self) -> ConfigFlowResult:
         """Create a config entry at completion of a flow and authorization."""
         unique_id = self.construct_unique_id(
