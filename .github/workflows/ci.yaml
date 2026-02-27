@@ -81,14 +81,12 @@ jobs:
           # Checks if the lockfile is up to date without modifying it
           uv lock --locked
 
-      - name: 🚀 Check JSON, YAML, TOML, and AST (Standard pre-commit-hooks)
+      - name: 🚀 Check JSON, YAML, TOML, and AST
         run: |
-          python -m pip install pre-commit-hooks
-          # Using find to pass files to the standard hooks, applying your exclusions
-          find . -name "*.json" -not -path "*/.vscode/*" -not -path "*/.devcontainer/*" | xargs check-json
-          find . -name "*.yaml" -not -name "mkdocs.yml" -not -path "*/config/configuration.yaml" | xargs check-yaml
-          find . -name "*.toml" | xargs check-toml
-          find . -name "*.py" | xargs check-ast
+          uvx prek run check-json --exclude "(.vscode|.devcontainer)"
+          uvx prek run check-yaml --exclude "mkdocs\.yml$|config/configuration.yaml"
+          uvx prek run check-toml
+          uvx prek run check-ast
 
       - name: 🚀 Format pyproject.toml (pyproject-fmt)
         run: |
