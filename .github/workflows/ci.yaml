@@ -62,8 +62,8 @@ jobs:
 
       - name: 🏗 Install dependencies and run type checking
         run: |
-          source .venv/bin/activate
-          python -m pip install --upgrade pip
+          # source .venv/bin/activate
+          # python -m pip install --upgrade pip
           uv sync --all-extras --dev
 
       - name: 🏗 Install pyhaopenmotics
@@ -71,16 +71,15 @@ jobs:
           set -o pipefail
           REQUIREMENT=$(jq -r '.requirements[] | select(startswith("pyhaopenmotics"))' custom_components/openmotics/manifest.json)
           echo "Found requirement: $REQUIREMENT"
-          pip install "$REQUIREMENT"
+          uv tool install "$REQUIREMENT"
 
       - name: 🚀 Validate pyproject.toml
         run: |
-          python -m pip install validate-pyproject validate-pyproject-schema-store
+          uv tool  install validate-pyproject validate-pyproject-schema-store
           validate-pyproject pyproject.toml
 
       - name: 🚀 Check uv.lock synchronization
         run: |
-          python -m pip install uv
           # Checks if the lockfile is up to date without modifying it
           uv lock --locked
 
@@ -93,7 +92,7 @@ jobs:
 
       - name: 🚀 Format pyproject.toml (pyproject-fmt)
         run: |
-          python -m pip install pyproject-fmt
+          uv tool install pyproject-fmt
           # --check ensures it fails if formatting is needed, rather than autofixing in CI
           pyproject-fmt --check pyproject.toml
 
@@ -107,18 +106,18 @@ jobs:
 
       - name: 🚀 Check JSON Schemas (GitHub Actions & Workflows)
         run: |
-          python -m pip install check-jsonschema
+          uv tool install check-jsonschema
           check-jsonschema --builtin-schema github-workflows .github/workflows/*.yml || true
           check-jsonschema --builtin-schema github-actions .github/actions/*/action.yml || true
 
       - name: 🚀 Run Codespell
         run: |
-          python -m pip install codespell
+          uv tool install codespell
           codespell --ignore-words-list=hass --skip="./.*,*.csv,*.json" --quiet-level=2
 
       - name: 🚀 Run Bandit (Security)
         run: |
-          python -m pip install bandit
+          uv tool install bandit
           bandit -r script/ tests/ -c bandit.yaml --quiet -f custom
 
       - name: 🚀 Run Prettier
@@ -131,7 +130,7 @@ jobs:
 
       - name: 🚀 Check PyUpgrade
         run: |
-          python -m pip install pyupgrade
+          uv tool install pyupgrade
           # pyupgrade modifies files directly, so we run it and then check if Git is dirty
           find . -name "*.py" | xargs pyupgrade --py313-plus
 
@@ -143,18 +142,18 @@ jobs:
 
       - name: 🚀 Check TOML Sort
         run: |
-          python -m pip install toml-sort
+          uv tool install toml-sort
           toml-sort --check pyproject.toml
 
       - name: 🚀 Run Pylint
         run: |
-          python -m pip install pylint
+          uv tool install pylint
           # Run pylint on the custom component. Exit 0 matches your args: ["--exit-zero"]
           pylint custom_components/openmotics/ --exit-zero || true
 
       - name: 🚀 Run Pyrefly (Type Checking)
         run: |
-          python -m pip install pyre-check
+          uv tool install pyre-check
           pyre check
 
       - name: 🚀 Run Actionlint
