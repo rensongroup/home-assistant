@@ -5,6 +5,10 @@ from __future__ import annotations
 from homeassistant.exceptions import HomeAssistantError
 
 
+class OpenMoticsApiError(HomeAssistantError):
+    """Base class for UniFi exceptions."""
+
+
 class OpenMoticsException(HomeAssistantError):
     """Base class for UniFi exceptions."""
 

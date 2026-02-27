@@ -6,9 +6,12 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 from pyhaopenmotics import (
+    AuthenticationError,
     LocalGateway,
     OpenMoticsCloud,
-    OpenMoticsError,
+    OpenMoticsConnectionError,
+    OpenMoticsConnectionSslError,
+    OpenMoticsConnectionTimeoutError,
 )
 
 from homeassistant.config_entries import ConfigEntry
@@ -19,8 +22,9 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_VERIFY_SSL,
 )
+from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util.ssl import get_default_context, get_default_no_verify_context
 
 from .const import CONF_INSTALLATION_ID, DEFAULT_SCAN_INTERVAL, DOMAIN
@@ -35,7 +39,7 @@ type OpenMoticsCloudConfigEntry = ConfigEntry[OpenMoticsCloudDataUpdateCoordinat
 type OpenMoticsLocalConfigEntry = ConfigEntry[OpenMoticsLocalDataUpdateCoordinator]
 
 
-class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator):
+class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
     """Query OpenMotics devices and keep track of seen conditions."""
 
     def __init__(self, hass: HomeAssistant, *, name: str) -> None:
@@ -56,6 +60,15 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator):
         This is the place to pre-process the data to lookup tables
         so entities can quickly look up their data.
         """
+        my_outputs = []
+        my_lights = []
+        my_groupactions = []
+        my_shutters = []
+        my_sensors = []
+        my_thermostatgroups = []
+        my_thermostatunits = []
+        my_energysensors = []
+
         try:
             my_outputs = await self._omclient.outputs.get_all()
             my_lights = await self._omclient.lights.get_all()
@@ -66,19 +79,31 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator):
             my_thermostatunits = await self._omclient.thermostats.units.get_all()
             my_energysensors = await self._omclient.energysensors.get_all()
 
-        except OpenMoticsError as err:
-            _LOGGER.error("Could not retrieve the data from the OpenMotics API")
-            _LOGGER.error("Too many errors: %s", err)
-            return {
-                "lights": [],
-                "outputs": [],
-                "groupactions": [],
-                "shutters": [],
-                "sensors": [],
-                "energysensors": [],
-                "thermostatgroups": [],
-                "thermostatunits": [],
-            }
+        except (OpenMoticsConnectionTimeoutError, OpenMoticsConnectionError) as err:
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="update_failed",
+                translation_placeholders={"error": repr(err)},
+            ) from err
+        except OpenMoticsConnectionSslError as err:
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="ssl_failed",
+                translation_placeholders={"error": repr(err)},
+            ) from err
+        except AuthenticationError as err:
+            raise ConfigEntryAuthFailed(
+                translation_domain=DOMAIN,
+                translation_key="cannot_authenticate",
+            ) from err
+        except Exception as err:
+            _LOGGER.exception("Unexpected error during _async_update_data")
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="exception_occurred",
+                translation_placeholders={"error": repr(err)},
+            ) from err
+
         # Store data in a way Home Assistant can easily consume it
         return {
             "outputs": my_outputs,

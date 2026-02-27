@@ -19,7 +19,9 @@ from homeassistant.helpers.config_entry_oauth2_flow import OAuth2Session
 
 from .const import CONF_INSTALLATION_ID, DOMAIN, PLATFORMS, STARTUP_MESSAGE
 from .coordinator import (
+    OpenMoticsCloudConfigEntry,
     OpenMoticsCloudDataUpdateCoordinator,
+    OpenMoticsLocalConfigEntry,
     OpenMoticsLocalDataUpdateCoordinator,
 )
 from .oauth_impl import OpenMoticsOauth2Implementation
@@ -55,8 +57,9 @@ async def async_setup_openmotics_installation(
 
 async def async_setup_entry(
     hass: core.HomeAssistant,
-    entry: config_entries.ConfigEntry,
+    entry: OpenMoticsCloudConfigEntry | OpenMoticsLocalConfigEntry,
 ) -> bool:
+    """Set up Openmotics from a config entry."""
     """Set up this integration using UI."""
     if hass.data.get(DOMAIN) is None:
         hass.data.setdefault(DOMAIN, {})

@@ -54,6 +54,7 @@ async def async_setup_entry(
     coordinator: OpenMoticsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     for index, om_cover in enumerate(coordinator.data["shutters"]):
+        # type: ignore
         if om_cover.name is None or not om_cover.name or om_cover.name == NOT_IN_USE:
             continue
         entities.append(OpenMoticsShutter(coordinator, index, om_cover))
