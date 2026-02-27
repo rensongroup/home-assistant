@@ -60,4 +60,4 @@ jobs:
           uv pip install "$REQUIREMENT"
 
       - name: 🚀 Run pyrefly type check
-        run: uvx pyrefly check --strict custom_components/openmotics
+        run: uvx pyrefly check -- --strict custom_components/openmotics
