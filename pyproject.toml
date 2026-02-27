@@ -62,7 +62,7 @@ test = [
 ]
 docs = [ "mkdocs" ]
 lint = [ "pyrefly", "ruff" ]
-tools = [ "prek", "ruff", "rust-just", "virtualenv" ]
+tools = [ "prek", "ruff" ]
 
 [tool.hatch]
 version.path = "custom_components/openmotics/const.py"

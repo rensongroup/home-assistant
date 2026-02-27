@@ -1,7 +1,7 @@
 {
-  "containerEnv": {
-    "EXTERNALLY-MANAGED": "false"
-    // "POETRY_VIRTUALENVS_IN_PROJECT": "true"
+  "containerEnv": {},
+  "remoteEnv": {
+    "UV_LINK_MODE": "copy"
   },
   "name": "openmotics/home-assistant",
   "image": "mcr.microsoft.com/devcontainers/python:3.13",
@@ -38,7 +38,7 @@
     "ghcr.io/devcontainers/features/common-utils:2": {},
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/va-h/devcontainers-features/uv:1": {},
-    // "ghcr.io/devcontainers/features/go:1": {},
+    "ghcr.io/devcontainers/features/go:1": {}, //needed for actionlint
     // "ghcr.io/devcontainers/features/node:1": {},
     // "ghcr.io/devcontainers/features/rust:1": {},
     // "ghcr.io/siri404/devcontainer-ai-features/gemini-cli:1": {},
