@@ -66,17 +66,20 @@ jobs:
           # python -m pip install --upgrade pip
           uv sync --all-extras --dev
 
+      - name: 🏗 Install pip
+        run: |
+          uv tool install pip
+
       - name: 🏗 Install pyhaopenmotics
         run: |
           set -o pipefail
-          uv tool install pip
           REQUIREMENT=$(jq -r '.requirements[] | select(startswith("pyhaopenmotics"))' custom_components/openmotics/manifest.json)
           echo "Found requirement: $REQUIREMENT"
           pip install "$REQUIREMENT"
 
       - name: 🚀 Validate pyproject.toml
         run: |
-          uv tool  install validate-pyproject validate-pyproject-schema-store
+          python -m pip install validate-pyproject validate-pyproject-schema-store
           validate-pyproject pyproject.toml
 
       - name: 🚀 Check uv.lock synchronization
@@ -93,7 +96,7 @@ jobs:
 
       - name: 🚀 Format pyproject.toml (pyproject-fmt)
         run: |
-          uv tool install pyproject-fmt
+          python -m pip install pyproject-fmt
           # --check ensures it fails if formatting is needed, rather than autofixing in CI
           pyproject-fmt --check pyproject.toml
 
@@ -107,18 +110,18 @@ jobs:
 
       - name: 🚀 Check JSON Schemas (GitHub Actions & Workflows)
         run: |
-          uv tool install check-jsonschema
+          python -m pip install check-jsonschema
           check-jsonschema --builtin-schema github-workflows .github/workflows/*.yml || true
           check-jsonschema --builtin-schema github-actions .github/actions/*/action.yml || true
 
       - name: 🚀 Run Codespell
         run: |
-          uv tool install codespell
+          python -m pip install codespell
           codespell --ignore-words-list=hass --skip="./.*,*.csv,*.json" --quiet-level=2
 
       - name: 🚀 Run Bandit (Security)
         run: |
-          uv tool install bandit
+          python -m pip install bandit
           bandit -r script/ tests/ -c bandit.yaml --quiet -f custom
 
       - name: 🚀 Run Prettier
@@ -131,7 +134,7 @@ jobs:
 
       - name: 🚀 Check PyUpgrade
         run: |
-          uv tool install pyupgrade
+          python -m pip install pyupgrade
           # pyupgrade modifies files directly, so we run it and then check if Git is dirty
           find . -name "*.py" | xargs pyupgrade --py313-plus
 
@@ -143,19 +146,19 @@ jobs:
 
       - name: 🚀 Check TOML Sort
         run: |
-          uv tool install toml-sort
+          python -m pip install toml-sort
           toml-sort --check pyproject.toml
 
       - name: 🚀 Run Pylint
         run: |
-          uv tool install pylint
+          python -m pip install pylint
           # Run pylint on the custom component. Exit 0 matches your args: ["--exit-zero"]
           pylint custom_components/openmotics/ --exit-zero || true
 
       - name: 🚀 Run Pyrefly (Type Checking)
         run: |
-          uv tool install pyre-check
-          pyre check
+          python -m pip install pyrefly
+          pyrefly check
 
       - name: 🚀 Run Actionlint
         run: |
