@@ -2,8 +2,7 @@ name: Validate with hassfest
 
 on:
   push:
-    branches:
-      - "**" # All branches
+    branches: ["master", "main"]
     tags-ignore:
       - "**" # Don't run on tag pushes (release workflow handles this)
   pull_request:
