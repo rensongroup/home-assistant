@@ -83,10 +83,10 @@ jobs:
 
       - name: 🚀 Check JSON, YAML, TOML, and AST
         run: |
-          uvx prek run check-json --exclude "(.vscode|.devcontainer)"
-          uvx prek run check-yaml --exclude "mkdocs\.yml$|config/configuration.yaml"
-          uvx prek run check-toml
-          uvx prek run check-ast
+          uvx prek run check-json --all-files
+          uvx prek run check-yaml --all-files
+          uvx prek run check-toml --all-files
+          uvx prek run check-ast --all-files
 
       - name: 🚀 Format pyproject.toml (pyproject-fmt)
         run: |
