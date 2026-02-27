@@ -32,12 +32,15 @@ async def async_setup_entry(
     coordinator: OpenMoticsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     for index, om_outlet in enumerate(coordinator.data["outputs"]):
-        if om_outlet.name is None or not om_outlet.name or om_outlet.name == NOT_IN_USE:
+        if (
+            # type: ignore
+            om_outlet.name is None or not om_outlet.name or om_outlet.name == NOT_IN_USE
+        ):
             continue
 
         # Outputs can contain outlets and lights, so filter out only the outlets
         # (aka switches)
-        if om_outlet.output_type != "LIGHT":
+        if om_outlet.output_type != "LIGHT":  # pyrefly: ignore
             entities.append(OpenMoticsSwitch(coordinator, index, om_outlet))
 
     if not entities:

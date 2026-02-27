@@ -39,6 +39,9 @@ uv pip install --upgrade pip
 echo "🏠 Installing Home Assistant..."
 uv pip install homeassistant
 
+echo "📦 Installing zlib_ng and isal packages..."
+pip3 install zlib_ng isal
+
 # Create HA config dir if missing
 mkdir -p "${HA_CONFIG_DIR}"
 

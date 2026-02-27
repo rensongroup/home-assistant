@@ -13,12 +13,10 @@ from pyhaopenmotics import (
     OpenMoticsCloud,
     OpenMoticsConnectionError,
     OpenMoticsConnectionSslError,
-    OpenMoticsError,
+    OpenMoticsConnectionTimeoutError,
 )
 import voluptuous as vol
 
-# from homeassistant import config_entries
-# from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.const import (
     CONF_CLIENT_ID,
     CONF_CLIENT_SECRET,
@@ -28,17 +26,16 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_VERIFY_SSL,
 )
-
-# from homeassistant.helpers.config_entry_oauth2_flow import AbstractOAuth2FlowHandler
 from homeassistant.helpers import config_entry_oauth2_flow, config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.util.ssl import get_default_context, get_default_no_verify_context
 
-from .const import CONF_INSTALLATION_ID, DOMAIN, ENV_CLOUD, ENV_LOCAL
-from .exceptions import CannotConnect
+from .const import CONF_INSTALLATION_ID, DOMAIN
 from .oauth_impl import OpenMoticsOauth2Implementation
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from homeassistant.config_entries import ConfigFlowResult
 
 DEFAULT_PORT = 443
@@ -71,7 +68,6 @@ class OpenMoticsFlowHandler(
 
     VERSION = 2
     DOMAIN = DOMAIN
-    # CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     installations: list[Installation] = []
     data: dict[str, Any] = {}
@@ -86,11 +82,88 @@ class OpenMoticsFlowHandler(
         """Return logger."""
         return logging.getLogger(__name__)
 
+    @staticmethod
+    def construct_unique_id(om_type: str, install_id: str) -> str:
+        """Construct the unique id from the ssdp discovery or user_step."""
+        return f"{om_type}-{install_id}"
+
+    async def _validate_local_connection(
+        self,
+        localgw: str,
+        username: str,
+        password: str,
+        port: int = DEFAULT_PORT,
+        verify_ssl: bool = DEFAULT_VERIFY_SSL,
+    ) -> dict[str, str]:
+        """Validate local connection."""
+        errors: dict[str, str] = {}
+        ssl_context = get_default_context()
+        if not verify_ssl:
+            ssl_context = get_default_no_verify_context()
+
+        try:
+            omclient = LocalGateway(
+                localgw=localgw,
+                username=username,
+                password=password,
+                port=port,
+                ssl_context=ssl_context,
+            )
+            await omclient.get_token()
+
+            version = await omclient.exec_action("get_version")
+            _LOGGER.debug(version)
+            await omclient.close()
+
+        except OpenMoticsConnectionTimeoutError:
+            errors["base"] = "cannot_connect"
+        except OpenMoticsConnectionSslError:
+            errors["base"] = "cannot_connect"
+        except AuthenticationError:
+            errors["base"] = "invalid_auth"
+        except OpenMoticsConnectionError:
+            errors["base"] = "cannot_connect"
+        except Exception:
+            _LOGGER.exception("Unexpected error during login")
+            errors["base"] = "unknown"
+
+        return errors
+
+    async def _get_cloud_token(
+        self, client_id: str, client_secret: str
+    ) -> tuple[dict[str, str], dict[str, Any] | None]:
+        """Get cloud token."""
+        errors: dict[str, str] = {}
+        token = None
+        try:
+            flow_impl = OpenMoticsOauth2Implementation(
+                self.hass,
+                domain=f"{DOMAIN}-config_flow",
+                client_id=client_id,
+                client_secret=client_secret,
+                name=f"{DOMAIN}-config_flow",
+            )
+            token = await flow_impl.async_resolve_external_data(None)
+
+        except OpenMoticsConnectionTimeoutError:
+            errors["base"] = "cannot_connect"
+        except OpenMoticsConnectionSslError:
+            errors["base"] = "cannot_connect"
+        except AuthenticationError:
+            errors["base"] = "invalid_auth"
+        except OpenMoticsConnectionError:
+            errors["base"] = "cannot_connect"
+        except Exception:
+            _LOGGER.exception("Unexpected error during login")
+            errors["base"] = "unknown"
+
+        return errors, token
+
     def is_local_device_already_added(self) -> bool:
         """Check if a Local device has already been added."""
         for entry in self._async_current_entries():
             if entry.unique_id is not None and entry.unique_id.startswith(
-                f"{DOMAIN}-Local-",
+                f"{DOMAIN}-local-",
             ):
                 return True
         return False
@@ -117,8 +190,8 @@ class OpenMoticsFlowHandler(
                 step_id="environment",
                 data_schema=vol.Schema(
                     {
-                        vol.Required("environment", default=ENV_CLOUD): vol.In(
-                            [ENV_CLOUD, ENV_LOCAL],
+                        vol.Required("environment", default="cloud"): vol.In(
+                            ["cloud", "local"],
                         ),
                     },
                 ),
@@ -128,19 +201,18 @@ class OpenMoticsFlowHandler(
         # Environment chosen, request additional host information for LOCAL
         # or OAuth2 flow for CLOUD
         # Ask for host detail
-        if user_input["environment"] == ENV_LOCAL:
+        if user_input["environment"] == "local":
             return await self.async_step_local()
 
         # Ask for cloud detail
         return await self.async_step_cloud()
 
-    # Cloud Environment -------------------------------------------------------
     async def async_step_cloud(
         self,
         user_input: dict[str, Any] | None = None,
     ) -> ConfigFlowResult:
         """Handle cloud flow."""
-        errors = {}
+        errors: dict[str, str] = {}
 
         if user_input is not None:
             self.data = {
@@ -148,18 +220,11 @@ class OpenMoticsFlowHandler(
                 CONF_CLIENT_SECRET: user_input[CONF_CLIENT_SECRET],
             }
 
-            try:
-                self.flow_impl = OpenMoticsOauth2Implementation(
-                    self.hass,
-                    domain=f"{DOMAIN}-config_flow",
-                    client_id=self.data[CONF_CLIENT_ID],
-                    client_secret=self.data[CONF_CLIENT_SECRET],
-                    name=f"{DOMAIN}-config_flow",
-                )
+            errors, token = await self._get_cloud_token(
+                self.data[CONF_CLIENT_ID], self.data[CONF_CLIENT_SECRET]
+            )
 
-                token = await self.flow_impl.async_resolve_external_data(
-                    self.external_data,
-                )
+            if token:
                 # Force int for non-compliant oauth2 providers
                 try:
                     token["expires_in"] = int(token["expires_in"])
@@ -170,9 +235,6 @@ class OpenMoticsFlowHandler(
 
                 self.logger.info("Successfully authenticated")
 
-                #     self.hass,
-                #     self.flow_impl,
-
                 omclient = OpenMoticsCloud(
                     token=token["access_token"],
                     session=async_get_clientsession(self.hass),
@@ -182,15 +244,11 @@ class OpenMoticsFlowHandler(
 
                 self.data["token"] = token
 
-            except (TimeoutError, OpenMoticsError) as err:
-                _LOGGER.error(err)
-                raise CannotConnect from err
+                if len(self.installations) > 0:
+                    # show selection form
+                    return await self.async_step_installation()
 
-            if len(self.installations) > 0:
-                # show selection form
-                return await self.async_step_installation()
-
-            errors["base"] = "discovery_error"
+                errors["base"] = "discovery_error"
 
         return self.async_show_form(
             step_id="cloud",
@@ -204,12 +262,6 @@ class OpenMoticsFlowHandler(
     ) -> ConfigFlowResult:
         """Ask user to select the Installation ID to use."""
         if user_input is None or CONF_INSTALLATION_ID not in user_input:
-            # Get available installations
-            # existing_installations = []
-            # for entry in self._async_current_entries():
-            #     if CONF_INSTALLATION_ID in entry.data:
-            #         existing_installations.append(entry.data[CONF_INSTALLATION_ID])
-
             existing_installations = [
                 entry.data[CONF_INSTALLATION_ID]
                 for entry in self._async_current_entries()
@@ -246,6 +298,7 @@ class OpenMoticsFlowHandler(
             self.data[CONF_INSTALLATION_ID],
         )
         await self.async_set_unique_id(unique_id)
+        self._abort_if_unique_id_configured()
 
         self.data["auth_implementation"] = (
             f"{DOMAIN}-clouddev-{self.data[CONF_INSTALLATION_ID]}"
@@ -253,61 +306,32 @@ class OpenMoticsFlowHandler(
 
         return self.async_create_entry(title=unique_id, data=self.data)
 
-    # Local Environment -------------------------------------------------------
     async def async_step_local(
         self,
         user_input: dict[str, Any] | None = None,
     ) -> ConfigFlowResult:
         """Handle local flow."""
-        errors = {}
+        errors: dict[str, str] = {}
 
         if user_input is not None:
-            self.data = {
-                CONF_IP_ADDRESS: user_input[CONF_IP_ADDRESS],
-                CONF_NAME: user_input[CONF_NAME],
-                CONF_PASSWORD: user_input[CONF_PASSWORD],
-                CONF_PORT: user_input[CONF_PORT],
-                CONF_VERIFY_SSL: user_input[CONF_VERIFY_SSL],
-            }
-            version = None
-            ssl_context = get_default_context()
-            if not self.data[CONF_VERIFY_SSL]:
-                ssl_context = get_default_no_verify_context()
+            errors = await self._validate_local_connection(
+                user_input[CONF_IP_ADDRESS],
+                username=user_input[CONF_NAME],
+                password=user_input[CONF_PASSWORD],
+                port=user_input.get(CONF_PORT, DEFAULT_PORT),
+                verify_ssl=user_input.get(CONF_VERIFY_SSL, DEFAULT_VERIFY_SSL),
+            )
 
-            try:
-                omclient = LocalGateway(
-                    localgw=self.data[CONF_IP_ADDRESS],
-                    username=self.data[CONF_NAME],
-                    password=self.data[CONF_PASSWORD],
-                    port=self.data[CONF_PORT],
-                    # tls=self.data[CONF_VERIFY_SSL],
-                    ssl_context=ssl_context,
+            if not errors:
+                self.data = user_input
+                unique_id = self.construct_unique_id(
+                    "openmotics-local",
+                    self.data[CONF_IP_ADDRESS],
                 )
-                await omclient.get_token()
+                await self.async_set_unique_id(unique_id)
+                self._abort_if_unique_id_configured()
 
-                version = await omclient.exec_action("get_version")
-                _LOGGER.debug(version)
-
-                await omclient.close()
-
-            except OpenMoticsConnectionError as err:
-                _LOGGER.error("Connection Error: [%s]", err)
-                errors["base"] = "cannot_connect"
-            except OpenMoticsConnectionSslError as err:
-                _LOGGER.error("SSL certificate error: [%s]", err)
-                errors["base"] = "ssl_error"
-            except AuthenticationError as err:
-                _LOGGER.error("SSL certificate error: [%s]", err)
-                errors["base"] = "ssl_error"
-            except (TimeoutError, OpenMoticsError) as err:
-                _LOGGER.error("Error: %s", err)
-                errors["base"] = "cannot_connect"
-            except Exception:  # pylint: disable=broad-except
-                _LOGGER.exception("Unexpected exception")
-                errors["base"] = "unknown"
-            else:
-                if version is not None:
-                    return await self.async_step_create_localentry()
+                return self.async_create_entry(title=unique_id, data=self.data)
 
         return self.async_show_form(
             step_id="local",
@@ -315,28 +339,182 @@ class OpenMoticsFlowHandler(
             errors=errors,
         )
 
-    # async def async_step_reconfigure(
-    #     self, user_input: dict[str, Any] | None = None
-    # ) -> ConfigFlowResult:
-    #     """Handle reconfiguration of an entry."""
+    async def async_step_reauth(
+        self, entry_data: Mapping[str, Any]
+    ) -> ConfigFlowResult:
+        """Handle re-authentication with OpenMotics."""
+        # self.entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
 
-    #     return await self.async_step_local(user_input)
-    #     errors: dict[str, str] = {}
-    #     reconfigure_entry = self._get_reconfigure_entry()
+        if CONF_IP_ADDRESS in entry_data:
+            # self.data = entry_data
+            return await self.async_step_reauth_local_confirm()
 
-    #     if user_input is not None:
+        return await self.async_step_reauth_cloud_confirm()
 
-    async def async_step_create_localentry(self) -> ConfigFlowResult:
-        """Create a config entry at completion of a flow and authorization."""
-        unique_id = self.construct_unique_id(
-            "openmotics-local",
-            self.data[CONF_IP_ADDRESS],
+    async def async_step_reauth_local_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle local re-authentication."""
+        errors: dict[str, str] = {}
+
+        if user_input is not None:
+            reauth_entry = self._get_reauth_entry()
+            errors = await self._validate_local_connection(
+                localgw=reauth_entry.data[CONF_IP_ADDRESS],
+                username=user_input[CONF_NAME],
+                password=user_input[CONF_PASSWORD],
+                port=reauth_entry.data[CONF_PORT],
+                verify_ssl=reauth_entry.data[CONF_VERIFY_SSL],
+            )
+
+            if not errors:
+                return self.async_update_reload_and_abort(
+                    reauth_entry,
+                    data_updates={
+                        CONF_NAME: user_input[CONF_NAME],
+                        CONF_PASSWORD: user_input[CONF_PASSWORD],
+                    },
+                )
+
+        return self.async_show_form(
+            step_id="reauth_local_confirm",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_NAME): cv.string,
+                    vol.Required(CONF_PASSWORD): cv.string,
+                }
+            ),
+            errors=errors,
         )
-        await self.async_set_unique_id(unique_id)
 
-        return self.async_create_entry(title=unique_id, data=self.data)
+    async def async_step_reauth_cloud_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle cloud re-authentication."""
+        errors: dict[str, str] = {}
 
-    @staticmethod
-    def construct_unique_id(om_type: str, install_id: str) -> str:
-        """Construct the unique id from the ssdp discovery or user_step."""
-        return f"{om_type}-{install_id}"
+        if user_input is not None:
+            reauth_entry = self._get_reauth_entry()
+            errors, token = await self._get_cloud_token(
+                user_input[CONF_CLIENT_ID], user_input[CONF_CLIENT_SECRET]
+            )
+
+            if not errors and token is not None:
+                # Force int for non-compliant oauth2 providers
+                try:
+                    token["expires_in"] = int(token["expires_in"])
+                except ValueError as err:
+                    _LOGGER.warning("Error converting expires_in to int: %s", err)
+                    return self.async_abort(reason="oauth_error")
+                token["expires_at"] = time.time() + token["expires_in"]
+
+                return self.async_update_reload_and_abort(
+                    reauth_entry,
+                    data_updates={
+                        CONF_CLIENT_ID: user_input[CONF_CLIENT_ID],
+                        CONF_CLIENT_SECRET: user_input[CONF_CLIENT_SECRET],
+                        "token": token,
+                    },
+                )
+
+        return self.async_show_form(
+            step_id="reauth_cloud_confirm",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_CLIENT_ID): cv.string,
+                    vol.Required(CONF_CLIENT_SECRET): cv.string,
+                }
+            ),
+            errors=errors,
+        )
+
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle reconfiguration of an entry."""
+        entry = self._get_reconfigure_entry()
+
+        if CONF_IP_ADDRESS in entry.data:
+            return await self.async_step_reconfigure_local(user_input)
+
+        return await self.async_step_reconfigure_cloud(user_input)
+
+    async def async_step_reconfigure_local(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle local reconfiguration."""
+        errors = {}
+        entry = self._get_reconfigure_entry()
+
+        if user_input is not None:
+            errors = await self._validate_local_connection(
+                localgw=user_input[CONF_IP_ADDRESS],
+                username=user_input[CONF_NAME],
+                password=user_input[CONF_PASSWORD],
+                port=user_input.get(CONF_PORT, DEFAULT_PORT),
+                verify_ssl=user_input.get(CONF_VERIFY_SSL, DEFAULT_VERIFY_SSL),
+            )
+
+            if not errors:
+                return self.async_update_reload_and_abort(
+                    entry,
+                    data={**entry.data, **user_input},
+                )
+
+        schema = vol.Schema(
+            {
+                vol.Required(
+                    CONF_IP_ADDRESS, default=entry.data[CONF_IP_ADDRESS]
+                ): cv.string,
+                vol.Required(CONF_NAME, default=entry.data[CONF_NAME]): cv.string,
+                vol.Required(CONF_PASSWORD): cv.string,
+                vol.Optional(
+                    CONF_PORT, default=entry.data.get(CONF_PORT, DEFAULT_PORT)
+                ): int,
+                vol.Optional(
+                    CONF_VERIFY_SSL,
+                    default=entry.data.get(CONF_VERIFY_SSL, DEFAULT_VERIFY_SSL),
+                ): bool,
+            }
+        )
+
+        return self.async_show_form(
+            step_id="reconfigure_local",
+            data_schema=schema,
+            errors=errors,
+        )
+
+    async def async_step_reconfigure_cloud(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle cloud reconfiguration."""
+        errors: dict[str, str] = {}
+        entry = self._get_reconfigure_entry()
+
+        if user_input is not None:
+            errors, token = await self._get_cloud_token(
+                user_input[CONF_CLIENT_ID], user_input[CONF_CLIENT_SECRET]
+            )
+
+            if not errors and token is not None:
+                return self.async_update_reload_and_abort(
+                    entry,
+                    data={**entry.data, **user_input},
+                )
+
+        schema = vol.Schema(
+            {
+                vol.Required(
+                    CONF_CLIENT_ID, default=entry.data.get(CONF_CLIENT_ID)
+                ): cv.string,
+                vol.Required(
+                    CONF_CLIENT_SECRET, default=entry.data.get(CONF_CLIENT_SECRET)
+                ): cv.string,
+            }
+        )
+
+        return self.async_show_form(
+            step_id="reconfigure_cloud",
+            data_schema=schema,
+            errors=errors,
+        )

@@ -81,19 +81,19 @@ async def async_setup_entry(
 
     for tg_index, om_thermostatgroup in enumerate(coordinator.data["thermostatgroups"]):
         tu_entities = []
-        for tg_id in om_thermostatgroup.thermostat_ids:
+        for tg_id in om_thermostatgroup.thermostat_ids:  # pyrefly: ignore
             for tu_index, om_thermostatunit in enumerate(
                 coordinator.data["thermostatunits"],
             ):
                 # Even if the id is in the list, if the name is not set, don't add it.
                 if (
-                    om_thermostatunit.name is None
+                    om_thermostatunit.name is None  # pyrefly: ignore
                     or not om_thermostatunit.name
                     or om_thermostatunit.name == NOT_IN_USE
                 ):
                     continue
 
-                if tg_id == om_thermostatunit.idx:
+                if tg_id == om_thermostatunit.idx:  # pyrefly: ignore
                     tu_entities.append(
                         OpenMoticsThermostatUnit(
                             coordinator,
@@ -103,8 +103,13 @@ async def async_setup_entry(
                         ),
                     )
         if tu_entities:
-            if om_thermostatgroup.name is None or not om_thermostatgroup.name:
+            if (
+                # type: ignore
+                om_thermostatgroup.name is None
+                or not om_thermostatgroup.name  # pyrefly: ignore
+            ):  # pyrefly: ignore
                 # If name is empty but there thermostatunits, generate a name
+                # type: ignore
                 om_thermostatgroup.name = f"Thermostatgroup-{tg_index}"
 
             tg_entities.append(

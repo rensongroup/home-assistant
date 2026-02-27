@@ -48,10 +48,11 @@ async def async_setup_entry(
     coordinator: OpenMoticsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     for index, om_sensor in enumerate(coordinator.data["sensors"]):
+        # type: ignore
         if om_sensor.name is None or not om_sensor.name or om_sensor.name == NOT_IN_USE:
             continue
 
-        if om_sensor.physical_quantity == "temperature":
+        if om_sensor.physical_quantity == "temperature":  # type: ignore
             entities.append(OpenMoticsTemperature(coordinator, index, om_sensor))
 
         if om_sensor.physical_quantity == "humidity":
@@ -66,6 +67,7 @@ async def async_setup_entry(
     # Energy sensors only exists on the local gateway.
     # Via the cloud, they are merged into the other sensors.
     for index, om_sensor in enumerate(coordinator.data["energysensors"]):
+        # type: ignore
         if om_sensor.name is None or not om_sensor.name or om_sensor.name == NOT_IN_USE:
             continue
 
