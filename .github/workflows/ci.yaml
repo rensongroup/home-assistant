@@ -7,7 +7,6 @@ on:
   push:
     branches: ["master", "main"]
   pull_request:
-    branches: ["master", "main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -58,10 +57,10 @@ jobs:
           set -o pipefail
           REQUIREMENT=$(jq -r '.requirements[] | select(startswith("pyhaopenmotics"))' custom_components/openmotics/manifest.json)
           echo "Found requirement: $REQUIREMENT"
-          uvx pip install "$REQUIREMENT"
+          pip install "$REQUIREMENT"
 
       - name: 🏗 Install pyrefly
-        run: uvx pip install pyrefly
+        run: pip install pyrefly
 
       - name: 🚀 Run pre-commit (prek)
         run: |
