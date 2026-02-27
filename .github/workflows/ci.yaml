@@ -2,13 +2,12 @@ name: CI
 
 permissions:
   contents: read
-  checks: write
 
 on:
   push:
-    branches: ["main", "master"]
+    branches: ["master", "main"]
   pull_request:
-    branches: ["main", "master"]
+    branches: ["master", "main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,7 +23,7 @@ jobs:
     timeout-minutes: 20
     strategy:
       matrix:
-        python-version: ["3.13"] # only one version
+        python-version: ["3.13"]
 
     steps:
       - name: ⤵️ Check out code from GitHub
@@ -32,136 +31,39 @@ jobs:
         with:
           persist-credentials: false
 
-      # - name: 🏗 Set up Python ${{ matrix.python-version }}
-      #   uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-      #   with:
-      #     python-version: ${{ matrix.python-version }}
+      - name: 🏗 Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
 
       - name: 🏗 Install uv
         uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
-        with:
-          enable-cache: true
-          activate-environment: true
-          python-version: ${{ matrix.python-version }}
 
-      - name: 🏗 Setup jq
+      - name: Setup jq
         uses: vegardit/gha-setup-jq@fae9c6aa0b21dbe5bd3b77d280cf142e0a0a65b4 # 1.1.0
         with:
           version: "latest"
 
-      - name: 🏗 Set up Node.js (for Prettier)
-        uses: actions/setup-node@v4
+      - name: 👀 Cache prek
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
         with:
-          node-version: "20"
+          path: ~/.cache/prek
+          key: prek-${{ hashFiles('.pre-commit-config.yaml') }}
 
-      # - name: 👀 Cache prek
-      #   uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
-      #   with:
-      #     path: ~/.cache/prek
-      #     key: prek-${{ hashFiles('.pre-commit-config.yaml') }}
-
-      - name: 🏗 Install dependencies and run type checking
-        run: |
-          # source .venv/bin/activate
-          # python -m pip install --upgrade pip
-          uv sync --all-extras --dev
-
-      - name: 🏗 Install pip
-        run: |
-          uv tool install pip
+      - name: 🏗 Install workflow dependencies
+        run: uv sync --all-extras --dev
 
       - name: 🏗 Install pyhaopenmotics
         run: |
           set -o pipefail
           REQUIREMENT=$(jq -r '.requirements[] | select(startswith("pyhaopenmotics"))' custom_components/openmotics/manifest.json)
           echo "Found requirement: $REQUIREMENT"
-          pip install "$REQUIREMENT"
+          uvx pip install "$REQUIREMENT"
 
-      - name: 🚀 Validate pyproject.toml
+      - name: 🏗 Install pyrefly
+        run: uvx pip install pyrefly
+
+      - name: 🚀 Run pre-commit (prek)
         run: |
-          pipx install validate-pyproject validate-pyproject-schema-store
-          validate-pyproject pyproject.toml
-
-      - name: 🚀 Check uv.lock synchronization
-        run: |
-          # Checks if the lockfile is up to date without modifying it
-          uv lock --locked
-
-      - name: 🚀 Check JSON, YAML, TOML, and AST
-        run: |
-          uvx prek run check-json --all-files
-          uvx prek run check-yaml --all-files
-          uvx prek run check-toml --all-files
-          uvx prek run check-ast --all-files
-
-      - name: 🚀 Format pyproject.toml (pyproject-fmt)
-        run: |
-          pip install pyproject-fmt
-          # --check ensures it fails if formatting is needed, rather than autofixing in CI
-          pyproject-fmt --check pyproject.toml
-
-      - name: 🚀 Ruff Lint and Format
-        run: |
-          pip install ruff
-          # Run linter
-          ruff check . --exclude "tests/*"
-          # Run formatter in check mode on specified files
-          ruff format --check "custom_components/openmotics/**/*.py"
-
-      - name: 🚀 Check JSON Schemas (GitHub Actions & Workflows)
-        run: |
-          pip install check-jsonschema
-          check-jsonschema --builtin-schema github-workflows .github/workflows/*.yml || true
-          check-jsonschema --builtin-schema github-actions .github/actions/*/action.yml || true
-
-      - name: 🚀 Run Codespell
-        run: |
-          pip install codespell
-          codespell --ignore-words-list=hass --skip="./.*,*.csv,*.json" --quiet-level=2
-
-      - name: 🚀 Run Bandit (Security)
-        run: |
-          pip install bandit
-          bandit -r script/ tests/ -c bandit.yaml --quiet -f custom
-
-      - name: 🚀 Run Prettier
-        run: |
-          npm install -g prettier
-          # Non-workflow files (print-width=120)
-          prettier --check "**/*.{js,ts,md,html,css}" --print-width=120 --prose-wrap=always --ignore-path=".github/workflows/*"
-          # Workflow files (print-width=240)
-          prettier --check ".github/workflows/**/*.yml" --print-width=240 --prose-wrap=always
-
-      - name: 🚀 Check PyUpgrade
-        run: |
-          pip install pyupgrade
-          # pyupgrade modifies files directly, so we run it and then check if Git is dirty
-          find . -name "*.py" | xargs pyupgrade --py313-plus
-
-          if [[ -n $(git status --porcelain) ]]; then
-            echo "PyUpgrade modified files. Please run pyupgrade locally and commit the changes."
-            git diff
-            exit 1
-          fi
-
-      - name: 🚀 Check TOML Sort
-        run: |
-          pip install toml-sort
-          toml-sort --check pyproject.toml
-
-      - name: 🚀 Run Pylint
-        run: |
-          pip install pylint
-          # Run pylint on the custom component. Exit 0 matches your args: ["--exit-zero"]
-          pylint custom_components/openmotics/ --exit-zero || true
-
-      - name: 🚀 Run Pyrefly (Type Checking)
-        run: |
-          pip install pyrefly
-          pyrefly check
-
-      - name: 🚀 Run Actionlint
-        run: |
-          # Download the actionlint binary natively
-          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
-          ./actionlint
+          # Enable color output for prek
+          uvx prek run --all-files --show-diff-on-failure --color always --skip no-commit-to-branch
