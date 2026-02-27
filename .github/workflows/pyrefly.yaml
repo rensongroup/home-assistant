@@ -16,7 +16,7 @@ on:
 #   cancel-in-progress: true
 
 jobs:
-  lint-and-format:
+  pyrefly:
     runs-on: ubuntu-latest
 
     timeout-minutes: 20
@@ -59,16 +59,5 @@ jobs:
           echo "Found requirement: $REQUIREMENT"
           uv pip install "$REQUIREMENT"
 
-      - name: 🏗 Install pyrefly
-        run: uv pip install pyrefly
-
-      - name: 🚀 Run pre-commit checks (prek)
-        run: |
-          echo '```console' > "$GITHUB_STEP_SUMMARY"
-          # Enable color output for prek and remove it for the summary
-          # Use --hook-stage=manual to enable slower hooks that are skipped by default
-          SKIP=no-commit-to-branch,pyrefly-check uvx prek run --all-files --show-diff-on-failure --color always --hook-stage manual | \
-            tee >(sed -E 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g' >> "$GITHUB_STEP_SUMMARY") >&1
-          exit_code="${PIPESTATUS[0]}"
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
-          exit "$exit_code"
+      - name: 🚀 Run pyrefly type check
+        run: uvx pyrefly check --strict custom_components/openmotics
