@@ -31,7 +31,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.util.ssl import get_default_context, get_default_no_verify_context
 
 from .const import CONF_INSTALLATION_ID, DOMAIN
-from .oauth_impl import OpenMoticsOauth2Implementation
+from .oauth2 import OpenMoticsOauth2Implementation
 
 if TYPE_CHECKING:
     from collections.abc import Mapping

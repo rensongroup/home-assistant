@@ -8,8 +8,16 @@ from __future__ import annotations
 
 import logging
 from typing import Any
+import uuid
 
-from pyhaopenmotics.const import CLOUD_SCOPE, OAUTH2_AUTHORIZE, OAUTH2_TOKEN
+from pyhaopenmotics.const import (
+    CLOUD_SCOPE,
+    OAUTH2_AUTHORIZE,
+    OAUTH2_TOKEN,
+    OLD_CLOUD_SCOPE,
+    OLD_OAUTH2_AUTHORIZE,
+    OLD_OAUTH2_TOKEN,
+)
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.config_entry_oauth2_flow import LocalOAuth2Implementation
@@ -30,14 +38,25 @@ class OpenMoticsOauth2Implementation(LocalOAuth2Implementation):
     ) -> None:
         """Local Toon Oauth Implementation."""
         self._name = name
+
+        # To be removed in the future
+        if self.is_valid_uuid(client_id):
+            self._my_cloud_scope = CLOUD_SCOPE
+            self._my_authorize_url = OAUTH2_AUTHORIZE
+            self._my_token_url = OAUTH2_TOKEN
+        else:
+            self._my_cloud_scope = OLD_CLOUD_SCOPE
+            self._my_authorize_url = OLD_OAUTH2_AUTHORIZE
+            self._my_token_url = OLD_OAUTH2_TOKEN
+
         """Just init default class with default values."""
         super().__init__(
             hass=hass,
             domain=domain,
             client_id=client_id,
             client_secret=client_secret,
-            authorize_url=OAUTH2_AUTHORIZE,
-            token_url=OAUTH2_TOKEN,
+            authorize_url=self._my_authorize_url,
+            token_url=self._my_token_url,
         )
         _LOGGER.debug("Init OpenMoticsOauth2Implementation: %s", self.name)
 
@@ -49,7 +68,7 @@ class OpenMoticsOauth2Implementation(LocalOAuth2Implementation):
     @property
     def extra_authorize_data(self) -> dict[str, str]:
         """Extra data that needs to be appended to the authorize url."""
-        return {"scope": " ".join(CLOUD_SCOPE)}
+        return {"scope": " ".join(self._my_cloud_scope)}
 
     async def async_resolve_external_data(self, external_data: Any) -> Any:
         """Resolve the authorization code to tokens."""
@@ -72,3 +91,15 @@ class OpenMoticsOauth2Implementation(LocalOAuth2Implementation):
             },
         )
         return {**token, **new_token}
+
+    # To be removed in the future
+    def is_valid_uuid(self, uuid_to_test: str, version: int = 4) -> bool:
+        """Check if uuid_to_test is a valid UUID."""
+        try:
+            # check for validity of Uuid
+            uuid_obj = uuid.UUID(uuid_to_test, version=version)
+            if uuid_obj:
+                pass
+        except ValueError:
+            return False
+        return True

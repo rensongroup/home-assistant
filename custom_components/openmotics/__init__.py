@@ -24,7 +24,7 @@ from .coordinator import (
     OpenMoticsLocalConfigEntry,
     OpenMoticsLocalDataUpdateCoordinator,
 )
-from .oauth_impl import OpenMoticsOauth2Implementation
+from .oauth2 import OpenMoticsOauth2Implementation
 
 if TYPE_CHECKING:
     from homeassistant import config_entries, core
