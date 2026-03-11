@@ -9,7 +9,7 @@ repos:
   # Sync Python and pre-commit package versions
   # pyproject.toml -> uv.lock
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.10.6
+    rev: 0.10.9
     hooks:
       - id: uv-lock
 
@@ -57,12 +57,12 @@ repos:
           - --branch=master
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: "v2.16.2"
+    rev: "v2.18.1"
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.2
+    rev: v0.15.5
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -142,11 +142,10 @@ repos:
     hooks:
       - id: pyupgrade
 
-  - repo: https://github.com/pappasam/toml-sort
-    rev: v0.24.3
-    hooks:
-      - id: toml-sort
-        args: []
+  # - repo: https://github.com/pappasam/toml-sort
+  #   rev: v0.24.3
+  #   hooks:
+  #     - id: toml-sort-fix
 
   - repo: https://github.com/PyCQA/pylint.git
     rev: v4.0.5

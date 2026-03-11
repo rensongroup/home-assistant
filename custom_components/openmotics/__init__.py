@@ -13,9 +13,14 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
+import aiohttp
+
 from homeassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET, CONF_IP_ADDRESS
+from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
-from homeassistant.helpers.config_entry_oauth2_flow import OAuth2Session
+from homeassistant.helpers.config_entry_oauth2_flow import (
+    OAuth2Session,
+)
 
 from .const import CONF_INSTALLATION_ID, DOMAIN, PLATFORMS, STARTUP_MESSAGE
 from .coordinator import (
@@ -81,7 +86,17 @@ async def async_setup_entry(
             client_secret=entry.data.get(CONF_CLIENT_SECRET),  # type: ignore
             name=entry.data.get(CONF_AUTH_IMPLEMENTATION),  # type: ignore
         )
+
         oauth2_session = OAuth2Session(hass, entry, implementation)
+
+        try:
+            await oauth2_session.async_ensure_token_valid()
+        except aiohttp.ClientResponseError as err:
+            if 400 <= err.status < 500:
+                raise ConfigEntryAuthFailed(err) from err
+            raise ConfigEntryNotReady from err
+        except aiohttp.ClientError as err:
+            raise ConfigEntryNotReady from err
 
         coordinator = OpenMoticsCloudDataUpdateCoordinator(
             hass,

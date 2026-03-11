@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 import logging
 from typing import TYPE_CHECKING, Any
 
@@ -33,6 +34,8 @@ if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.config_entry_oauth2_flow import OAuth2Session
 
+UPDATE_INTERVAL = timedelta(seconds=30)
+
 _LOGGER = logging.getLogger(__name__)
 
 type OpenMoticsCloudConfigEntry = ConfigEntry[OpenMoticsCloudDataUpdateCoordinator]
@@ -50,7 +53,7 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, 
             name=name or DOMAIN,
             update_interval=DEFAULT_SCAN_INTERVAL,
         )
-        self.session = None
+        # self.session = None
         self._omclient: OpenMoticsCloud | LocalGateway
         self._install_id = None
 
@@ -142,14 +145,22 @@ class OpenMoticsCloudDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
         self._install_id = self.config_entry.data.get(CONF_INSTALLATION_ID)  # type: ignore
 
         async def async_token_refresh() -> Any:
+            """Token_refresh_method for OpenMoticsCloud."""
             await session.async_ensure_token_valid()
             return session.token["access_token"]
 
+        client_session = async_get_clientsession(hass)
+
         self._omclient = OpenMoticsCloud(
             token=session.token["access_token"],
-            session=async_get_clientsession(hass),
+            session=client_session,
             token_refresh_method=async_token_refresh,
         )
+
+    async def _async_update_data(self) -> dict[Any, Any]:
+        """Fetch data from API endpoint."""
+        await self.session.async_ensure_token_valid()
+        return await super()._async_update_data()
 
 
 class OpenMoticsLocalDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
@@ -163,6 +174,8 @@ class OpenMoticsLocalDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
             hass=hass,
             name=name,
         )
+        self.session = async_get_clientsession(hass)
+
         self._install_id = self.config_entry.data.get(CONF_IP_ADDRESS)  # type: ignore
         ssl_context = get_default_context()
         if not self.config_entry.data.get(CONF_VERIFY_SSL):
@@ -175,4 +188,5 @@ class OpenMoticsLocalDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
             password=self.config_entry.data.get(CONF_PASSWORD),  # type: ignore
             port=self.config_entry.data.get(CONF_PORT),  # type: ignore
             ssl_context=ssl_context,
+            session=self.session,
         )

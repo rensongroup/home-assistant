@@ -143,6 +143,7 @@ class OpenMoticsFlowHandler(
                 client_secret=client_secret,
                 name=f"{DOMAIN}-config_flow",
             )
+
             token = await flow_impl.async_resolve_external_data(None)
 
         except OpenMoticsConnectionTimeoutError:
