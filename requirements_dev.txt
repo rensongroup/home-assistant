@@ -14,7 +14,7 @@
 # HA Core uses mypy, but we prefer pyright for better IDE integration and speed
 # pyright==1.1.408
 # HA Core uses mypy, but we prefer pyrefly for better IDE integration and speed
-pyrefly==0.56.0
+pyrefly==0.1.0
 
 # Better logging for development scripts
 colorlog==6.10.1
