@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "icon": {
+      "description": "An MDI icon reference in the form mdi:icon-name. Lowercase letters, numbers, hyphen and underscore allowed.",
+      "pattern": "^mdi:[a-z0-9-_]+$",
+      "type": "string"
+    }
+  },
+  "description": "JSON schema for the icons.json file in a Home Assistant integration. Supports defining icons for service actions (and optional collapsible sections) under the services key, and (legacy/custom) entity state icons under the entity key. See: https://developers.home-assistant.io/docs/dev_101_services/#icons",
+  "properties": {
+    "entity": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "additionalProperties": false,
+          "description": "Translation key for the entity (matches entity_description.translation_key).",
+          "properties": {
+            "state": {
+              "additionalProperties": {
+                "$ref": "#/definitions/icon"
+              },
+              "description": "Mapping of raw state values to icons.",
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "description": "Entity domain (e.g. sensor, switch).",
+        "type": "object"
+      },
+      "description": "(Optional) Entity icon overrides by domain and translation_key (custom pattern used by some integrations). Each translation_key object can define state icon mappings.",
+      "type": "object"
+    },
+    "services": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "description": "Icon definition for a single service action.",
+        "properties": {
+          "sections": {
+            "additionalProperties": {
+              "$ref": "#/definitions/icon"
+            },
+            "description": "Optional mapping of collapsible section keys to icons.",
+            "type": "object"
+          },
+          "service": {
+            "$ref": "#/definitions/icon",
+            "description": "Icon (mdi:) to represent the service action in UI editors."
+          }
+        },
+        "required": [
+          "service"
+        ],
+        "type": "object"
+      },
+      "description": "Service action icon definitions mapped by service action name.",
+      "type": "object"
+    }
+  },
+  "title": "Home Assistant Integration Icons (icons.json)",
+  "type": "object"
+}

@@ -6,11 +6,7 @@ from dataclasses import dataclass
 import logging
 from typing import TYPE_CHECKING, Any
 
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntity,
-    SensorStateClass,
-)
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
 from homeassistant.const import (
     PERCENTAGE,
     UnitOfElectricCurrent,
@@ -48,11 +44,10 @@ async def async_setup_entry(
     coordinator: OpenMoticsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     for index, om_sensor in enumerate(coordinator.data["sensors"]):
-        # type: ignore
-        if om_sensor.name is None or not om_sensor.name or om_sensor.name == NOT_IN_USE:
+        if om_sensor.name is None or not om_sensor.name or om_sensor.name == NOT_IN_USE:  # pyrefly: ignore
             continue
 
-        if om_sensor.physical_quantity == "temperature":  # type: ignore
+        if om_sensor.physical_quantity == "temperature":  # pyrefly: ignore
             entities.append(OpenMoticsTemperature(coordinator, index, om_sensor))
 
         if om_sensor.physical_quantity == "humidity":
@@ -67,8 +62,7 @@ async def async_setup_entry(
     # Energy sensors only exists on the local gateway.
     # Via the cloud, they are merged into the other sensors.
     for index, om_sensor in enumerate(coordinator.data["energysensors"]):
-        # type: ignore
-        if om_sensor.name is None or not om_sensor.name or om_sensor.name == NOT_IN_USE:
+        if om_sensor.name is None or not om_sensor.name or om_sensor.name == NOT_IN_USE:  # pyrefly: ignore
             continue
 
         entities.append(OpenMoticsLocalVoltage(coordinator, index, om_sensor))
@@ -193,8 +187,8 @@ class OpenMoticsLocalEnergySensor(OpenMoticsSensor):
         super().__init__(
             coordinator,
             index,
-            OpenMoticsLocalEnergySensor.WrappedDevice(  # type: ignore
-                f"energy-{device['idx']}-{self.device_class}",  # type: ignore
+            OpenMoticsLocalEnergySensor.WrappedDevice(
+                f"energy-{device['idx']}-{self.device_class}",
                 device["idx"],
                 device["name"],
                 device,

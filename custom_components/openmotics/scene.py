@@ -32,8 +32,7 @@ async def async_setup_entry(
     coordinator: OpenMoticsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     for index, om_scene in enumerate(coordinator.data["groupactions"]):
-        # type: ignore
-        if om_scene.name is None or not om_scene.name or om_scene.name == NOT_IN_USE:
+        if om_scene.name is None or not om_scene.name or om_scene.name == NOT_IN_USE:  # pyrefly: ignore
             continue
         entities.append(OpenMoticsScene(coordinator, index, om_scene))
 

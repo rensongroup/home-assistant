@@ -4,6 +4,7 @@ requires = [ "hatchling" ]
 
 [project]
 name = "openmotics"
+version = "0.0.0"  # Version is managed in manifest.json only
 description = "Homeassistant Custom Component for Renson (Openmotics)"
 readme = "README.md"
 keywords = [
@@ -24,7 +25,7 @@ license = { text = "AGPLv3" }
 authors = [ { name = "Wouter Coppens", email = "wouter.coppens@gmail.com" } ]
 requires-python = ">=3.13.2"
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: GNU Affero General Public License v3",
   "Operating System :: OS Independent",
@@ -34,7 +35,6 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dynamic = [ "version" ]
 dependencies = [
   "homeassistant>=2025.12",
   # pyhaopenmotics >= "0.0.1"
@@ -46,23 +46,8 @@ urls.Homepage = "https://github.com/rensongroup/home-assistant"
 urls.Issues = "https://github.com/rensongroup/home-assistant/issues"
 urls.Repository = "https://github.com/rensongroup/home-assistant"
 
-[dependency-groups]
-dev = [
-  { include-group = "lint" },
-  { include-group = "test" },
-  { include-group = "tools" },
-]
-test = [
-  "pytest",
-  "pytest-asyncio",
-  "pytest-cov",
-  "pytest-mock",
-  "python-dotenv",
-  "ty",
-]
-docs = [ "mkdocs" ]
-lint = [ "pyrefly", "ruff" ]
-tools = [ "prek", "ruff" ]
+[tool.setuptools]
+packages = [ "custom_components.openmotics" ]
 
 [tool.hatch]
 version.path = "custom_components/openmotics/const.py"
@@ -71,7 +56,10 @@ version.path = "custom_components/openmotics/const.py"
 managed = true
 
 [tool.ruff]
+# Based on https://github.com/home-assistant/core/blob/dev/pyproject.toml
+required-version = ">=0.13.0"
 target-version = "py313"
+line-length = 120
 src = [ "custom_components/homeassistant" ]
 lint.select = [ "ALL" ]
 lint.ignore = [
@@ -117,7 +105,7 @@ lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.config_vali
 lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.device_registry" = "dr"
 lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.entity_registry" = "er"
 lint.flake8-import-conventions.extend-aliases."homeassistant.helpers.issue_registry" = "ir"
-lint.flake8-import-conventions.extend-aliases."voluptuous" = "vol"
+lint.flake8-import-conventions.extend-aliases.voluptuous = "vol"
 lint.isort.combine-as-imports = true
 lint.isort.force-sort-within-sections = true
 lint.isort.known-first-party = [ "homeassistant" ]
@@ -135,9 +123,63 @@ lint.isort.known-first-party = [ "homeassistant" ]
   "used-before-assignment",
 ]
 
+[tool.pytest]
+ini_options.testpaths = [ "tests" ]
+ini_options.norecursedirs = [ ".git", "testing_config" ]
+ini_options.log_format = "%(asctime)s.%(msecs)03d %(levelname)-8s %(threadName)s %(name)s:%(filename)s:%(lineno)s %(message)s"
+ini_options.log_date_format = "%Y-%m-%d %H:%M:%S"
+ini_options.asyncio_debug = true
+ini_options.asyncio_mode = "auto"
+ini_options.asyncio_default_fixture_loop_scope = "function"
+ini_options.addopts = "-ra -q --strict-markers"
+ini_options.markers = [
+  "unit: Unit tests (fast, no external dependencies)",
+  "integration: Integration tests (may use coordinator/time service)",
+]
+ini_options.filterwarnings = [
+  # Treat warnings as errors to catch issues early
+  "error",
+  # Ignore specific warnings from third-party libraries as needed
+  # "ignore:.*custom_components.* is using deprecated.*:DeprecationWarning",
+]
+
+[tool.coverage]
+run.omit = [ "tests/*" ]
+run.source = [ "custom_components/openmotics" ]
+report.exclude_lines = [
+  "@overload",
+  "def __repr__",
+  "if TYPE_CHECKING:",
+  "pragma: no cover",
+  "raise AssertionError",
+  "raise NotImplementedError",
+]
+
 [tool.pyrefly]
 project-includes = [ "custom_components/openmotics" ]
 project-excludes = [ "examples", "tests" ]
 infer-with-first-use = false
 errors.bad-argument-type = "ignore"
 errors.bad-override = "ignore"
+
+[tool.pyright]
+include = [ "custom_components/openmotics" ]
+exclude = [
+  "**/node_modules",
+  "**/__pycache__",
+  "**/.git",
+  "**/.github",
+  "**/docs",
+  "**/venv",
+  "**/.venv",
+  "**/config",
+]
+# venvPath is relative to workspace root. A symlink is created by script/setup/bootstrap
+# This works in VSCode (uses .local/ha-venv) and GitHub Actions (uses active venv)
+venvPath = ".local"
+venv = "ha-venv"
+typeCheckingMode = "basic"
+reportUnusedImport = "none"
+reportUnusedVariable = "none"
+reportUnusedCoroutine = "none"
+reportMissingTypeStubs = "none"

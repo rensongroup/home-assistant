@@ -16,14 +16,7 @@ from homeassistant.components.climate.const import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 
-from .const import (
-    DOMAIN,
-    NOT_IN_USE,
-    PRESET_AUTO,
-    PRESET_MANUAL,
-    PRESET_PARTY,
-    PRESET_VACATION,
-)
+from .const import DOMAIN, NOT_IN_USE, PRESET_AUTO, PRESET_MANUAL, PRESET_PARTY, PRESET_VACATION
 from .entity import OpenMoticsDevice
 
 if TYPE_CHECKING:
@@ -104,13 +97,10 @@ async def async_setup_entry(
                     )
         if tu_entities:
             if (
-                # type: ignore
-                om_thermostatgroup.name is None
-                or not om_thermostatgroup.name  # pyrefly: ignore
-            ):  # pyrefly: ignore
+                om_thermostatgroup.name is None or not om_thermostatgroup.name  # pyrefly: ignore
+            ):
                 # If name is empty but there thermostatunits, generate a name
-                # type: ignore
-                om_thermostatgroup.name = f"Thermostatgroup-{tg_index}"
+                om_thermostatgroup.name = f"Thermostatgroup-{tg_index}"  # pyrefly: ignore
 
             tg_entities.append(
                 OpenMoticsThermostatGroup(

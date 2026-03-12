@@ -33,8 +33,7 @@ async def async_setup_entry(
 
     for index, om_outlet in enumerate(coordinator.data["outputs"]):
         if (
-            # type: ignore
-            om_outlet.name is None or not om_outlet.name or om_outlet.name == NOT_IN_USE
+            om_outlet.name is None or not om_outlet.name or om_outlet.name == NOT_IN_USE  # pyrefly: ignore
         ):
             continue
 

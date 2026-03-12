@@ -2,6 +2,7 @@
   "name": "OpenMotics Integration",
   "country": "BE",
   "filename": "openmotics.zip",
-  "homeassistant": "2025.12.0",
+  "hacs": "2.0.5",
+  "homeassistant": "2025.12.3",
   "zip_release": true
 }

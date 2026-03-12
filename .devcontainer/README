@@ -1,0 +1,5 @@
+The devcontainer is based on the devcontainer from homeassistant
+https://github.com/home-assistant/core/blob/dev/Dockerfile.dev but also on
+https://github.com/jpawlowski/hacs.integration_blueprint
+
+A lot of thanks to jpawlowski for his work on the devcontainer and the documentation. https://github.com/jpawlowski

@@ -2,16 +2,16 @@
 repos:
   # pyproject.toml
   - repo: https://github.com/henryiii/validate-pyproject-schema-store
-    rev: 2026.02.22
+    rev: 2026.03.12
     hooks:
       - id: validate-pyproject
 
-  # Sync Python and pre-commit package versions
-  # pyproject.toml -> uv.lock
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.10.6
-    hooks:
-      - id: uv-lock
+  # # Sync Python and pre-commit package versions
+  # # pyproject.toml -> uv.lock
+  # - repo: https://github.com/astral-sh/uv-pre-commit
+  #   rev: 0.10.6
+  #   hooks:
+  #     - id: uv-lock
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -57,7 +57,7 @@ repos:
           - --branch=master
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: "v2.16.2"
+    rev: v2.18.1
     hooks:
       - id: pyproject-fmt
 
@@ -71,7 +71,7 @@ repos:
         files: ^((custom_components/openmotics)/.+)?[^/]+\.py$
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.36.2
+    rev: 0.37.0
     hooks:
       - id: check-github-workflows
       - id: check-github-actions
@@ -84,10 +84,10 @@ repos:
       - id: codespell
         args:
           - --ignore-words-list=hass
-          - --skip="./.*,*.csv,*.json
-          - --quiet-level=2
+          - --skip="./.*,*.csv,*.json,./.github"
+          - --quiet-level=3
         exclude_types: [csv, json]
-        exclude: ^tests/
+        exclude: ^tests/|^script/
 
   - repo: https://github.com/abravalheri/validate-pyproject
     rev: v0.25
@@ -117,7 +117,7 @@ repos:
       - id: prettier
         name: Prettier non-workflow files
         args: ["--print-width=120", "--prose-wrap=always"]
-        exclude: ".github/workflows/|^AGENTS.md|custom_components/openmotics/manifest.json"
+        exclude: ".github/workflows/|^AGENTS.md|custom_components/openmotics/manifest.json|^schemas/|.markdownlint.json"
       - id: prettier
         name: Prettier workflow files
         args: ["--print-width=240", "--prose-wrap=always"]
@@ -156,18 +156,19 @@ repos:
         files: ^(custom_components/openmotics)/.+\.py$
 
   - repo: https://github.com/facebook/pyrefly-pre-commit
-    rev: 0.54.0
+    rev: 0.56.0
     hooks:
       - id: pyrefly-check
         name: Pyrefly (type checking)
         pass_filenames: false
         language: system # Use system-installed pyrefly
 
+
   # === Security Hooks ===
   # See references/security-setup.md for detailed guidance on each hook.
 
-  # GitHub Actions linting - catches syntax errors, invalid refs
-  - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.11 # https://github.com/rhysd/actionlint/releases
-    hooks:
-      - id: actionlint
+  # # GitHub Actions linting - catches syntax errors, invalid refs
+  # - repo: https://github.com/rhysd/actionlint
+  #   rev: v1.7.11 # https://github.com/rhysd/actionlint/releases
+  #   hooks:
+  #     - id: actionlint

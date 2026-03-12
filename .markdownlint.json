@@ -1,0 +1,27 @@
+{
+  "MD004": false,
+  "MD013": false,
+  "MD033": false,
+  "MD041": false,
+  "code-block-style": {
+    "style": "fenced"
+  },
+  "default": true,
+  "emphasis-style": {
+    "style": "asterisk"
+  },
+  "no-inline-html": {
+    "allowed_elements": [
+      "br",
+      "details",
+      "summary",
+      "img",
+      "a",
+      "kbd"
+    ]
+  },
+  "no-trailing-punctuation": false,
+  "strong-style": {
+    "style": "asterisk"
+  }
+}

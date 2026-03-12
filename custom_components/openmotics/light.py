@@ -31,18 +31,15 @@ async def async_setup_entry(
     coordinator: OpenMoticsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     for index, om_light in enumerate(coordinator.data["outputs"]):
-        # type: ignore
-        if om_light.name is None or not om_light.name or om_light.name == NOT_IN_USE:
+        if om_light.name is None or not om_light.name or om_light.name == NOT_IN_USE:  # pyrefly: ignore
             continue
 
         # Outputs can contain outlets and lights, so filter out only the lights
-        # type: ignore
-        if om_light.output_type == "LIGHT":
+        if om_light.output_type == "LIGHT":  # pyrefly: ignore
             entities.append(OpenMoticsOutputLight(coordinator, index, om_light))
 
     for index, om_light in enumerate(coordinator.data["lights"]):
-        # type: ignore
-        if om_light.name is None or not om_light.name or om_light.name == NOT_IN_USE:
+        if om_light.name is None or not om_light.name or om_light.name == NOT_IN_USE:  # pyrefly: ignore
             continue
 
         entities.append(OpenMoticsLight(coordinator, index, om_light))
