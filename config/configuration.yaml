@@ -17,9 +17,6 @@ homeassistant:
 # https://www.home-assistant.io/integrations/debugpy/
 debugpy:
 
-# Enable a sane default set of core integrations (UI, config, etc.).
-default_config:
-
 # Privacy & analytics settings
 # https://www.home-assistant.io/integrations/analytics/
 analytics:
