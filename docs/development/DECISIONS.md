@@ -20,9 +20,11 @@ Each decision is documented with:
 
 **Date:** 2025-11-29 (Template initialization)
 
-**Context:** The integration needs to fetch data from an external API and share it with multiple entities. Home Assistant provides several patterns for this.
+**Context:** The integration needs to fetch data from an external API and share it with multiple entities. Home
+Assistant provides several patterns for this.
 
-**Decision:** Use `DataUpdateCoordinator` from `homeassistant.helpers.update_coordinator` as the central data management component.
+**Decision:** Use `DataUpdateCoordinator` from `homeassistant.helpers.update_coordinator` as the central data management
+component.
 
 **Rationale:**
 
@@ -95,22 +97,26 @@ Each decision is documented with:
 
 **Status:** Not yet implemented
 
-Consider implementing state restoration for switches and configurable settings to maintain state across Home Assistant restarts when the external device is unavailable.
+Consider implementing state restoration for switches and configurable settings to maintain state across Home Assistant
+restarts when the external device is unavailable.
 
 ### Multi-Device Support
 
 **Status:** Not yet implemented
 
-Current architecture assumes single device per config entry. If multi-device support is needed, coordinator data structure will need redesign to map device ID → data.
+Current architecture assumes single device per config entry. If multi-device support is needed, coordinator data
+structure will need redesign to map device ID → data.
 
 ### Polling vs. Push
 
 **Status:** Uses polling
 
-Currently implements polling-based updates. If the API supports webhooks or WebSocket, consider implementing push-based updates for real-time responsiveness.
+Currently implements polling-based updates. If the API supports webhooks or WebSocket, consider implementing push-based
+updates for real-time responsiveness.
 
 ---
 
 ## Decision Review
 
-These decisions should be reviewed periodically (suggested: quarterly or when major features are added) to ensure they still serve the integration's needs.
+These decisions should be reviewed periodically (suggested: quarterly or when major features are added) to ensure they
+still serve the integration's needs.

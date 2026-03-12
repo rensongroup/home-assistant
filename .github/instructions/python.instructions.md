@@ -233,7 +233,8 @@ Run before submitting: `script/type-check`, `script/lint`, `script/test`
 
 **When validation fails:**
 
-- Look up error codes: [Ruff rules](https://docs.astral.sh/ruff/rules/), [Pyrefly docs](https://github.com/facebook/pyrefly/)
+- Look up error codes: [Ruff rules](https://docs.astral.sh/ruff/rules/),
+  [Pyrefly docs](https://github.com/facebook/pyrefly/)
 - Search [HA docs](https://developers.home-assistant.io/) for patterns
 - Fix root cause - Don't bypass checks
 

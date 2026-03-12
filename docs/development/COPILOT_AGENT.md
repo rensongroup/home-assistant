@@ -2,9 +2,11 @@
 
 ## Initial Transformation Prompt
 
-**Context:** This project is a fresh, unmodified blueprint template. Your task is to transform it into a working integration for the target device/service.
+**Context:** This project is a fresh, unmodified blueprint template. Your task is to transform it into a working
+integration for the target device/service.
 
-The blueprint is well-documented (see `AGENTS.md` and `.github/copilot-instructions.md`). You should analyze the existing structure and remove/modify files as needed.
+The blueprint is well-documented (see `AGENTS.md` and `.github/copilot-instructions.md`). You should analyze the
+existing structure and remove/modify files as needed.
 
 ### What to Include in Your Prompt
 
@@ -28,14 +30,15 @@ This is a fresh Home Assistant integration blueprint. Transform it for [DEVICE/S
 High-level: [2-3 sentences about what it does]
 
 API Details:
+
 - Protocol: [REST/GraphQL/WebSocket/MQTT/etc.]
 - Endpoint: [base URL or connection details]
 - Auth: [API key/OAuth/none]
 
-Example API response:
-[paste JSON or data structure from actual device/service]
+Example API response: [paste JSON or data structure from actual device/service]
 
 Tasks:
+
 1. Analyze the blueprint structure (documented in AGENTS.md)
 2. Remove entity platforms not needed for this device
 3. Implement API client based on above structure
@@ -52,23 +55,20 @@ The blueprint has example entities - remove what's not needed, keep and adapt wh
 ```markdown
 This is a fresh Home Assistant integration blueprint. Transform it for MyDevice Smart Thermostat.
 
-High-level: Smart thermostat that controls temperature via REST API. Reads current
-temp/humidity, sets target temperature, changes heating/cooling mode.
+High-level: Smart thermostat that controls temperature via REST API. Reads current temp/humidity, sets target
+temperature, changes heating/cooling mode.
 
 API Details:
+
 - Protocol: REST API
 - Endpoint: http://{host}/api/v1/
 - Auth: API key in X-API-Key header
 
-Example API response from /status:
-{
-  "temp": {"current": 21.5, "target": 22.0},
-  "humidity": 45,
-  "mode": "heat",
-  "state": "heating"
-}
+Example API response from /status: { "temp": {"current": 21.5, "target": 22.0}, "humidity": 45, "mode": "heat", "state":
+"heating" }
 
 Tasks:
+
 1. Analyze the blueprint structure (documented in AGENTS.md)
 2. Remove entity platforms not needed (fan, number, select, switch)
 3. Keep climate platform, customize for thermostat control
@@ -109,7 +109,8 @@ After Copilot creates a draft pull request:
    - Or make manual adjustments and commit to the PR branch
    - Stop Codespace when done to save free hours
 
-**Note:** Copilot Agent runs in GitHub Actions (ephemeral environment), so it cannot provide live web access to Home Assistant during development. Manual testing in Codespaces is required.
+**Note:** Copilot Agent runs in GitHub Actions (ephemeral environment), so it cannot provide live web access to Home
+Assistant during development. Manual testing in Codespaces is required.
 
 For detailed Codespaces usage, troubleshooting, and resource management, see [CODESPACES.md](CODESPACES.md).
 

@@ -74,8 +74,7 @@ Create a new ADR in `docs/development/adr/NNNN-title-of-decision.md`:
 
 **Chosen option:** Option X - [Title]
 
-**Rationale:**
-[Explain why this option was selected over the others]
+**Rationale:** [Explain why this option was selected over the others]
 
 **Consequences:**
 

@@ -84,8 +84,8 @@ repos:
       - id: codespell
         args:
           - --ignore-words-list=hass
-          - --skip="./.*,*.csv,*.json
-          - --quiet-level=2
+          - --skip="./.*,*.csv,*.json,./.github"
+          - --quiet-level=3
         exclude_types: [csv, json]
         exclude: ^tests/|^script/
 

@@ -36,9 +36,11 @@ Translation files define user-facing text for config flows, options, entities, a
 - ✅ `"message": "Service \"{service}\" is unavailable"` (escaped double quotes)
 - ❌ `"message": "Service '{service}' is unavailable"` (single quotes cause hassfest errors)
 
-**Why:** Single quotes within strings around placeholders are not translatable across languages (e.g., German uses „…", French uses «…») and cause validation failures.
+**Why:** Single quotes within strings around placeholders are not translatable across languages (e.g., German uses „…",
+French uses «…») and cause validation failures.
 
-**Note:** This is about quotes _inside the string value_, not the JSON delimiter quotes (which must always be double quotes per JSON spec).
+**Note:** This is about quotes _inside the string value_, not the JSON delimiter quotes (which must always be double
+quotes per JSON spec).
 
 **Key references:** Use `[%key:...]` syntax to reuse translations
 
@@ -106,18 +108,9 @@ These fields support Markdown formatting:
 
 **Use informal language** in languages that distinguish between formal and informal address:
 
-- **German:** Use "du" (informal), not "Sie" (formal). Use correct imperative forms (e.g., "Gib", not "Gebe").
 - **French:** Use "tu" (informal), not "vous" (formal)
 - **Spanish:** Use "tú" (informal), not "usted" (formal)
 - Apply to all variations (we/you plural: wir/ihr, nous/vous, etc.)
-
-**Example (German):**
-
-- ✅ "Gib deine Anmeldedaten ein" (informal, correct imperative)
-- ❌ "Geben Sie Ihre Anmeldedaten ein" (formal)
-- ❌ "Gebe deine Anmeldedaten ein" (wrong imperative form)
-
-**German-specific rule:** Pay attention to correct imperative forms (Befehlsform). See [Duden: Bildung des Imperativs](https://www.duden.de/sprachwissen/sprachratgeber/Bildung-des-Imperativs).
 
 ### Multi-Language Files
 
@@ -139,7 +132,7 @@ All language files must have identical structure - only values differ:
 
 - ❌ Translating placeholder names (e.g., `{host}` → `{hôte}`)
 - ❌ Translating proper nouns (Home Assistant, brand names)
-- ❌ Using formal language (Sie/vous) instead of informal (du/tu)
+- ❌ Using formal language (vous) instead of informal (tu)
 - ❌ Missing `translation_key` in entity code
 - ❌ Using entity translations without `has_entity_name=True`
 - ❌ Inconsistent key structure across language files
@@ -158,10 +151,13 @@ All language files must have identical structure - only values differ:
 6. **Keep consistent terminology** within and across languages
 7. **Provide helpful descriptions** for non-obvious fields in `data_description`
 
-**For region-specific translations** (e.g., `en-US`, `fr-CA`): Only include if translations differ from base language. Clone unchanged keys from source (helps track review status).
+**For region-specific translations** (e.g., `en-US`, `fr-CA`): Only include if translations differ from base language.
+Clone unchanged keys from source (helps track review status).
 
 ## References
 
-- [Custom Integration Localization](https://developers.home-assistant.io/docs/internationalization/custom_integration) - **Primary reference**
-- [Backend Localization](https://developers.home-assistant.io/docs/internationalization/core) - Complete structure documentation
+- [Custom Integration Localization](https://developers.home-assistant.io/docs/internationalization/custom_integration) -
+  **Primary reference**
+- [Backend Localization](https://developers.home-assistant.io/docs/internationalization/core) - Complete structure
+  documentation
 - [ICU Message Format](https://formatjs.github.io/docs/core-concepts/icu-syntax/) - Placeholder syntax for plurals

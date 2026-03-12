@@ -111,13 +111,6 @@ If not provided, ask for:
 - Maintain identical structure across language files
 - Run `script/check` to validate JSON syntax
 
-**German Translation Tips:**
-
-- Use formal "Sie" for consistency with Home Assistant
-- Translate technical terms appropriately (not literal)
-- Keep button/action text concise
-- Follow German grammar and capitalization rules
-
 **Related Files:**
 
 - English: [#file:custom_components/openmotics/translations/en.json]

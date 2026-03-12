@@ -6,13 +6,15 @@ applyTo: "**/services.yaml"
 
 **Applies to:** `services.yaml` files (legacy filename)
 
-**Note:** This file defines service action schemas. The filename `services.yaml` is legacy from when these were called "services". Use "service actions" in code/documentation and "actions" for users.
+**Note:** This file defines service action schemas. The filename `services.yaml` is legacy from when these were called
+"services". Use "service actions" in code/documentation and "actions" for users.
 
 ## Schema Validation
 
 **Schema:** `/schemas/yaml/services_schema.yaml`
 
-This schema defines the complete structure for Home Assistant service definitions. Consult it when unsure about available fields or structure.
+This schema defines the complete structure for Home Assistant service definitions. Consult it when unsure about
+available fields or structure.
 
 ## Structure
 

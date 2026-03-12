@@ -23,9 +23,8 @@ Read `AGENTS.md` completely before starting any work. It contains:
 
 ## Path-Specific Instructions
 
-Additional domain-specific guidance is available in `.github/instructions/*.instructions.md`.
-These files use `applyTo` globs to indicate which files they cover.
-Consult the relevant instruction file when working on specific file types:
+Additional domain-specific guidance is available in `.github/instructions/*.instructions.md`. These files use `applyTo`
+globs to indicate which files they cover. Consult the relevant instruction file when working on specific file types:
 
 - `python.instructions.md` — Python style, async patterns, HA imports
 - `entities.instructions.md` — Entity platform patterns, inheritance

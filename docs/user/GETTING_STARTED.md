@@ -1,6 +1,7 @@
 # Getting Started with OpenMotics Home Assistant integration Beta
 
-This guide will help you install and set up the OpenMotics Home Assistant integration custom integration for Home Assistant.
+This guide will help you install and set up the OpenMotics Home Assistant integration custom integration for Home
+Assistant.
 
 ## Prerequisites
 

@@ -2,7 +2,9 @@
 
 > **Comprehensive docs:** See [`AGENTS.md`](../AGENTS.md) at the repository root for full AI agent documentation.
 >
-> **Why two files?** This file is loaded automatically by GitHub Copilot. `AGENTS.md` serves non-Copilot agents (Claude Code, Cursor, etc.) who don't read this file. Some overlap is intentional. Path-specific `*.instructions.md` files provide detailed patterns per file type — avoid duplicating their content here.
+> **Why two files?** This file is loaded automatically by GitHub Copilot. `AGENTS.md` serves non-Copilot agents (Claude
+> Code, Cursor, etc.) who don't read this file. Some overlap is intentional. Path-specific `*.instructions.md` files
+> provide detailed patterns per file type — avoid duplicating their content here.
 
 ## Project Identity
 
@@ -28,7 +30,8 @@ Before considering any coding task complete, the following **must** pass:
 script/check      # Runs type-check + lint-check + spell-check
 ```
 
-Generate code that passes these checks on first run. As an AI agent, you should produce higher quality code than manual development. Aim for zero validation errors.
+Generate code that passes these checks on first run. As an AI agent, you should produce higher quality code than manual
+development. Aim for zero validation errors.
 
 ## Architecture (Quick Reference)
 
@@ -45,7 +48,8 @@ Generate code that passes these checks on first run. As an AI agent, you should 
 - `service_actions/` — Service action implementations
 - `utils/` — Integration-wide utilities
 
-**Forbidden packages:** `helpers/`, `ha_helpers/`, `common/`, `shared/`, `lib/` — use `utils/` or `entity_utils/` instead. Do NOT create new top-level packages without explicit approval.
+**Forbidden packages:** `helpers/`, `ha_helpers/`, `common/`, `shared/`, `lib/` — use `utils/` or `entity_utils/`
+instead. Do NOT create new top-level packages without explicit approval.
 
 **Key patterns** (details in path-specific `*.instructions.md`):
 
@@ -65,7 +69,8 @@ Generate code that passes these checks on first run. As an AI agent, you should 
 5. **Validation:** run `script/check` before considering task complete
 6. **File size:** keep files at ~200-400 lines. Split large modules into smaller ones when needed.
 
-**Important: Do NOT write tests unless explicitly requested.** Focus on implementing functionality. The developer decides when and if tests are needed.
+**Important: Do NOT write tests unless explicitly requested.** Focus on implementing functionality. The developer
+decides when and if tests are needed.
 
 **Translation strategy:**
 
@@ -84,14 +89,17 @@ Generate code that passes these checks on first run. As an AI agent, you should 
 3. Look at existing patterns in similar files in the integration (e.g., existing sensor implementations)
 4. Search: `site:developers.home-assistant.io [your question]` for official guidance
 5. Run `script/check` early and often — catch issues before they compound
-6. Consult [Ruff rules](https://docs.astral.sh/ruff/rules/) or [Pyright docs](https://microsoft.github.io/pyright/) when validation fails
+6. Consult [Ruff rules](https://docs.astral.sh/ruff/rules/) or [Pyright docs](https://microsoft.github.io/pyright/) when
+   validation fails
 7. Ask for clarification rather than implementing based on assumptions
 
 **Home Assistant evolves rapidly** — verify current best practices rather than relying on outdated knowledge.
 
 ## Local Development
 
-**Always use the project's scripts** — do NOT craft your own `hass`, `pip`, `pytest`, or similar commands. The scripts handle environment setup, virtual environments, port management, and cleanup that raw commands miss. Agents that bypass scripts frequently break.
+**Always use the project's scripts** — do NOT craft your own `hass`, `pip`, `pytest`, or similar commands. The scripts
+handle environment setup, virtual environments, port management, and cleanup that raw commands miss. Agents that bypass
+scripts frequently break.
 
 **Start Home Assistant:**
 
@@ -105,7 +113,8 @@ Generate code that passes these checks on first run. As an AI agent, you should 
 pkill -f "hass --config" || true && pkill -f "debugpy.*5678" || true && ./script/develop
 ```
 
-**When to restart HA:** After modifying Python files, `manifest.json`, `services.yaml`, translations, or config flow changes
+**When to restart HA:** After modifying Python files, `manifest.json`, `services.yaml`, translations, or config flow
+changes
 
 **Validate changes:**
 

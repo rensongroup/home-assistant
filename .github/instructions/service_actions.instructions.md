@@ -6,7 +6,8 @@ applyTo: "custom_components/openmotics/service_actions.py"
 
 **Applies to:** Service action implementation files
 
-**Reference:** [Home Assistant Service Actions Documentation](https://developers.home-assistant.io/docs/dev_101_services/)
+**Reference:**
+[Home Assistant Service Actions Documentation](https://developers.home-assistant.io/docs/dev_101_services/)
 
 ## Critical Rules
 
@@ -14,8 +15,7 @@ applyTo: "custom_components/openmotics/service_actions.py"
 
 - ✅ Register service actions in `async_setup()` (component level)
 - ❌ Never register in `async_setup_entry()` (per config entry)
-- Check `hass.services.has_service(DOMAIN, "action_name")` before registering
-  **Service naming:**
+- Check `hass.services.has_service(DOMAIN, "action_name")` before registering **Service naming:**
 
 - Format: `<integration_domain>.<action_name>`
 - Always use integration DOMAIN, never platform domain (e.g., `sensor`, `switch`)

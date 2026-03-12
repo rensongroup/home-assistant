@@ -105,7 +105,7 @@ class OpenMoticsTemperature(OpenMoticsSensor):
         """Return % chance the aurora is visible."""
         try:
             self._device = self.coordinator.data["sensors"][self.index]
-            return self._device.status.temperature  # noqa: TRY300
+            return self._device.status.temperature
         except (AttributeError, KeyError):
             return None
 
@@ -121,7 +121,7 @@ class OpenMoticsHumidity(OpenMoticsSensor):
         """Return % chance the aurora is visible."""
         try:
             self._device = self.coordinator.data["sensors"][self.index]
-            return self._device.status.humidity  # noqa: TRY300
+            return self._device.status.humidity
         except (AttributeError, KeyError):
             return None
 
@@ -139,7 +139,7 @@ class OpenMoticsBrightness(OpenMoticsSensor):
         """Return % chance the aurora is visible."""
         try:
             self._device = self.coordinator.data["sensors"][self.index]
-            return self._device.status.brightness  # noqa: TRY300
+            return self._device.status.brightness
         except (AttributeError, KeyError):
             return None
 
@@ -155,7 +155,7 @@ class OpenMoticsPower(OpenMoticsSensor):
         """Return % chance the aurora is visible."""
         try:
             self._device = self.coordinator.data["sensors"][self.index]
-            return self._device.status.power  # noqa: TRY300
+            return self._device.status.power
         except (AttributeError, KeyError):
             return None
 
@@ -208,7 +208,7 @@ class OpenMoticsLocalVoltage(OpenMoticsLocalEnergySensor):
         """Return % chance the aurora is visible."""
         try:
             self._device = self.coordinator.data["energysensors"][self.index]
-            return self._device.status.voltage  # noqa: TRY300
+            return self._device.status.voltage
         except (AttributeError, KeyError):
             return None
 
@@ -225,7 +225,7 @@ class OpenMoticsLocalFrequency(OpenMoticsLocalEnergySensor):
         """Return % chance the aurora is visible."""
         try:
             self._device = self.coordinator.data["energysensors"][self.index]
-            return self._device.status.frequency  # noqa: TRY300
+            return self._device.status.frequency
         except (AttributeError, KeyError):
             return None
 
@@ -242,7 +242,7 @@ class OpenMoticsLocalCurrent(OpenMoticsLocalEnergySensor):
         """Return % chance the aurora is visible."""
         try:
             self._device = self.coordinator.data["energysensors"][self.index]
-            return self._device.status.current  # noqa: TRY300
+            return self._device.status.current
         except (AttributeError, KeyError):
             return None
 
@@ -259,6 +259,6 @@ class OpenMoticsLocalPower(OpenMoticsLocalEnergySensor):
         """Return % chance the aurora is visible."""
         try:
             self._device = self.coordinator.data["energysensors"][self.index]
-            return self._device.status.power  # noqa: TRY300
+            return self._device.status.power
         except (AttributeError, KeyError):
             return None

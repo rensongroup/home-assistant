@@ -261,7 +261,7 @@ class OpenMoticsThermostatUnit(OpenMoticsDevice, ClimateEntity):
         """Return the temperature we try to reach."""
         try:
             self._device = self.coordinator.data["thermostatunits"][self.index]
-            return self._device.status.current_setpoint  # noqa: TRY300
+            return self._device.status.current_setpoint
         except (AttributeError, KeyError):
             return None
 

@@ -6,11 +6,11 @@ This custom integration uses multiple requirements files to separate different t
 
 ### `requirements.txt` - Runtime Dependencies
 
-**Purpose:** Python packages needed by the integration at runtime
-**Installed by:** Home Assistant when loading the integration
-**Also defined in:** `custom_components/openmotics/manifest.json`
+**Purpose:** Python packages needed by the integration at runtime **Installed by:** Home Assistant when loading the
+integration **Also defined in:** `custom_components/openmotics/manifest.json`
 
-**Note:** This file is typically empty if this integration has no additional runtime dependencies beyond Home Assistant core.
+**Note:** This file is typically empty if this integration has no additional runtime dependencies beyond Home Assistant
+core.
 
 **Example:**
 
@@ -21,9 +21,8 @@ async-timeout>=4.0.0
 
 ### `requirements_dev.txt` - Development Tools
 
-**Purpose:** Additional development tools beyond what Home Assistant core provides
-**Installed by:** `script/setup/bootstrap`
-**Used by:** Developers, IDEs
+**Purpose:** Additional development tools beyond what Home Assistant core provides **Installed by:**
+`script/setup/bootstrap` **Used by:** Developers, IDEs
 
 **Includes:**
 
@@ -31,19 +30,22 @@ async-timeout>=4.0.0
 - `colorlog` - Colored logging for development scripts
 - Performance tools (`zlib_ng`, `isal`) - Optional optimization packages
 
-**Note:** Most development tools (ruff, pre-commit, codespell, pylint) are already provided by Home Assistant core's `requirements_test.txt` and `requirements_test_pre_commit.txt`, which are installed automatically via `script/setup/bootstrap`.
+**Note:** Most development tools (ruff, pre-commit, codespell, pylint) are already provided by Home Assistant core's
+`requirements_test.txt` and `requirements_test_pre_commit.txt`, which are installed automatically via
+`script/setup/bootstrap`.
 
 ### `requirements_test.txt` - Testing Framework
 
-**Purpose:** Additional testing tools beyond what Home Assistant core provides
-**Installed by:** `script/setup/bootstrap`
-**Used by:** Test runners, CI/CD
+**Purpose:** Additional testing tools beyond what Home Assistant core provides **Installed by:**
+`script/setup/bootstrap` **Used by:** Test runners, CI/CD
 
 **Includes:**
 
 - `pytest-homeassistant-custom-component` - Additional fixtures and utilities for custom component testing
 
-**Note:** Core testing tools (pytest, pytest-asyncio, pytest-aiohttp, pytest-cov, pytest-timeout, pytest-xdist, coverage, freezegun, requests-mock, respx) are already provided by Home Assistant core's `requirements_test.txt`, which is installed automatically via `script/setup/bootstrap`.
+**Note:** Core testing tools (pytest, pytest-asyncio, pytest-aiohttp, pytest-cov, pytest-timeout, pytest-xdist,
+coverage, freezegun, requests-mock, respx) are already provided by Home Assistant core's `requirements_test.txt`, which
+is installed automatically via `script/setup/bootstrap`.
 
 ## 🔄 Relationship with manifest.json
 
@@ -58,15 +60,16 @@ async-timeout>=4.0.0
 - ✅ Runtime dependencies for end users
 - ✅ Automatically installed by Home Assistant
 - ✅ Should match `requirements.txt` content
-- ℹ️ **Optional:** If this integration doesn't need additional packages beyond Home Assistant core, you can omit this field
+- ℹ️ **Optional:** If this integration doesn't need additional packages beyond Home Assistant core, you can omit this
+  field
 
 ### When to add dependencies
 
-| Add to | When |
-|--------|------|
-| `manifest.json` + `requirements.txt` | Runtime dependency (end users need it) |
-| `requirements_dev.txt` | Development tool (linting, formatting, type checking) |
-| `requirements_test.txt` | Testing tool (pytest plugins, test utilities) |
+| Add to                               | When                                                  |
+| ------------------------------------ | ----------------------------------------------------- |
+| `manifest.json` + `requirements.txt` | Runtime dependency (end users need it)                |
+| `requirements_dev.txt`               | Development tool (linting, formatting, type checking) |
+| `requirements_test.txt`              | Testing tool (pytest plugins, test utilities)         |
 
 ## 📝 Maintenance
 
@@ -122,7 +125,8 @@ The `script/setup/bootstrap` automatically installs dependencies from multiple s
 - `requirements_test.txt` - Custom component testing utilities
 - `requirements.txt` - This integration's runtime dependencies (if any)
 
-This approach means this project only needs to maintain a minimal set of dependencies that are specific to this integration, while leveraging the comprehensive dependency management from Home Assistant core.
+This approach means this project only needs to maintain a minimal set of dependencies that are specific to this
+integration, while leveraging the comprehensive dependency management from Home Assistant core.
 
 ## 🔍 hacs.json vs manifest.json
 

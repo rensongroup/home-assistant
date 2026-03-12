@@ -6,7 +6,8 @@ description: "Add a new service action to the integration with proper schema and
 
 # Add Service Action
 
-Your goal is to add a new **service action** to this Home Assistant integration that users can call from automations, scripts, or the UI.
+Your goal is to add a new **service action** to this Home Assistant integration that users can call from automations,
+scripts, or the UI.
 
 **Terminology:**
 
@@ -28,9 +29,12 @@ If not provided, ask for:
 
 **File:** `custom_components/openmotics/services.yaml`
 
-**Note:** `services.yaml` is a legacy filename from when these were called "services". We now call them "service actions" in code and "actions" for users.
+**Note:** `services.yaml` is a legacy filename from when these were called "services". We now call them "service
+actions" in code and "actions" for users.
 
-**CRITICAL:** Per [HA documentation](https://developers.home-assistant.io/docs/dev_101_services), action names and descriptions must be defined in translation files under the `actions` key (not `services`), NOT in `services.yaml`. The `services.yaml` file only defines the schema.
+**CRITICAL:** Per [HA documentation](https://developers.home-assistant.io/docs/dev_101_services), action names and
+descriptions must be defined in translation files under the `actions` key (not `services`), NOT in `services.yaml`. The
+`services.yaml` file only defines the schema.
 
 Add service action definition:
 
@@ -136,17 +140,14 @@ This allows translating the option labels via `selector.[translation_key].option
 **Best Practices for Schema Definition:**
 
 1. **Always add icons** - Provide meaningful icons for sections AND individual fields where applicable
-
    - Sections: `icon: mdi:cog-outline` (basic), `icon: mdi:tune-vertical` (advanced)
    - Fields: Consider field type and purpose (e.g., `mdi:timer` for duration, `mdi:thermometer` for temperature)
 
 2. **Always add descriptions** - Provide descriptions wherever the schema allows (sections, fields)
-
    - Makes the UI more user-friendly
    - Helps users understand what each parameter does
 
 3. **Markdown support** - Be aware of where markdown is supported:
-
    - ✅ **Service action descriptions** - Markdown is supported
    - ✅ **Section descriptions** - Markdown is supported
    - ❌ **Field names** - Plain text only (keep short, 2-4 words)
@@ -162,7 +163,8 @@ This allows translating the option labels via `selector.[translation_key].option
 
 ### 2. Create Service Action Handler
 
-**Directory naming:** Use `service_actions/` for new code (preferred) or `actions/` (acceptable). Be consistent within your integration.
+**Directory naming:** Use `service_actions/` for new code (preferred) or `actions/` (acceptable). Be consistent within
+your integration.
 
 **Option A: Simple service action in `service_actions/` directory**
 
@@ -335,7 +337,10 @@ ATTR_[PARAMETER_NAME] = "[parameter_name]"
 
 ### 5. Add Translations
 
-**CRITICAL:** All action names, descriptions, and field labels MUST be in translation files under the `services` key. Per [HA documentation](https://developers.home-assistant.io/docs/internationalization/core#service-actions), `services.yaml` contains only the schema, not user-facing text. Note: The key is `services` (legacy) even though they are called "service actions" in documentation and "actions" in the UI.
+**CRITICAL:** All action names, descriptions, and field labels MUST be in translation files under the `services` key.
+Per [HA documentation](https://developers.home-assistant.io/docs/internationalization/core#service-actions),
+`services.yaml` contains only the schema, not user-facing text. Note: The key is `services` (legacy) even though they
+are called "service actions" in documentation and "actions" in the UI.
 
 **`translations/en.json`:**
 
@@ -367,43 +372,6 @@ ATTR_[PARAMETER_NAME] = "[parameter_name]"
         "[advanced_parameter]": {
           "name": "Advanced Parameter",
           "description": "Advanced parameter description with technical details."
-        }
-      }
-    }
-  }
-}
-```
-
-**`translations/de.json`:**
-
-```json
-{
-  "services": {
-    "[action_name]": {
-      "name": "[German Action Name]",
-      "description": "[Detaillierte Beschreibung mit **Markdown**-Unterstützung. Kann [Links](https://example.com) und Formatierung enthalten.]",
-      "sections": {
-        "basic": {
-          "name": "Grundeinstellungen",
-          "description": "Wesentliche Parameter. Sie können hier **Markdown** verwenden, um wichtige Informationen hervorzuheben."
-        },
-        "advanced": {
-          "name": "Erweiterte Einstellungen",
-          "description": "Optionale erweiterte Konfiguration. Siehe [Dokumentation](https://example.com) für Details."
-        }
-      },
-      "fields": {
-        "[parameter_name]": {
-          "name": "Parametername",
-          "description": "Detaillierte Erklärung, was dieser Parameter tut. **Unterstützt Markdown**, kann Bereiche wie `0-100`, Beispiele oder [Links](https://example.com) enthalten."
-        },
-        "[another_parameter]": {
-          "name": "Anderer Parameter",
-          "description": "Eine weitere detaillierte Beschreibung. Erklären Sie gültige Werte, Einschränkungen und Verhalten."
-        },
-        "[advanced_parameter]": {
-          "name": "Erweiterter Parameter",
-          "description": "Beschreibung des erweiterten Parameters mit technischen Details."
         }
       }
     }
@@ -635,9 +603,12 @@ async def async_handle_service_action(call: ServiceCall) -> None:
 
 ## Additional Resources
 
-- [Home Assistant Services Documentation](https://developers.home-assistant.io/docs/dev_101_services) - Official developer guide
-- [Service Translations](https://developers.home-assistant.io/docs/internationalization/core/#service-actions) - Translation key patterns (use `services` key)
-- [Service Sections](https://developers.home-assistant.io/docs/dev_101_services#service-sections) - Organizing parameters with sections
+- [Home Assistant Services Documentation](https://developers.home-assistant.io/docs/dev_101_services) - Official
+  developer guide
+- [Service Translations](https://developers.home-assistant.io/docs/internationalization/core/#service-actions) -
+  Translation key patterns (use `services` key)
+- [Service Sections](https://developers.home-assistant.io/docs/dev_101_services#service-sections) - Organizing
+  parameters with sections
 
 ## Integration Context
 

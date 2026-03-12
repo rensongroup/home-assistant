@@ -161,7 +161,8 @@ Add platform to `custom_components/openmotics/manifest.json`:
 }
 ```
 
-**Note:** With `has_entity_name=True` and `translation_key`, the entity name comes from translations, not hardcoded in code. Icons should also be defined in `icons.json` when possible instead of in EntityDescription.
+**Note:** With `has_entity_name=True` and `translation_key`, the entity name comes from translations, not hardcoded in
+code. Icons should also be defined in `icons.json` when possible instead of in EntityDescription.
 
 ### 6. Verify Integration
 

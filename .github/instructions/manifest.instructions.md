@@ -10,7 +10,8 @@ applyTo: "**/manifest.json"
 
 **Schema:** `/schemas/json/manifest_schema.json`
 
-This schema combines Home Assistant's official manifest requirements with HACS-specific fields. Always validate against this schema.
+This schema combines Home Assistant's official manifest requirements with HACS-specific fields. Always validate against
+this schema.
 
 ## Required Fields
 

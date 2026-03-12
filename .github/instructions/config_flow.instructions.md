@@ -6,7 +6,8 @@ applyTo: "custom_components/**/config_flow_handler/**/*.py, custom_components/**
 
 **Official Documentation:**
 
-- [Data Entry Flow Index](https://developers.home-assistant.io/docs/data_entry_flow_index) - Fundamental flow concepts and result types
+- [Data Entry Flow Index](https://developers.home-assistant.io/docs/data_entry_flow_index) - Fundamental flow concepts
+  and result types
 - [Config Entries Index](https://developers.home-assistant.io/docs/config_entries_index) - Overview and lifecycle
 - [Config Flow Handler](https://developers.home-assistant.io/docs/config_entries_config_flow_handler)
 - [Options Flow Handler](https://developers.home-assistant.io/docs/config_entries_options_flow_handler)
@@ -71,7 +72,8 @@ Understanding the relationship between these components is essential:
 
 ## Data Entry Flow Fundamentals
 
-Every step method must return one of these result types (see [Data Entry Flow docs](https://developers.home-assistant.io/docs/data_entry_flow_index)):
+Every step method must return one of these result types (see
+[Data Entry Flow docs](https://developers.home-assistant.io/docs/data_entry_flow_index)):
 
 **Result Types:**
 
@@ -80,14 +82,16 @@ Every step method must return one of these result types (see [Data Entry Flow do
 - `ABORT` - Stop flow: `async_abort(reason="...")`
 - `SHOW_MENU` - Navigation menu: `async_show_menu(step_id, menu_options=[...])`
 - `EXTERNAL_STEP` - OAuth2 redirect: `async_external_step(step_id, url)` then `async_external_step_done(next_step_id)`
-- `SHOW_PROGRESS` - Long tasks: `async_show_progress(step_id, progress_action, progress_task)` then `async_show_progress_done(next_step_id)`
+- `SHOW_PROGRESS` - Long tasks: `async_show_progress(step_id, progress_action, progress_task)` then
+  `async_show_progress_done(next_step_id)`
 - Progress decorator: `@progress_step("translation_key")` for simplified handling
 
 ### Form Schemas
 
 **Simple fields** - Use voluptuous: `vol.Required("field"): str`, `vol.Optional("field", default=value): int`
 
-**Rich UI** - Use selectors for better UX: `TextSelector`, `NumberSelector`, `EntitySelector`, etc. (see [Selector docs](https://developers.home-assistant.io/docs/data_entry_flow_index#show-form))
+**Rich UI** - Use selectors for better UX: `TextSelector`, `NumberSelector`, `EntitySelector`, etc. (see
+[Selector docs](https://developers.home-assistant.io/docs/data_entry_flow_index#show-form))
 
 **Sections** - Group with `section()`: `vol.Required("advanced"): section(vol.Schema({...}), {"collapsed": True})`
 
@@ -255,7 +259,8 @@ Every step method must return one of these result types (see [Data Entry Flow do
 **MUST:**
 
 - Use `self._get_reconfigure_entry()` to access current entry
-- Verify unique ID unchanged if applicable: `await self.async_set_unique_id(id)` then `self._abort_if_unique_id_mismatch()`
+- Verify unique ID unchanged if applicable: `await self.async_set_unique_id(id)` then
+  `self._abort_if_unique_id_mismatch()`
 - Check source: `if self.source == SOURCE_RECONFIGURE`
 - Update entry: `return self.async_update_reload_and_abort(entry, data_updates=user_input)`
 - Pre-fill form: `self.add_suggested_values_to_schema(schema, entry.data)`
@@ -285,7 +290,8 @@ Every step method must return one of these result types (see [Data Entry Flow do
 
 ## Titles and Translations
 
-**Title priority:** `title_placeholders` + `flow_title` → `title_placeholders["name"]` → `title` → manifest `name` → domain
+**Title priority:** `title_placeholders` + `flow_title` → `title_placeholders["name"]` → `title` → manifest `name` →
+domain
 
 **Set placeholders:** `self.context["title_placeholders"] = {"name": device_name}`
 
@@ -293,7 +299,8 @@ Every step method must return one of these result types (see [Data Entry Flow do
 
 ## Subentry Flows
 
-**MUST:** Return types via `async_get_supported_subentry_types()`, implement `async_step_user()`, use `async_create_subentry()`
+**MUST:** Return types via `async_get_supported_subentry_types()`, implement `async_step_user()`, use
+`async_create_subentry()`
 
 **NEVER:** Support discovery/reauth in subentries
 
@@ -316,11 +323,13 @@ Every step method must return one of these result types (see [Data Entry Flow do
 
 ## Config Entry Lifecycle
 
-**States:** `not loaded`, `setup in progress`, `loaded`, `setup error`, `setup retry`, `migration error`, `unload in progress`, `failed unload`
+**States:** `not loaded`, `setup in progress`, `loaded`, `setup error`, `setup retry`, `migration error`,
+`unload in progress`, `failed unload`
 
 **Setup (in `__init__.py`):**
 
-**`async_setup_entry(hass, entry)`** - Forward platforms, return `True`, raise `ConfigEntryNotReady`/`ConfigEntryAuthFailed`
+**`async_setup_entry(hass, entry)`** - Forward platforms, return `True`, raise
+`ConfigEntryNotReady`/`ConfigEntryAuthFailed`
 
 **`async_unload_entry(hass, entry)`** - Optional (Silver+), unload platforms, close connections, return `True`/`False`
 

@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import pytest
-from pytest_homeassistant_custom_component.common import MockConfigEntry
-
 from custom_components.openmotics import async_setup_entry, async_unload_entry
 from custom_components.openmotics.const import DOMAIN
 from custom_components.openmotics.coordinator import OpenMoticsLocalDataUpdateCoordinator
+import pytest
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+
 from homeassistant.exceptions import ConfigEntryNotReady
 
 from .const import LOCALGW_MOCK_CONFIG

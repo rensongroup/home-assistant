@@ -6,7 +6,8 @@ description: "Comprehensive quality review of integration code and configuration
 
 # Review Integration
 
-Your goal is to perform a comprehensive quality review of this Home Assistant integration, identifying issues and suggesting improvements.
+Your goal is to perform a comprehensive quality review of this Home Assistant integration, identifying issues and
+suggesting improvements.
 
 If not provided, ask for:
 
@@ -269,9 +270,7 @@ Create report in `.ai-scratch/review-report.md`:
 ```markdown
 # Integration Review Report
 
-**Date:** YYYY-MM-DD
-**Scope:** [Full integration / Specific component]
-**Reviewer:** GitHub Copilot
+**Date:** YYYY-MM-DD **Scope:** [Full integration / Specific component] **Reviewer:** GitHub Copilot
 
 ## Executive Summary
 
@@ -281,28 +280,20 @@ Create report in `.ai-scratch/review-report.md`:
 
 ### 1. [Issue Title]
 
-**Severity:** Critical
-**Location:** `file.py:123`
-**Issue:** [Description]
-**Impact:** [User impact or technical debt]
+**Severity:** Critical **Location:** `file.py:123` **Issue:** [Description] **Impact:** [User impact or technical debt]
 **Recommendation:** [How to fix]
 
 ## Warnings
 
 ### 1. [Issue Title]
 
-**Severity:** Warning
-**Location:** `file.py:456`
-**Issue:** [Description]
-**Recommendation:** [How to fix]
+**Severity:** Warning **Location:** `file.py:456` **Issue:** [Description] **Recommendation:** [How to fix]
 
 ## Improvement Opportunities
 
 ### 1. [Opportunity Title]
 
-**Area:** [Code Quality / Performance / UX]
-**Description:** [What could be better]
-**Benefit:** [Why this matters]
+**Area:** [Code Quality / Performance / UX] **Description:** [What could be better] **Benefit:** [Why this matters]
 **Effort:** [Low / Medium / High]
 
 ## Positive Findings

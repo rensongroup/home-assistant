@@ -38,9 +38,11 @@ Map API exceptions to Home Assistant exceptions in `_async_update_data()`:
 | `CommunicationError`  | `UpdateFailed("message")`      | Retry with backoff      |
 | `RateLimitError`      | `UpdateFailed(retry_after=60)` | Wait before retry       |
 
-**Import from:** `homeassistant.exceptions.ConfigEntryAuthFailed`, `homeassistant.helpers.update_coordinator.UpdateFailed`
+**Import from:** `homeassistant.exceptions.ConfigEntryAuthFailed`,
+`homeassistant.helpers.update_coordinator.UpdateFailed`
 
-**Logging:** Pass error message to exception constructor. **Do NOT log** setup/update failures manually - HA handles it automatically. Normal operation logging (debug/info) is still appropriate.
+**Logging:** Pass error message to exception constructor. **Do NOT log** setup/update failures manually - HA handles it
+automatically. Normal operation logging (debug/info) is still appropriate.
 
 See [Integration Setup Failures](https://developers.home-assistant.io/docs/integration_setup_failures).
 

@@ -66,7 +66,7 @@ class OpenMoticsSwitch(OpenMoticsDevice, SwitchEntity):
         """Return true if device is on."""
         try:
             self._device = self.coordinator.data["outputs"][self.index]
-            return self._device.status.on  # noqa: TRY300
+            return self._device.status.on
         except (AttributeError, KeyError):
             return None
 

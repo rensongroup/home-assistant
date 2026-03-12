@@ -6,7 +6,8 @@ description: "Create structured implementation plan for new features or refactor
 
 # Create Implementation Plan
 
-Your goal is to create a comprehensive, phased implementation plan for a new feature, major refactoring, or architectural change in this Home Assistant integration.
+Your goal is to create a comprehensive, phased implementation plan for a new feature, major refactoring, or
+architectural change in this Home Assistant integration.
 
 If not provided, ask for:
 

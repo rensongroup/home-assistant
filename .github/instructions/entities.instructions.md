@@ -1,10 +1,19 @@
 ---
-applyTo: "custom_components/openmotics/alarm_control_panel.py, custom_components/openmotics/binary_sensor.py, custom_components/openmotics/button.py, custom_components/openmotics/camera.py, custom_components/openmotics/climate.py, custom_components/openmotics/cover.py, custom_components/openmotics/fan.py, custom_components/openmotics/humidifier.py, custom_components/openmotics/light.py, custom_components/openmotics/lock.py, custom_components/openmotics/number.py, custom_components/openmotics/select.py, custom_components/openmotics/sensor.py, custom_components/openmotics/siren.py, custom_components/openmotics/switch.py, custom_components/openmotics/vacuum.py, custom_components/openmotics/water_heater.py, custom_components/openmotics/entity.py, custom_components/openmotics/entity_utils.py"
+applyTo:
+  "custom_components/openmotics/alarm_control_panel.py, custom_components/openmotics/binary_sensor.py,
+  custom_components/openmotics/button.py, custom_components/openmotics/camera.py,
+  custom_components/openmotics/climate.py, custom_components/openmotics/cover.py, custom_components/openmotics/fan.py,
+  custom_components/openmotics/humidifier.py, custom_components/openmotics/light.py,
+  custom_components/openmotics/lock.py, custom_components/openmotics/number.py, custom_components/openmotics/select.py,
+  custom_components/openmotics/sensor.py, custom_components/openmotics/siren.py, custom_components/openmotics/switch.py,
+  custom_components/openmotics/vacuum.py, custom_components/openmotics/water_heater.py,
+  custom_components/openmotics/entity.py, custom_components/openmotics/entity_utils.py"
 ---
 
 # Entity Platform Instructions
 
-**Applies to:** All entity platform implementations (sensor, binary_sensor, switch, etc.), entity base classes, and entity utilities
+**Applies to:** All entity platform implementations (sensor, binary_sensor, switch, etc.), entity base classes, and
+entity utilities
 
 ## Shared Infrastructure
 
@@ -16,11 +25,13 @@ applyTo: "custom_components/openmotics/alarm_control_panel.py, custom_components
 
 **MUST inherit from:** `(PlatformEntity, OpenMoticsDevice)` - order matters for MRO
 
-**Base class provides:** Coordinator integration, device info, unique ID (`{entry_id}_{description.key}`), attribution, entity naming
+**Base class provides:** Coordinator integration, device info, unique ID (`{entry_id}_{description.key}`), attribution,
+entity naming
 
 **You implement:** Platform-specific properties/methods (`native_value`, `is_on`, `async_press`, etc.)
 
-**Imports pattern:** `from homeassistant.components.PLATFORM import PlatformEntity, PlatformEntityDescription` + `from ..entity import OpenMoticsDevice`
+**Imports pattern:** `from homeassistant.components.PLATFORM import PlatformEntity, PlatformEntityDescription` +
+`from ..entity import OpenMoticsDevice`
 
 **Constructor:** Call `super().__init__(coordinator, entity_description)` - base handles setup
 
