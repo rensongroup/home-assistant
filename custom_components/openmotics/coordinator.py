@@ -15,13 +15,7 @@ from pyhaopenmotics import (
 )
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    CONF_IP_ADDRESS,
-    CONF_NAME,
-    CONF_PASSWORD,
-    CONF_PORT,
-    CONF_VERIFY_SSL,
-)
+from homeassistant.const import CONF_IP_ADDRESS, CONF_NAME, CONF_PASSWORD, CONF_PORT, CONF_VERIFY_SSL
 from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -139,7 +133,7 @@ class OpenMoticsCloudDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
             name=name,
         )
         self.session = session
-        self._install_id = self.config_entry.data.get(CONF_INSTALLATION_ID)  # type: ignore
+        self._install_id = self.config_entry.data.get(CONF_INSTALLATION_ID)
 
         async def async_token_refresh() -> Any:
             await session.async_ensure_token_valid()
@@ -163,16 +157,16 @@ class OpenMoticsLocalDataUpdateCoordinator(OpenMoticsDataUpdateCoordinator):
             hass=hass,
             name=name,
         )
-        self._install_id = self.config_entry.data.get(CONF_IP_ADDRESS)  # type: ignore
+        self._install_id = self.config_entry.data.get(CONF_IP_ADDRESS)
         ssl_context = get_default_context()
         if not self.config_entry.data.get(CONF_VERIFY_SSL):
             ssl_context = get_default_no_verify_context()
 
         """Set up a OpenMotics controller"""
         self._omclient = LocalGateway(
-            localgw=self.config_entry.data.get(CONF_IP_ADDRESS),  # type: ignore
-            username=self.config_entry.data.get(CONF_NAME),  # type: ignore
-            password=self.config_entry.data.get(CONF_PASSWORD),  # type: ignore
-            port=self.config_entry.data.get(CONF_PORT),  # type: ignore
+            localgw=self.config_entry.data.get(CONF_IP_ADDRESS),
+            username=self.config_entry.data.get(CONF_NAME),
+            password=self.config_entry.data.get(CONF_PASSWORD),
+            port=self.config_entry.data.get(CONF_PORT),
             ssl_context=ssl_context,
         )

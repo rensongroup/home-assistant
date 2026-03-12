@@ -61,9 +61,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 # @config_entries.HANDLERS.register(DOMAIN)
-class OpenMoticsFlowHandler(
-    config_entry_oauth2_flow.AbstractOAuth2FlowHandler, domain=DOMAIN
-):
+class OpenMoticsFlowHandler(config_entry_oauth2_flow.AbstractOAuth2FlowHandler, domain=DOMAIN):
     """Handle a config flow for OpenMotics."""
 
     VERSION = 2
@@ -220,9 +218,7 @@ class OpenMoticsFlowHandler(
                 CONF_CLIENT_SECRET: user_input[CONF_CLIENT_SECRET],
             }
 
-            errors, token = await self._get_cloud_token(
-                self.data[CONF_CLIENT_ID], self.data[CONF_CLIENT_SECRET]
-            )
+            errors, token = await self._get_cloud_token(self.data[CONF_CLIENT_ID], self.data[CONF_CLIENT_SECRET])
 
             if token:
                 # Force int for non-compliant oauth2 providers
@@ -300,9 +296,7 @@ class OpenMoticsFlowHandler(
         await self.async_set_unique_id(unique_id)
         self._abort_if_unique_id_configured()
 
-        self.data["auth_implementation"] = (
-            f"{DOMAIN}-clouddev-{self.data[CONF_INSTALLATION_ID]}"
-        )
+        self.data["auth_implementation"] = f"{DOMAIN}-clouddev-{self.data[CONF_INSTALLATION_ID]}"
 
         return self.async_create_entry(title=unique_id, data=self.data)
 
@@ -339,9 +333,7 @@ class OpenMoticsFlowHandler(
             errors=errors,
         )
 
-    async def async_step_reauth(
-        self, entry_data: Mapping[str, Any]
-    ) -> ConfigFlowResult:
+    async def async_step_reauth(self, entry_data: Mapping[str, Any]) -> ConfigFlowResult:
         """Handle re-authentication with OpenMotics."""
         # self.entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
 
@@ -351,9 +343,7 @@ class OpenMoticsFlowHandler(
 
         return await self.async_step_reauth_cloud_confirm()
 
-    async def async_step_reauth_local_confirm(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_reauth_local_confirm(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Handle local re-authentication."""
         errors: dict[str, str] = {}
 
@@ -387,17 +377,13 @@ class OpenMoticsFlowHandler(
             errors=errors,
         )
 
-    async def async_step_reauth_cloud_confirm(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_reauth_cloud_confirm(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Handle cloud re-authentication."""
         errors: dict[str, str] = {}
 
         if user_input is not None:
             reauth_entry = self._get_reauth_entry()
-            errors, token = await self._get_cloud_token(
-                user_input[CONF_CLIENT_ID], user_input[CONF_CLIENT_SECRET]
-            )
+            errors, token = await self._get_cloud_token(user_input[CONF_CLIENT_ID], user_input[CONF_CLIENT_SECRET])
 
             if not errors and token is not None:
                 # Force int for non-compliant oauth2 providers
@@ -428,9 +414,7 @@ class OpenMoticsFlowHandler(
             errors=errors,
         )
 
-    async def async_step_reconfigure(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Handle reconfiguration of an entry."""
         entry = self._get_reconfigure_entry()
 
@@ -439,9 +423,7 @@ class OpenMoticsFlowHandler(
 
         return await self.async_step_reconfigure_cloud(user_input)
 
-    async def async_step_reconfigure_local(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_reconfigure_local(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Handle local reconfiguration."""
         errors = {}
         entry = self._get_reconfigure_entry()
@@ -463,14 +445,10 @@ class OpenMoticsFlowHandler(
 
         schema = vol.Schema(
             {
-                vol.Required(
-                    CONF_IP_ADDRESS, default=entry.data[CONF_IP_ADDRESS]
-                ): cv.string,
+                vol.Required(CONF_IP_ADDRESS, default=entry.data[CONF_IP_ADDRESS]): cv.string,
                 vol.Required(CONF_NAME, default=entry.data[CONF_NAME]): cv.string,
                 vol.Required(CONF_PASSWORD): cv.string,
-                vol.Optional(
-                    CONF_PORT, default=entry.data.get(CONF_PORT, DEFAULT_PORT)
-                ): int,
+                vol.Optional(CONF_PORT, default=entry.data.get(CONF_PORT, DEFAULT_PORT)): int,
                 vol.Optional(
                     CONF_VERIFY_SSL,
                     default=entry.data.get(CONF_VERIFY_SSL, DEFAULT_VERIFY_SSL),
@@ -484,17 +462,13 @@ class OpenMoticsFlowHandler(
             errors=errors,
         )
 
-    async def async_step_reconfigure_cloud(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_reconfigure_cloud(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Handle cloud reconfiguration."""
         errors: dict[str, str] = {}
         entry = self._get_reconfigure_entry()
 
         if user_input is not None:
-            errors, token = await self._get_cloud_token(
-                user_input[CONF_CLIENT_ID], user_input[CONF_CLIENT_SECRET]
-            )
+            errors, token = await self._get_cloud_token(user_input[CONF_CLIENT_ID], user_input[CONF_CLIENT_SECRET])
 
             if not errors and token is not None:
                 return self.async_update_reload_and_abort(
@@ -504,12 +478,8 @@ class OpenMoticsFlowHandler(
 
         schema = vol.Schema(
             {
-                vol.Required(
-                    CONF_CLIENT_ID, default=entry.data.get(CONF_CLIENT_ID)
-                ): cv.string,
-                vol.Required(
-                    CONF_CLIENT_SECRET, default=entry.data.get(CONF_CLIENT_SECRET)
-                ): cv.string,
+                vol.Required(CONF_CLIENT_ID, default=entry.data.get(CONF_CLIENT_ID)): cv.string,
+                vol.Required(CONF_CLIENT_SECRET, default=entry.data.get(CONF_CLIENT_SECRET)): cv.string,
             }
         )
 

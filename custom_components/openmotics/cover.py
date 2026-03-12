@@ -5,19 +5,8 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, Any
 
-from homeassistant.components.cover import (
-    ATTR_POSITION,
-    CoverEntity,
-    CoverEntityFeature,
-)
-from homeassistant.const import (
-    STATE_CLOSED,
-    STATE_CLOSING,
-    STATE_OPEN,
-    STATE_OPENING,
-    STATE_PAUSED,
-    STATE_UNKNOWN,
-)
+from homeassistant.components.cover import ATTR_POSITION, CoverEntity, CoverEntityFeature
+from homeassistant.const import STATE_CLOSED, STATE_CLOSING, STATE_OPEN, STATE_OPENING, STATE_PAUSED, STATE_UNKNOWN
 
 from .const import DOMAIN, NOT_IN_USE
 from .entity import OpenMoticsDevice
@@ -54,8 +43,7 @@ async def async_setup_entry(
     coordinator: OpenMoticsDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     for index, om_cover in enumerate(coordinator.data["shutters"]):
-        # type: ignore
-        if om_cover.name is None or not om_cover.name or om_cover.name == NOT_IN_USE:
+        if om_cover.name is None or not om_cover.name or om_cover.name == NOT_IN_USE:  # pyrefly: ignore
             continue
         entities.append(OpenMoticsShutter(coordinator, index, om_cover))
 
@@ -96,30 +84,30 @@ class OpenMoticsShutter(OpenMoticsDevice, CoverEntity):
         return self._supported_features
 
     @property
-    def is_opening(self) -> bool:
+    def is_opening(self) -> bool | None:
         """Return if the cover is opening or not."""
         try:
             self._device = self.coordinator.data["shutters"][self.index]
             self._state = self._device.status.state.upper()
             return VALUE_TO_STATE.get(self._state) == STATE_OPENING
         except (AttributeError, KeyError):
-            return STATE_UNKNOWN  # type: ignore
+            return STATE_UNKNOWN  # pyrefly: ignore
 
     @property
-    def is_closing(self) -> bool:
+    def is_closing(self) -> bool | None:
         """Return if the cover is closing or not."""
         try:
             self._device = self.coordinator.data["shutters"][self.index]
             self._state = self._device.status.state.upper()
             return VALUE_TO_STATE.get(self._state) == STATE_CLOSING
         except (AttributeError, KeyError):
-            return STATE_UNKNOWN  # type: ignore
+            return STATE_UNKNOWN  # pyrefly: ignore
 
     @property
-    def is_closed(self) -> bool:
+    def is_closed(self) -> bool | None:
         """Return if the cover is closed."""
         if self.current_cover_position is None:
-            return None  # type: ignore
+            return None  # pyrefly: ignore
         return self.current_cover_position == 0
 
     @property
@@ -144,9 +132,10 @@ class OpenMoticsShutter(OpenMoticsDevice, CoverEntity):
                     return None
                 return 100 - self._device.status.position
 
-            return STATE_UNKNOWN  # type: ignore
         except (AttributeError, KeyError):
-            return STATE_UNKNOWN  # type: ignore
+            return STATE_UNKNOWN  # pyrefly: ignore
+
+        return STATE_UNKNOWN  # pyrefly: ignore
 
     async def async_open_cover(self, **kwargs: Any) -> None:
         """Open the window cover."""

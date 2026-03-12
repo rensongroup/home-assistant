@@ -76,17 +76,17 @@ async def async_setup_entry(
         # Cloud
         implementation = OpenMoticsOauth2Implementation(
             hass,
-            domain=entry.data.get(CONF_AUTH_IMPLEMENTATION),  # type: ignore
-            client_id=entry.data.get(CONF_CLIENT_ID),  # type: ignore
-            client_secret=entry.data.get(CONF_CLIENT_SECRET),  # type: ignore
-            name=entry.data.get(CONF_AUTH_IMPLEMENTATION),  # type: ignore
+            domain=entry.data.get(CONF_AUTH_IMPLEMENTATION),
+            client_id=entry.data.get(CONF_CLIENT_ID),
+            client_secret=entry.data.get(CONF_CLIENT_SECRET),
+            name=entry.data.get(CONF_AUTH_IMPLEMENTATION),
         )
         oauth2_session = OAuth2Session(hass, entry, implementation)
 
         coordinator = OpenMoticsCloudDataUpdateCoordinator(
             hass,
             session=oauth2_session,
-            name=entry.data.get(CONF_AUTH_IMPLEMENTATION),  # type: ignore
+            name=entry.data.get(CONF_AUTH_IMPLEMENTATION),
         )
 
         coordinator.omclient.installation_id = entry.data.get(CONF_INSTALLATION_ID)

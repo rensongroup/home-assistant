@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import Any
 
 from custom_components.openmotics.const import CONF_INSTALLATION_ID
-
 from homeassistant.const import (
     CONF_CLIENT_ID,
     CONF_CLIENT_SECRET,

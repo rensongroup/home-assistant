@@ -1,5 +1,17 @@
 {
-  "recommendations": ["github.codespaces", "github.copilot-chat"],
+  "recommendations": [
+    "charliermarsh.ruff",
+    "davidanson.vscode-markdownlint",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "ms-python.python",
+    // "ms-python.vscode-pylance",
+    "meta.pyrefly", // Pyrefly: AI code completion
+    "ms-vscode-remote.remote-containers",
+    "redhat.vscode-yaml",
+    "github.codespaces",
+    "github.copilot-chat"
+  ],
   "unwantedRecommendations": [
     // Legacy Linters (Ruff replaces all of these)
     "ms-python.pylint",

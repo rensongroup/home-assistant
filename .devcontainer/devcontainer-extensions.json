@@ -1,0 +1,13 @@
+{
+  "recommendations": ["github.codespaces", "github.copilot-chat"],
+  "unwantedRecommendations": [
+    "ms-python.pylint",
+    "ms-python.flake8",
+    "ms-python.mypy-type-checker",
+    "ms-python.black-formatter",
+    "ms-python.isort",
+    "ms-python.autopep8",
+    "ms-python.yapf",
+    "mikoz.autoflake-extension"
+  ]
+}

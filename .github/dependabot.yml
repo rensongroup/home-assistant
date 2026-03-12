@@ -1,39 +1,20 @@
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 version: 2
 updates:
-  # Python dependencies
-  - package-ecosystem: "pip"
+  - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "08:00"
-      timezone: "Europe/Brussels"
-    open-pull-requests-limit: 10
-    commit-message:
-      prefix: "deps"
-      prefix-development: "deps(dev)"
-      include: "scope"
-    labels:
-      - "dependencies"
-      - "python"
 
-  # GitHub Actions dependencies
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "08:00"
-      timezone: "Europe/Brussels"
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: "ci"
-      include: "scope"
-    labels:
-      - "dependencies"
-      - "github-actions"
-    # Group all GitHub Actions updates together
-    groups:
-      github-actions:
-        patterns:
-          - "*"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # Dependabot should not update Home Assistant as that should match the homeassistant key in hacs.json
+      - dependency-name: "homeassistant"
