@@ -7,7 +7,6 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 from pyhaopenmotics import (
-    AuthenticationError,
     LocalGateway,
     OpenMoticsCloud,
     OpenMoticsConnectionError,
@@ -23,7 +22,6 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_VERIFY_SSL,
 )
-from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util.ssl import get_default_context, get_default_no_verify_context
@@ -82,6 +80,13 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, 
             my_thermostatunits = await self._omclient.thermostats.units.get_all()
             my_energysensors = await self._omclient.energysensors.get_all()
 
+        # https://developers.home-assistant.io/docs/integration_setup_failures#handling-expired-credentials
+        #
+        # Sometimes the connection fails because of expired credentials, but we don't want to raise an error in that case,
+        # because the credentials will be refreshed automatically and the next update will succeed.
+        # If we trigger ConfigEntryAuthFailed, the device will be disabled and the user will have to re-enable it.
+        # At his moment, we don't know why these credentials got expired.
+        #
         except (OpenMoticsConnectionTimeoutError, OpenMoticsConnectionError) as err:
             raise UpdateFailed(
                 translation_domain=DOMAIN,
@@ -93,11 +98,6 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, 
                 translation_domain=DOMAIN,
                 translation_key="ssl_failed",
                 translation_placeholders={"error": repr(err)},
-            ) from err
-        except AuthenticationError as err:
-            raise ConfigEntryAuthFailed(
-                translation_domain=DOMAIN,
-                translation_key="cannot_authenticate",
             ) from err
         except Exception as err:
             _LOGGER.exception("Unexpected error during _async_update_data")
