@@ -1,9 +1,9 @@
 ## Renson Smart Living (OpenMotics) Home Assistant integration
 
 [![GitHub Release][releases-shield]][releases] [![GitHub Activity][commits-shield]][commits]
-[![License][license-shield]](LICENSE)
+![Project Maintenance][maintenance-shield] [![Build Status][build-shield]][build]
 
-[![hacs][hacsbadge]][hacs] ![Project Maintenance][maintenance-shield] [![Build Status][build-shield]][build]
+[![hacs][hacsbadge]][hacs] [![License][license-shield]](LICENSE)
 
 <!--
 Uncomment and customize these badges if you want to use them:
@@ -187,12 +187,12 @@ help as much as possible. Pull requests are always welcome.
 [commits-shield]: https://img.shields.io/github/commit-activity/y/rensongroup/home-assistant.svg?style=for-the-badge
 [commits]: https://github.com/rensongroup/home-assistant/commits/master
 [hacs]: https://github.com/hacs/integration
-[hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
+[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
 [license-shield]: https://img.shields.io/github/license/rensongroup/home-assistant.svg?style=for-the-badge
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/rensongroup/home-assistant.svg?style=for-the-badge
 [releases]: https://github.com/rensongroup/home-assistant/releases
 [user_profile]: https://github.com/woutercoppens
 [build-shield]:
-  https://github.com/rensongroup/home-assistant/actions/workflows/pyrefly.yaml/badge.svg?style=for-the-badge
+  https://img.shields.io/github/actions/workflow/status/rensongroup/home-assistant/pyrefly.yaml?style=for-the-badge
 [build]: https://github.com/rensongroup/home-assistant/actions/workflows/pyrefly.yaml
