@@ -12,5 +12,5 @@
   "requirements": [
     "pyhaopenmotics@https://github.com/rensongroup/pyhaopenmotics/archive/refs/tags/0.0.11.tar.gz"
   ],
-  "version": "2026.1003"
+  "version": "2026.1004"
 }
