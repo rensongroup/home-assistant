@@ -3,7 +3,7 @@
 [![GitHub Release][releases-shield]][releases] [![GitHub Activity][commits-shield]][commits]
 [![License][license-shield]](LICENSE)
 
-[![hacs][hacsbadge]][hacs] ![Project Maintenance][maintenance-shield]
+[![hacs][hacsbadge]][hacs] ![Project Maintenance][maintenance-shield] [![Build Status][build-shield]][build]
 
 <!--
 Uncomment and customize these badges if you want to use them:
@@ -189,7 +189,10 @@ help as much as possible. Pull requests are always welcome.
 [hacs]: https://github.com/hacs/integration
 [hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
 [license-shield]: https://img.shields.io/github/license/rensongroup/home-assistant.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/rensongroup/home-assistant.svg?style=for-the-badge
 [releases]: https://github.com/rensongroup/home-assistant/releases
 [user_profile]: https://github.com/woutercoppens
+[build-shield]:
+  https://github.com/rensongroup/home-assistant/actions/workflows/pyrefly.yaml/badge.svg?style=for-the-badge
+[build]: https://github.com/rensongroup/home-assistant/actions/workflows/pyrefly.yaml
