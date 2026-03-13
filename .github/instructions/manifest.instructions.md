@@ -19,14 +19,13 @@ this schema.
 {
   "domain": "openmotics",
   "name": "OpenMotics Home Assistant integration Beta",
-  "codeowners": ["@woutercoppens"],
+  "codeowners": ["@rensongroup", "@woutercoppens"],
   "config_flow": true,
-  "documentation": "https://github.com/woutercoppens/home-assistant-test",
-  "integration_type": "device",
+  "documentation": "https://github.com/rensongroup/home-assistant",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/woutercoppens/home-assistant-test/issues",
-  "requirements": [],
-  "version": "0.0.0"
+  "issue_tracker": "https://github.com/rensongroup/home-assistant/issues",
+  "requirements": ["pyhaopenmotics@https://github.com/rensongroup/pyhaopenmotics/archive/refs/tags/0.0.11.tar.gz"],
+  "version": "0.0"
 }
 ```
 
