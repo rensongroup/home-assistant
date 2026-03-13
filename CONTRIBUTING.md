@@ -50,7 +50,7 @@ People _love_ thorough bug reports. I'm not even kidding.
 This project uses:
 
 - [Ruff](https://github.com/astral-sh/ruff) for linting and formatting
-- [Pyright](https://github.com/microsoft/pyright) for type checking
+- [Pyrefly](https://pyrefly.org/en/docs/) for type checking
 
 Run `script/check` to lint and type-check your code before submitting, or `script/lint` to auto-format and fix linting
 issues.

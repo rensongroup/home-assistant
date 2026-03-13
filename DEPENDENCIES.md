@@ -26,7 +26,7 @@ async-timeout>=4.0.0
 
 **Includes:**
 
-- `pyright` - Type checker (we prefer pyright over HA's mypy for better IDE integration)
+- `pyrefly` - Type checker (we prefer pyrefly over HA's mypy for better IDE integration)
 - `colorlog` - Colored logging for development scripts
 - Performance tools (`zlib_ng`, `isal`) - Optional optimization packages
 
@@ -108,7 +108,7 @@ The `script/setup/bootstrap` automatically installs dependencies from multiple s
 2. **Test dependencies** (`requirements_test.txt`)
    - pytest and all pytest plugins (pytest-asyncio, pytest-aiohttp, pytest-cov, pytest-timeout, pytest-xdist)
    - Testing utilities (coverage, freezegun, requests-mock, respx)
-   - mypy-dev for type checking (we use pyright instead)
+   - mypy-dev for type checking (we use pyrefly instead)
 
 3. **Pre-commit dependencies** (`requirements_test_pre_commit.txt`)
    - ruff (linting and formatting)
@@ -121,7 +121,7 @@ The `script/setup/bootstrap` automatically installs dependencies from multiple s
 
 ### From This Project
 
-- `requirements_dev.txt` - Additional development tools this project uses (pyright, colorlog, performance packages)
+- `requirements_dev.txt` - Additional development tools this project uses (pyrefly, colorlog, performance packages)
 - `requirements_test.txt` - Custom component testing utilities
 - `requirements.txt` - This integration's runtime dependencies (if any)
 

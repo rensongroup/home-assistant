@@ -27,17 +27,9 @@ custom_components/openmotics/
 
 ### Data Update Coordinator
 
-**Directory:** `coordinator.py`
+**File:** `coordinator.py`
 
-The coordinator package manages periodic data fetching from the external API and distributes updates to all entities. It
-is organized as a package with separate modules for different concerns:
-
-**Package structure:**
-
-- `base.py` - Main coordinator class (`OpenMoticsDataUpdateCoordinator`)
-- `data_processing.py` - Data validation, transformation, and caching utilities
-- `error_handling.py` - Error recovery strategies, retry logic, and circuit breaker patterns
-- `listeners.py` - Entity callbacks, event listeners, and performance monitoring
+The coordinator manages periodic data fetching from the external API and distributes updates to all entities.
 
 **Core functionality:**
 
@@ -48,7 +40,10 @@ is organized as a package with separate modules for different concerns:
 - Data validation and transformation before distribution
 - Performance monitoring and metrics
 
-**Key class:** `OpenMoticsDataUpdateCoordinator` (exported from `coordinator/__init__.py`)
+**Key class:** `OpenMoticsDataUpdateCoordinator`
+
+**Additional classes** `OpenMoticsCloudDataUpdateCoordinator`and `OpenMoticsLocalDataUpdateCoordinator` (exported from
+`coordinator.py`)
 
 **Design rationale:**
 
@@ -70,11 +65,11 @@ Handles all communication with external APIs or devices. Implements:
 - Authentication handling
 - Error translation to custom exceptions
 
-**Key class:** `OpenMoticsCloud` or `LocalGateway`
+**Key classes:** `OpenMoticsCloud` or `LocalGateway`
 
 ### Config Flow
 
-**File:** `config_flow_handler.py`
+**File:** `config_flow.py`
 
 Implements the configuration UI for adding and configuring the integration. The package is organized modularly to
 support complex flows without becoming monolithic.

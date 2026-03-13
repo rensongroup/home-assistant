@@ -10,7 +10,7 @@ This is a Home Assistant custom integration that was generated from a blueprint 
 
 - **Domain:** `openmotics`
 - **Title:** OpenMotics Home Assistant integration Beta
-- **Repository:** woutercoppens/home-assistant-test
+- **Repository:** rensongroup/home-assistant
 
 **Key directories:**
 
@@ -195,16 +195,11 @@ This integration uses the following identifiers consistently:
 
 **Package organization (DO NOT create other packages):**
 
-- `api/` - API client and exceptions
-- `coordinator/` - Data update coordinator
-- `config_flow_handler/` - Config flow, options, validators, schemas
-  - `validators/*.py` - Config flow validation functions
-  - `schemas/*.py` - Data schemas for config flow steps
-- `entity/` - Base entity classes
-- `entity_utils/` - Entity-specific helpers (device_info, state formatting)
-- `[platform]/` - Entity platforms (sensor, switch, etc.)
-- `service_actions/` - Service action implementations
-- `utils/` - Integration-wide utilities (string helpers, general validators)
+- `coordinator.py` - Data update coordinator
+- `config_flow.py` - Config flow entry point
+- `entity.py` - Base entity class
+- `entity_utils.py` - Entity-specific helpers (device_info, state formatting)
+- `[platform].py` - Entity platforms (sensor.py, switch.py, etc.)
 
 **Do NOT create:**
 
@@ -215,9 +210,7 @@ This integration uses the following identifiers consistently:
 **Key patterns:**
 
 - Entities → Coordinator → API Client (never skip layers)
-- Each platform in own directory with `__init__.py`
-- One entity class per file for clarity
-- Individual entity classes in separate files (e.g., `air_quality.py`)
+- Each platform in its own file (e.g., `sensor.py`)
 - Use `EntityDescription` dataclasses for static entity metadata
 
 **Code organization principles:**
@@ -321,7 +314,7 @@ See `.github/instructions/config_flow.instructions.md` for comprehensive pattern
 **Service actions:**
 
 - Define in `services.yaml` with full descriptions (legacy filename)
-- Implement handlers in `service_actions/` directory
+- Implement handlers in `service_actions.py`
 - **Register in `async_setup()`** - NOT in `async_setup_entry()` (Quality Scale!)
 - Format: `<integration_domain>.<action_name>`
 
@@ -389,14 +382,14 @@ See `.github/instructions/repairs.instructions.md` for comprehensive patterns.
 ```bash
 script/check      # Full validation (type + lint + spell)
 script/lint       # Auto-format and fix linting issues
-script/type-check # Pyright type checking only
+script/type-check # Pyrefly type checking only
 script/test       # Run unit tests
 ```
 
 **Configured tools:**
 
 - **Ruff** - Fast Python linter and formatter ([Rules Reference](https://docs.astral.sh/ruff/rules/))
-- **Pyright** - Type checker configured for "basic" mode ([Docs](https://microsoft.github.io/pyright/))
+- **Pyrefly** - Type checker configured for "basic" mode ([Docs](https://pyrefly.org/en/docs//))
 - **pytest** - Test runner with async support ([Docs](https://docs.pytest.org/))
 
 **Generate code that passes these checks on first run.** As an AI agent, you should produce higher quality code than manual development:
@@ -547,7 +540,7 @@ See `.github/copilot-instructions.md` for detailed workflow guidance.
 **Tool documentation:**
 
 - [Ruff Rules](https://docs.astral.sh/ruff/rules/) - Understand what each rule checks
-- [Pyright Configuration](https://microsoft.github.io/pyright/#/configuration) - Type checking options
+- [Pyrefly Configuration](https://pyrefly.org/en/docs/configuration) - Type checking options
 - Don't hesitate to look up specific error codes when validation fails
 
 ## Tool Parallelization
@@ -577,6 +570,6 @@ See `.github/copilot-instructions.md` for detailed workflow guidance.
 - [Integration Quality Scale](https://developers.home-assistant.io/docs/integration_quality_scale_index)
 - [Architecture Docs](https://developers.home-assistant.io/docs/architecture_index)
 - [Ruff Rules](https://docs.astral.sh/ruff/rules/) - Linter documentation
-- [Pyright Configuration](https://microsoft.github.io/pyright/#/configuration) - Type checker documentation
+- [Pyrefly Configuration](https://pyrefly.org/en/docs/configuration/) - Type checker documentation
 - [pytest Documentation](https://docs.pytest.org/) - Testing framework
 - See `CONTRIBUTING.md` for contribution guidelines

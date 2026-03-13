@@ -24,7 +24,7 @@ Run all validation tools first:
 ```bash
 script/check           # Type checking + linting + spell check
 script/lint-check      # Read-only lint check
-script/type-check      # Pyright only
+script/type-check      # Pyrefly only
 ```
 
 Report any errors found. Fix critical issues before proceeding.
