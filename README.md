@@ -189,7 +189,7 @@ help as much as possible. Pull requests are always welcome.
 [hacs]: https://github.com/hacs/integration
 [hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
 [license-shield]: https://img.shields.io/github/license/rensongroup/home-assistant.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/badge/maintainer-%40woutercoppens-blue.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/wrensongroup/home-assistant.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg
+[releases-shield]: https://img.shields.io/github/release/rensongroup/home-assistant.svg?style=for-the-badge
 [releases]: https://github.com/rensongroup/home-assistant/releases
 [user_profile]: https://github.com/woutercoppens
