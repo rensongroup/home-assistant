@@ -104,7 +104,7 @@ def native_value(self) -> float | None:
 **Adjust Update Interval:**
 
 ```python
-# In coordinator/base.py
+# In coordinator.py
 super().__init__(
     hass,
     _LOGGER,

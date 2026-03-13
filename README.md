@@ -1,33 +1,23 @@
-# OpenMotics Home Assistant integration Beta
+## Renson Smart Living (OpenMotics) Home Assistant integration
 
-**BETA WARNING: this Beta release contains a significant amount of changes to support Outputs, Lights, Scenes and
-Shutters for the OpenMotics Gateway. It equally uses v0.0.1 of the pyHAopenmotics API, which also contains a significant
-amount of changes. It has been tested but may contain some bugs in existing or new functionality. Use in your live
-environment at your own risk.**
+[![GitHub Release][releases-shield]][releases] [![GitHub Activity][commits-shield]][commits]
+[![License][license-shield]](LICENSE)
 
-This repository contains a Home Assistant component + platforms, for the awesome OpenMotics solution.
+[![hacs][hacsbadge]][hacs] ![Project Maintenance][maintenance-shield]
 
-For the latest version of the OpenMotics Home Assistant Platform please use the master branch or better still install
-via HACS. if you want bleeding edge then checkout the dev branch, or look out for beta releases via HACS. Depending on
-what you choose you may need to use the Manual Code Installation described below.
+<!--
+Uncomment and customize these badges if you want to use them:
 
-<!-- TOC -->
+[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
+[![Discord][discord-shield]][discord]
+-->
 
-- [OpenMotics Home Assistant integration Beta](#openmotics-home-assistant-integration-beta)
-  - [INTRODUCTION](#introduction)
-  - [Minimum Requirements](#minimum-requirements)
-  - [HOW TO INSTALL](#how-to-install)
-    - [1. Grant permissions to your OpenMotics installation](#1-grant-permissions-to-your-openmotics-installation)
-    - [2. Install Home Assistant Core](#2-install-home-assistant-core)
-    - [3. Install the custom integration](#3-install-the-custom-integration)
-    - [4. Configure the integration.](#4-configure-the-integration)
-- [Run, Play](#run-play)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
+**✨ Develop in the cloud:** Want to contribute or customize this integration? Open it directly in GitHub Codespaces -
+no local setup required!
 
-<!-- /TOC -->
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/woutercoppens/home-assistant-test?quickstart=1)
 
-## INTRODUCTION
+## Introduction
 
 This custom component is developed for controlling an [OpenMotics](https://renson.net/nl-be/producten/smart-living)
 platform by using the pyHAopenmotics sdk.
@@ -35,101 +25,158 @@ platform by using the pyHAopenmotics sdk.
 ## Minimum Requirements
 
 Requires a minimum of HA 2025.12. This is needed to support the new functionality and changes to config flow. Requires
-the new pyHAopenmotics v0.0.9 (or newer) sdk.
+the new pyHAopenmotics v0.0.11 (or newer) sdk.
 
-## HOW TO INSTALL
+## ✨ Features
 
-### 1. Grant permissions to your OpenMotics installation
+- **Easy Setup**: Simple configuration through the UI - no YAML required
+- **Smart Control**: Adjust light brightness, fan speed, target humidity, etc
+- **Diagnostic Info**: View filter life, runtime hours, and device statistics
+- **Reconfigurable**: Change credentials anytime without removing the integration
+- **Options Flow**: Adjust settings like update interval after setup
 
-Login to [cloud.renson.eu](https://cloud.renson.eu/)
+**This integration will set up the following platforms.**
 
-![login](/pictures/login.cloud.openmotics.com.png)
+| Platform  | Description                                         |
+| --------- | --------------------------------------------------- |
+| `climate` | Temperature control                                 |
+| `switch`  | LED display controls and others                     |
+| `cover`   | Open and close blinds                               |
+| `light`   | Control your lights (on/off, brightness, ...)       |
+| `sensor`  | Air quality index (AQI), Temperature, Humidity, ... |
+| `scene`   | Activate a scene                                    |
 
-Remember to use your e-mail address as login.
+## 🚀 HOW TO INSTALL
 
-Make sure your installation is at a recent firmware. Update if needed.
+See [GETTING_STARTED.md](/docs/user/GETTING_STARTED.md)
 
-![firmware](/pictures/update01.png)
+## Troubleshooting
 
-Create an additional user
+### Authentication Issues
 
-![user01](/pictures/user01.png)
+#### Reauthentication
 
-![user02](/pictures/user02.png)
+If your credentials expire or change, Home Assistant will automatically prompt you to reauthenticate:
 
-Note: Since the last update of the webui, the link to the integrations is missing. You can access it directly via:
-[https://portal.openmotics.com/#cloud/oauth](https://portal.openmotics.com/#cloud/oauth)
+1. Go to **Settings** → **Devices & Services**
+2. Look for **"Action Required"** or **"Configuration Required"** message on the integration
+3. Click **"Reconfigure"** or follow the prompt
+4. Enter your updated credentials
+5. Click Submit
 
-![user03](/pictures/user03.png)
+The integration will automatically resume normal operation with the new credentials.
 
-![user04](/pictures/user04.png)
+#### Manual Credential Update
 
-Make sure the Client type is `Confidential` and the Grant type is `Client credentials`. The Redirect URI is not used
-right now and can have any value.
+You can also update credentials at any time without waiting for an error:
 
-![user05](/pictures/user05.png)
+1. Go to **Settings** → **Devices & Services**
+2. Find **OpenMotics Home Assistant integration Beta**
+3. Click the **3 dots menu** → **Reconfigure**
+4. Enter new credentials
+5. Click Submit
 
-Copy the Client ID and Client secret as you'll need it to configure the integration in Home Assistant.
+### Enable Debug Logging
 
-### 2. Install Home Assistant Core
+To enable debug logging for this integration, add the following to your `configuration.yaml`:
 
-See [Home Assistant Official Installation Guide](https://www.home-assistant.io/installation/) to install Home Assistant
-Core.
+```yaml
+logger:
+  default: info
+  logs:
+    custom_components.openmotics: debug
+```
 
-### 3. Install the custom integration
+### Common Issues
 
-We highly recommend using [HACS Home Assistant Community Store](https://github.com/hacs), for more information on how to
-install HACS please see their documentation website at https://hacs.xyz/
+#### Authentication Errors
 
-Option 1: HACS installation
+If you receive authentication errors:
 
-1. See [HACS Official Installation Guide](https://hacs.xyz/docs/installation/installation/) and install HACS.
-2. See [Initial Configuration Guide](https://hacs.xyz/docs/configuration/basic) and complete initial configuration.
-3. Open Home Assistant. Click HACS > Integrations > ⋮ > Custom repositories.
+1. Verify your username and password are correct
+2. Check that your account has the necessary permissions
+3. Wait for the automatic reauthentication prompt, or manually reconfigure
+4. Check the API Connection binary sensor for status
 
-![custom repository](/pictures/hacs_custom_repositories.png)
+#### Device Not Responding
 
-4. Enter `https://github.com/rensongroup/home-assistant` in the address bar at the bottom left of the window. Select
-   Integration from the Category list and click ADD.
+If your device is not responding:
 
-![github](/pictures/hacs_add_repository.png)
+1. Check your network connection
+2. Verify the device is powered on
+3. Check the integration diagnostics (Settings → Devices & Services → OpenMotics → 3 dots → Download diagnostics)
 
-![new_repository](/pictures/hacs_new_repository.png)
+## 🤝 Contributing
 
-5. Click the new repository. In the dialog box that appears, click DOWNLOAD THIS REPOSITORY WITH HACS.
+Contributions are welcome! Please open an issue or pull request if you have suggestions or improvements.
 
-![install](/pictures/hacs_download_repository.png)
+### 🛠️ Development Setup
 
-Option 2: Manual Code Installation
+Want to contribute or customize this integration? You have two options:
 
-This method is best used when you want to play with the "latest and greatest" from the repository. Moving forward, the
-github repository will contain two primary branches, **master** and dev. Master is the latest released, and hopefully
-most stable branch, whereas **dev** is the branch that we're currently working on.
+#### Cloud Development (Recommended)
 
-1. Download the [openmotics-home-assistant repo](https://github.com/rensongroup/home-assistant).
-2. Unzip it and copy the `custom_components/openmotics` folder to the Home Assistant configuration directory, for
-   example `~/.homeassistant`.
+The easiest way to get started - develop directly in your browser with GitHub Codespaces:
 
-![configuration directory](/pictures/copy_method.png)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/woutercoppens/home-assistant-test?quickstart=1)
 
-The disadvantage of a manual installation is that you won't be notified about updates.
+- ✅ Zero local setup required
+- ✅ Pre-configured development environment
+- ✅ Home Assistant included for testing
+- ✅ 60 hours/month free for personal accounts
 
-### 4. Configure the integration.
+#### Local Development
 
-Make sure you restart Home Assistant after the installation (in HACS). After the restart, go to **Configuration** in the
-side menu in Home Assistant and select **Integrations**. Click on **Add Integrations** in the bottom right corner and
-search for **Openmotics** to install. This will open the configuration menu with the default settings.
+Prefer working on your machine? You'll need:
 
-![New Integration](/pictures/new_integration.png)
+- Docker Desktop
+- VS Code with the
+  [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
-![Integration setup](/pictures/integration_setup.png)
+Then:
 
-Fill in the client_id and client_secret you have created in the first step.
+1. Clone this repository
+2. Open in VS Code
+3. Click "Reopen in Container" when prompted
 
-![Integration setup_cloud](/pictures/integration_setup_cloud.png)
+Both options give you the same fully-configured development environment with Home Assistant, Python 3.13, and all
+necessary tools.
 
-Depending on your installation, the modules should be added to your Home Assistant automatically within a few seconds
-till 10 minutes.
+---
+
+## 🤖 AI-Assisted Development
+
+> **ℹ️ Transparency Notice**
+>
+> This integration was developed with assistance from AI coding agents (GitHub Copilot, Claude, and others). While the
+> codebase follows Home Assistant Core standards, AI-generated code may not be reviewed or tested to the same extent as
+> manually written code.
+>
+> AI tools were used to:
+>
+> - Generate boilerplate code following Home Assistant patterns
+> - Implement standard integration features (config flow, coordinator, entities)
+> - Ensure code quality and type safety
+> - Write documentation and comments
+>
+> Please be aware that AI-assisted development may result in unexpected behavior or edge cases that haven't been
+> thoroughly tested. If you encounter any issues, please [open an issue](../../issues) on GitHub.
+>
+> _Note: This section can be removed or modified if AI assistance was not used in your integration's development._
+
+---
+
+## 📄 License
+
+This project is licensed under the AGPLv3 License - see the [LICENSE.md](LICENSE.md) file for details
+
+---
+
+Special thanks to @woutercoppens for making this plugin and donating it to Renson.
+
+**Made with ❤️ by [@woutercoppens][user_profile]**
+
+---
 
 # Run, Play
 
@@ -138,10 +185,22 @@ till 10 minutes.
 This plugin is a community effort and OpenMotics cannot give any warranties even though you can report any issues and
 we'll help as much as possible. Pull requests are always welcome.
 
-# License
+---
 
-This project is licensed under the AGPLv3 License - see the [LICENSE.md](LICENSE.md) file for details
+[commits-shield]:
+  https://img.shields.io/github/commit-activity/y/woutercoppens/home-assistant-test.svg?style=for-the-badge
+[commits]: https://github.com/woutercoppens/home-assistant-test/commits/main
+[hacs]: https://github.com/hacs/integration
+[hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/woutercoppens/home-assistant-test.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/badge/maintainer-%40woutercoppens-blue.svg?style=for-the-badge
+[releases-shield]: https://img.shields.io/github/release/woutercoppens/home-assistant-test.svg?style=for-the-badge
+[releases]: https://github.com/woutercoppens/home-assistant-test/releases
+[user_profile]: https://github.com/jpawlowski
 
-# Acknowledgments
-
-- Special thanks to @woutercoppens for making this plugin and donating it to OpenMotics.
+<!-- Optional badge definitions - uncomment if needed:
+[buymecoffee]: https://www.buymeacoffee.com/jpawlowski
+[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
+[discord]: https://discord.gg/Qa5fW2R
+[discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
+-->

@@ -2,7 +2,7 @@
 
 # script/setup: Setup script used by DevContainers to prepare the project
 #
-# Installs optional development tools (pyright, GitHub Copilot CLI, git-cliff)
+# Installs optional development tools (pyrefly, GitHub Copilot CLI, git-diff)
 # and configures the environment. Called automatically by DevContainer postStartCommand.
 #
 # Usage:

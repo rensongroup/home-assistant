@@ -2,7 +2,7 @@
 
 # script/check: Run linting and type checking tools together
 #
-# Runs type-check (Pyright), lint-check (Ruff), and spell-check (codespell) in sequence.
+# Runs type-check (Pyrefly), lint-check (Ruff), and spell-check (codespell) in sequence.
 # Recommended before committing changes.
 #
 # Usage:

@@ -1,5 +1,5 @@
 ---
-applyTo: "custom_components/openmotics/coordinator/**/*.py"
+applyTo: "custom_components/openmotics/coordinator.py"
 ---
 
 # Instructions for AI Agent: OpenMotics Integration Development

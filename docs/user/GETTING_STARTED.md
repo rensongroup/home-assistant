@@ -1,4 +1,4 @@
-# Getting Started with OpenMotics Home Assistant integration Beta
+# Getting Started with OpenMotics Home Assistant integration
 
 This guide will help you install and set up the OpenMotics Home Assistant integration custom integration for Home
 Assistant.
@@ -9,87 +9,128 @@ Assistant.
 - HACS (Home Assistant Community Store) installed
 - Network connectivity to [external service/device]
 
+## Preparation
+
+Before you can us this integration, you need to create a client_id and client_secret.
+
+Login to [cloud.renson.eu](https://cloud.renson.eu/)
+
+![login](/docs/pictures/login.cloud.renson.eu.png)
+
+Remember to use your e-mail address as login.
+
+Make sure your installation is at a recent firmware. Update if needed.
+
+![firmware](/docs/pictures/update01.png)
+
+Create an additional user
+
+![user01](/docs/pictures/user01.png)
+
+![user02](/docs/pictures/user02.png)
+
+![user03](/docs/pictures/user03.png)
+
+![user04](/docs/pictures/user04.png)
+
+Make sure the Client type is `Confidential` and the Grant type is `Client credentials`. The Redirect URI is not used
+right now and can have any value.
+
+![user05](/docs/pictures/user05.png)
+
+Make sure to store the client secret somewhere now, as this is the only moment where you'll be able to see it!
+
+![user06](/docs/pictures/user06.png)
+
+Copy the Client ID as you'll need it to configure the integration in Home Assistant.
+
+Note: if you loose the client secret (or you didn't write it down), you'll have to delete these application credentials
+and create a new one.
+
 ## Installation
 
 ### Via HACS (Recommended)
+
+See [HACS Official Installation Guide](https://hacs.xyz/docs/installation/installation/) and install HACS. See
+[Initial Configuration Guide](https://hacs.xyz/docs/configuration/basic) and complete initial configuration.
 
 1. Open HACS in your Home Assistant instance
 2. Go to "Integrations"
 3. Click the three dots in the top right corner
 4. Select "Custom repositories"
+
+![custom repository](/docs/pictures/hacs_custom_repositories.png)
+
 5. Add this repository URL: `https://github.com/rensongroup/home-assistant`
+
+![github](/docs/pictures/hacs_add_repository.png)
+
 6. Set category to "Integration"
 7. Click "Add"
-8. Find "OpenMotics Integraion" in the integration list
+8. Find "OpenMotics Integration" in the integration list
+
+![install](/docs/pictures/hacs_download_repository.png)
+
+![download](/docs/pictures/hacs_download_repository_2.png)
+
 9. Click "Download"
 10. Restart Home Assistant
+
+![restart](/docs/pictures/hacs_pending_restart.png)
 
 ### Manual Installation
 
 1. Download the latest release from the [releases page](https://github.com/rensongroup/home-assistant/releases)
 2. Extract the `openmotics` folder from the archive
 3. Copy it to `custom_components/openmotics/` in your Home Assistant configuration directory
+
+![configuration directory](/docs/pictures/copy_method.png)
+
 4. Restart Home Assistant
 
 ## Initial Setup
+
+Make sure you restart Home Assistant after the installation (in HACS).
 
 After installation, add the integration:
 
 1. Go to **Settings** → **Devices & Services**
 2. Click **+ Add Integration**
 3. Search for "OpenMotics"
+
+![New Integration](/docs/pictures/new_integration.png)
+
 4. Follow the configuration steps:
 
 ### Step 1: Connection Information
 
-Enter the required connection details:
+Select if you want to access via the cloud or via the local gateway:
 
-- **Host/IP Address:** The hostname or IP address of your device/service
-- **API Key/Token:** Your authentication credentials (if applicable)
-- **Port:** Connection port (default: 8080)
+![Integration setup](/docs/pictures/integration_setup.png)
+
+### Step 2a: Cloud integration
+
+![Integration setup_cloud](/docs/pictures/integration_setup_cloud.png)
+
+- **Client_id:** The client_id you created in the first step
+- **Client_secret:** Your authentication token
 
 Click **Submit** to test the connection.
 
-### Step 2: Configuration Options
+### Step 2b: Local gateway integration
 
-Configure optional settings:
+![Integration setup_cloud](/docs/pictures/integration_setup_local.png)
 
-- **Update Interval:** How often to poll for updates (default: 5 minutes)
-- **Name:** Friendly name for this integration instance
+- **Host/IP Address:** The hostname or IP address of your local device (be careful with dhcp setups)
+- **Name:** Your login name
+- **Password:** Your password
+- **Port:** Connection port (default: 443)
+- **SSL Certificate:** Enable this if you have uploaded your own certificates to the gateway, otherwise leave it
+  disabled.
 
-Click **Submit** to complete setup.
+Click **Submit** to test the connection.
 
-## What Gets Created
-
-After successful setup, the integration creates:
-
-### Devices
-
-- **Device Name:** Main device representing your connected service/hardware
-  - Model information
-  - Software version
-  - Configuration URL (link to device web interface)
-
-### Entities
-
-The following entities are automatically created:
-
-#### Sensors
-
-- `sensor.<device_name>_<sensor_name>` - Descriptive sensor measurements
-- More sensors as applicable to your setup
-
-#### Binary Sensors
-
-- `binary_sensor.<device_name>_<sensor_name>` - On/off status indicators
-
-#### Switches
-
-- `switch.<device_name>_<switch_name>` - Controllable on/off switches
-
-#### Other Platforms
-
-Additional entities may be created depending on your device capabilities.
+That's it.
 
 ## Troubleshooting
 
@@ -126,7 +167,6 @@ Add this to `configuration.yaml`, restart, and reproduce the issue. Check logs f
 
 ## Next Steps
 
-- See [CONFIGURATION.md](./CONFIGURATION.md) for detailed configuration options
 - Report issues at [GitHub Issues](https://github.com/rensongroup/home-assistant/issues)
 
 ## Support
