@@ -148,9 +148,8 @@ necessary tools.
 
 > **ℹ️ Transparency Notice**
 >
-> This integration was developed with assistance from AI coding agents (GitHub Copilot, Claude, and others). While the
-> codebase follows Home Assistant Core standards, AI-generated code may not be reviewed or tested to the same extent as
-> manually written code.
+> This integration was developed with assistance from AI coding agents (GitHub Copilot, Claude, and others), but most
+> part was manually written.
 >
 > AI tools were used to:
 >
@@ -161,8 +160,6 @@ necessary tools.
 >
 > Please be aware that AI-assisted development may result in unexpected behavior or edge cases that haven't been
 > thoroughly tested. If you encounter any issues, please [open an issue](../../issues) on GitHub.
->
-> _Note: This section can be removed or modified if AI assistance was not used in your integration's development._
 
 ---
 
@@ -182,8 +179,8 @@ Special thanks to @woutercoppens for making this plugin and donating it to Renso
 
 **_Run, Play_** and let us know if there are any bugs, enhancements etc via the github issues system
 
-This plugin is a community effort and OpenMotics cannot give any warranties even though you can report any issues and
-we'll help as much as possible. Pull requests are always welcome.
+This plugin is a community effort and Renson cannot give any warranties even though you can report any issues and we'll
+help as much as possible. Pull requests are always welcome.
 
 ---
 
