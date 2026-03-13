@@ -1,9 +1,9 @@
 ## Renson Smart Living (OpenMotics) Home Assistant integration
 
 [![GitHub Release][releases-shield]][releases] [![GitHub Activity][commits-shield]][commits]
-[![License][license-shield]](LICENSE)
+![Project Maintenance][maintenance-shield] [![Build Status][build-shield]][build]
 
-[![hacs][hacsbadge]][hacs] ![Project Maintenance][maintenance-shield]
+[![hacs][hacsbadge]][hacs] [![License][license-shield]](LICENSE)
 
 <!--
 Uncomment and customize these badges if you want to use them:
@@ -148,9 +148,8 @@ necessary tools.
 
 > **ℹ️ Transparency Notice**
 >
-> This integration was developed with assistance from AI coding agents (GitHub Copilot, Claude, and others). While the
-> codebase follows Home Assistant Core standards, AI-generated code may not be reviewed or tested to the same extent as
-> manually written code.
+> This integration was developed with assistance from AI coding agents (GitHub Copilot, Claude, and others), but most
+> part was manually written.
 >
 > AI tools were used to:
 >
@@ -161,8 +160,6 @@ necessary tools.
 >
 > Please be aware that AI-assisted development may result in unexpected behavior or edge cases that haven't been
 > thoroughly tested. If you encounter any issues, please [open an issue](../../issues) on GitHub.
->
-> _Note: This section can be removed or modified if AI assistance was not used in your integration's development._
 
 ---
 
@@ -182,17 +179,20 @@ Special thanks to @woutercoppens for making this plugin and donating it to Renso
 
 **_Run, Play_** and let us know if there are any bugs, enhancements etc via the github issues system
 
-This plugin is a community effort and OpenMotics cannot give any warranties even though you can report any issues and
-we'll help as much as possible. Pull requests are always welcome.
+This plugin is a community effort and Renson cannot give any warranties even though you can report any issues and we'll
+help as much as possible. Pull requests are always welcome.
 
 ---
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/rensongroup/home-assistant.svg?style=for-the-badge
 [commits]: https://github.com/rensongroup/home-assistant/commits/master
 [hacs]: https://github.com/hacs/integration
-[hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
+[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
 [license-shield]: https://img.shields.io/github/license/rensongroup/home-assistant.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/badge/maintainer-%40woutercoppens-blue.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/wrensongroup/home-assistant.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg?style=for-the-badge
+[releases-shield]: https://img.shields.io/github/release/rensongroup/home-assistant.svg?style=for-the-badge
 [releases]: https://github.com/rensongroup/home-assistant/releases
 [user_profile]: https://github.com/woutercoppens
+[build-shield]:
+  https://img.shields.io/github/actions/workflow/status/rensongroup/home-assistant/pyrefly.yaml?style=for-the-badge
+[build]: https://github.com/rensongroup/home-assistant/actions/workflows/pyrefly.yaml
