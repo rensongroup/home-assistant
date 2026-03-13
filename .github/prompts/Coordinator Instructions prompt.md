@@ -12,22 +12,17 @@ When working within the `rensongroup/home-assistant` repository, pay special att
 primarily located in `coordinator.py`. This integration supports both cloud-based and local-network communication with
 OpenMotics/Renson systems.
 
-## CRITICAL: The Two Coordinator Variants
+## Coordinator Implementation
 
-There are two distinct variants of the DataUpdateCoordinator used in this integration. Whenever you are reading,
-modifying, or generating code related to entity updates, you **must** account for which coordinator is being used:
+The integration uses the `OpenMoticsDataUpdateCoordinator` to manage data fetching. Whenever you are reading, modifying,
+or generating code related to entity updates, you **must** account for the underlying API client being used.
 
-1. **`OpenMoticsCloudDataUpdateCoordinator`**
-2. **`OpenMoticsLocalDataUpdateCoordinator`**
+### Underlying Difference
 
-### Structural Similarity vs. Underlying Difference
+While the coordinator interface is consistent, **the underlying API clients differ:**
 
-Both coordinators inherit from Home Assistant's `DataUpdateCoordinator` and look structurally identical in how they
-interface with Home Assistant entities. However, **they possess fundamentally different underlying API clients.**
-
-- **The `_omclient` property:** Each coordinator initializes a different instance type for its `_omclient`.
-  - The Cloud coordinator uses an `_omclient` tailored for the Renson/OpenMotics REST Cloud API.
-  - The Local coordinator uses an `_omclient` tailored for local gateway communication (Local API).
+- **The `_omclient` property:** The coordinator initializes an `_omclient` tailored for either the Renson/OpenMotics
+  REST Cloud API (`OpenMoticsCloud`) or local gateway communication (`LocalGateway`).
 
 ## Guidelines for Code Generation
 
@@ -49,6 +44,6 @@ the following rules:
 
 If you are asked to implement a new `sensor.py` that reads the temperature:
 
-- Check if the sensor receives `OpenMoticsCloudDataUpdateCoordinator` or `OpenMoticsLocalDataUpdateCoordinator`.
+- Check if the sensor is receiving data from the Cloud or Local coordinator.
 - Ensure that when the sensor looks up `self.coordinator.data`, it references the correct dictionary keys associated
   with that specific `_omclient`'s payload.

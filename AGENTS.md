@@ -10,7 +10,7 @@ This is a Home Assistant custom integration that was generated from a blueprint 
 
 - **Domain:** `openmotics`
 - **Title:** OpenMotics Home Assistant integration Beta
-- **Repository:** woutercoppens/home-assistant-test
+- **Repository:** rensongroup/home-assistant
 
 **Key directories:**
 
@@ -195,16 +195,11 @@ This integration uses the following identifiers consistently:
 
 **Package organization (DO NOT create other packages):**
 
-- `api/` - API client and exceptions
 - `coordinator/` - Data update coordinator
-- `config_flow_handler/` - Config flow, options, validators, schemas
-  - `validators/*.py` - Config flow validation functions
-  - `schemas/*.py` - Data schemas for config flow steps
-- `entity/` - Base entity classes
-- `entity_utils/` - Entity-specific helpers (device_info, state formatting)
-- `[platform]/` - Entity platforms (sensor, switch, etc.)
-- `service_actions/` - Service action implementations
-- `utils/` - Integration-wide utilities (string helpers, general validators)
+- `config_flow.py` - Config flow entry point
+- `entity.py` - Base entity class
+- `entity_utils.py` - Entity-specific helpers (device_info, state formatting)
+- `[platform].py` - Entity platforms (sensor.py, switch.py, etc.)
 
 **Do NOT create:**
 
@@ -215,9 +210,7 @@ This integration uses the following identifiers consistently:
 **Key patterns:**
 
 - Entities → Coordinator → API Client (never skip layers)
-- Each platform in own directory with `__init__.py`
-- One entity class per file for clarity
-- Individual entity classes in separate files (e.g., `air_quality.py`)
+- Each platform in its own file (e.g., `sensor.py`)
 - Use `EntityDescription` dataclasses for static entity metadata
 
 **Code organization principles:**
@@ -321,7 +314,7 @@ See `.github/instructions/config_flow.instructions.md` for comprehensive pattern
 **Service actions:**
 
 - Define in `services.yaml` with full descriptions (legacy filename)
-- Implement handlers in `service_actions/` directory
+- Implement handlers in `service_actions.py`
 - **Register in `async_setup()`** - NOT in `async_setup_entry()` (Quality Scale!)
 - Format: `<integration_domain>.<action_name>`
 
