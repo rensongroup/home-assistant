@@ -20,7 +20,7 @@ body:
           required: true
         - label:
             This issue is not a duplicate feature request of [previous feature
-            requests](https://github.com/woutercoppens/home-assistant-test/issues?q=is%3Aissue+label%3A%22Feature+Request%22+).
+            requests](https://github.com/rensongroup/home-assistant/issues?q=is%3Aissue+label%3A%22Feature+Request%22+).
           required: true
 
   - type: textarea

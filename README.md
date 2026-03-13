@@ -15,7 +15,7 @@ Uncomment and customize these badges if you want to use them:
 **✨ Develop in the cloud:** Want to contribute or customize this integration? Open it directly in GitHub Codespaces -
 no local setup required!
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/woutercoppens/home-assistant-test?quickstart=1)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rensongroup/home-assistant?quickstart=1)
 
 ## Introduction
 
@@ -118,7 +118,7 @@ Want to contribute or customize this integration? You have two options:
 
 The easiest way to get started - develop directly in your browser with GitHub Codespaces:
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/woutercoppens/home-assistant-test?quickstart=1)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rensongroup/home-assistant?quickstart=1)
 
 - ✅ Zero local setup required
 - ✅ Pre-configured development environment
