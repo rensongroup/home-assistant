@@ -5,6 +5,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Group all devcontainers updates together
+    groups:
+      devcontainers:
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -36,7 +41,11 @@ updates:
     labels:
       - "dependencies"
       - "python"
-
+    # Group all python updates together
+    groups:
+      pip:
+        patterns:
+          - "*"
     ignore:
       # Dependabot should not update Home Assistant as that should match the homeassistant key in hacs.json
       - dependency-name: "homeassistant"
