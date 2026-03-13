@@ -187,20 +187,12 @@ we'll help as much as possible. Pull requests are always welcome.
 
 ---
 
-[commits-shield]:
-  https://img.shields.io/github/commit-activity/y/woutercoppens/home-assistant-test.svg?style=for-the-badge
-[commits]: https://github.com/woutercoppens/home-assistant-test/commits/main
+[commits-shield]: https://img.shields.io/github/commit-activity/y/rensongroup/home-assistant.svg?style=for-the-badge
+[commits]: https://github.com/rensongroup/home-assistant/commits/master
 [hacs]: https://github.com/hacs/integration
 [hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge
-[license-shield]: https://img.shields.io/github/license/woutercoppens/home-assistant-test.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/rensongroup/home-assistant.svg?style=for-the-badge
 [maintenance-shield]: https://img.shields.io/badge/maintainer-%40woutercoppens-blue.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/woutercoppens/home-assistant-test.svg?style=for-the-badge
-[releases]: https://github.com/woutercoppens/home-assistant-test/releases
-[user_profile]: https://github.com/jpawlowski
-
-<!-- Optional badge definitions - uncomment if needed:
-[buymecoffee]: https://www.buymeacoffee.com/jpawlowski
-[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
-[discord]: https://discord.gg/Qa5fW2R
-[discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
--->
+[releases-shield]: https://img.shields.io/github/release/wrensongroup/home-assistant.svg?style=for-the-badge
+[releases]: https://github.com/rensongroup/home-assistant/releases
+[user_profile]: https://github.com/woutercoppens
