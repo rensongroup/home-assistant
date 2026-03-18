@@ -16,7 +16,6 @@ from pyhaopenmotics import (
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_IP_ADDRESS, CONF_NAME, CONF_PASSWORD, CONF_PORT, CONF_VERIFY_SSL
-from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util.ssl import get_default_context, get_default_no_verify_context
@@ -86,9 +85,10 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, 
                 translation_placeholders={"error": repr(err)},
             ) from err
         except AuthenticationError as err:
-            raise ConfigEntryAuthFailed(
+            raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="cannot_authenticate",
+                translation_placeholders={"error": repr(err)},
             ) from err
         except Exception as err:
             _LOGGER.exception("Unexpected error during _async_update_data")
