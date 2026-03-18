@@ -1,7 +1,6 @@
 > [!WARNING]\
-> [<strong>Please use the Renson login if possible, the OpenMotics login is deprecated and will be removed in the near >
->
-> > future. Further instructions will follow later.] </br>
+> [<strong>Please use the Renson login if possible, the OpenMotics login is deprecated and will be removed in the near]
+> [<strong>future. Further instructions will follow later.] </br>
 
 ## Renson Smart Living (OpenMotics) Home Assistant integration
 
