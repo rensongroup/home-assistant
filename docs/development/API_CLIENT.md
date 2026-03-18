@@ -14,14 +14,17 @@ Handles all communication with external APIs or devices. Implements:
 If you are modifying the pyhaopenmotics codebase, use the manifest.json file to link your local version for testing.
 This avoids the need for incremental version releases during development:
 
-replace this: ``json "requirements": [
-"pyhaopenmotics@https://github.com/rensongroup/pyhaopenmotics/archive/refs/tags/0.0.11.tar.gz" ]
+replace this:
 
+```json
+"requirements": [
+"pyhaopenmotics@https://github.com/rensongroup/pyhaopenmotics/archive/refs/tags/0.0.11.tar.gz"
+]
 ```
 
 with
 
-``json
+```json
 "requirements": [
   "pyhaopenmotics@git+https://github.com/rensongroup/pyhaopenmotics.git@main#pyhaopenmotics==0.0.12"
 ]
