@@ -24,9 +24,7 @@ version-resolver:
       - "new-year" # Use this label on a PR to bump the year
   minor:
     labels:
-      - "enhancement"
-      - "bug"
-      - "feature"
+      - "minor"
 template: |
   ## Changes
 
