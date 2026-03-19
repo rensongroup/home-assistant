@@ -2,8 +2,7 @@ name: Tag From Manifest Version
 
 on:
   push:
-    branches:
-      - "master"
+    branches: ["master", "main"]
     paths:
       - "custom_components/openmotics/manifest.json"
       - ".github/workflows/tag-from-manifest.yml"
