@@ -15,18 +15,18 @@ categories:
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 # Overrides the default $MAJOR.$MINOR.$PATCH
-version-template: "$MAJOR.$MINOR"
-version-resolver:
-  # Ensures standard PRs bump the minor version (e.g., 2026.1 -> 2026.2)
-  default: minor
-  major:
-    labels:
-      - "new-year" # Use this label on a PR to bump the year
-  minor:
-    labels:
-      - "enhancement"
-      - "bug"
-      - "feature"
+# version-template: "$YEAR.$MINOR"
+# version-resolver:
+#   # Ensures standard PRs bump the minor version (e.g., 2026.1 -> 2026.2)
+#   default: minor
+# major:
+#   labels:
+#     - "new-year" # Use this label on a PR to bump the year
+# minor:
+#   labels:
+#     - "enhancement"
+#     - "bug"
+#     - "feature"
 template: |
   ## Changes
 
