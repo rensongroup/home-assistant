@@ -11,7 +11,7 @@ NAME = "OpenMotics Integration"
 ATTR_MANUFACTURER = "OpenMotics"
 DOMAIN = "openmotics"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "2026.1005"
+VERSION = "2026.1006"
 ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
 ISSUE_URL = "https://github.com/rensongroup/home-assistant/issues"
 
