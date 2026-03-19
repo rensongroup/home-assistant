@@ -42,6 +42,7 @@ jobs:
       - name: 🚀 Draft Release
         uses: release-drafter/release-drafter@139054aeaa9adc52ab36ddf67437541f039b88e2 # v7.1.1
         with:
+          config-name: release-drafter.yml # the default, loads '.github/release-drafter.yml'
           # This forces release-drafter to use your file's version
           # instead of calculating its own
           version: ${{ steps.get_version.outputs.extracted_version }}
