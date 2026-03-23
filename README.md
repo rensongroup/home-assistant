@@ -1,6 +1,6 @@
 > [!WARNING]\
 > <strong>Please use the Renson login if possible, the OpenMotics login is deprecated and will be removed in the near
-> <strong>future. See [AUTH_CHANGED.md](docs/users/AUTH_CHANGED.md) </br>
+> <strong>future. See [AUTH_CHANGED.md](docs/user/AUTH_CHANGED.md) </br>
 
 ## Renson Smart Living (OpenMotics) Home Assistant integration
 
