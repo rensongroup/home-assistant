@@ -7,7 +7,7 @@ authentication process.
 
 This page will help you migrate to the new Microsoft-based authentication.
 
-> [!REMARK]\
+> [!NOTE]\
 > If you are using a Local Gateway, you can skip this page. These updates only affect Cloud-based accounts.
 
 ## Getting a new client_id.
