@@ -84,6 +84,13 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, 
                 translation_key="ssl_failed",
                 translation_placeholders={"error": repr(err)},
             ) from err
+        # https://developers.home-assistant.io/docs/integration_setup_failures#handling-expired-credentials
+        #
+        # Sometimes the connection fails because of expired credentials, but we don't want to raise an error in that case,
+        # because the credentials will be refreshed automatically and the next update will succeed.
+        # If we trigger ConfigEntryAuthFailed, the device will be disabled and the user will have to re-enable it.
+        # At his moment, we don't know why these credentials got expired.
+        #
         except AuthenticationError as err:
             raise UpdateFailed(
                 translation_domain=DOMAIN,

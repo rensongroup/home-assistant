@@ -10,7 +10,7 @@
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/rensongroup/home-assistant/issues",
   "requirements": [
-    "pyhaopenmotics@https://github.com/rensongroup/pyhaopenmotics/archive/refs/tags/0.0.11.tar.gz"
+    "pyhaopenmotics@https://github.com/rensongroup/pyhaopenmotics/archive/refs/tags/0.1.0.tar.gz"
   ],
   "version": "2026.1006"
 }
