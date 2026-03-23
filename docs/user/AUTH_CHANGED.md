@@ -1,6 +1,6 @@
 > [!WARNING]\
-> <strong> Action Required: Please migrate to Renson authentication. The OpenMotics login is deprecated and will
-> <strong> soon be removed. You will need to update your client_id and client_secret. </br>
+> <strong> Action Required: Please migrate to Renson authentication. The OpenMotics login is deprecated and will soon be
+> removed. You will need to update your client_id and client_secret. </strong></br>
 
 We’re updating how you sign in! Renson is replacing the old OpenMotics login system with a more secure Microsoft-based
 authentication process.
