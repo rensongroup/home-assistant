@@ -188,9 +188,9 @@ class OpenMoticsLocalEnergySensor(OpenMoticsSensor):
             coordinator,
             index,
             OpenMoticsLocalEnergySensor.WrappedDevice(
-                f"energy-{device.idx}-{self.device_class}", # pyrefly: ignore
-                device.idx, # pyrefly: ignore
-                device.name, # pyrefly: ignore
+                f"energy-{device.idx}-{self.device_class}",  # pyrefly: ignore
+                device.idx,  # pyrefly: ignore
+                device.name,  # pyrefly: ignore
                 device,
             ),
         )
