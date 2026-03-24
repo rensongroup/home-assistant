@@ -25,6 +25,6 @@ jobs:
 
       # Step 3: Upload ZIP as a release asset (for HACS)
       - name: ⬆️ Upload zip to release
-        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           files: ${{ github.workspace }}/custom_components/openmotics/openmotics.zip
