@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 from homeassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
 
 from .const import DOMAIN, NOT_IN_USE
-from .entity import OpenMoticsDevice
+from .entity import OpenMoticsEntity
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
@@ -61,7 +61,7 @@ def brightness_from_percentage(percent: float) -> int:
     return min(max(int(round(percent * 255 / 100, 0)), 0), 255)
 
 
-class OpenMoticsOutputLight(OpenMoticsDevice, LightEntity):
+class OpenMoticsOutputLight(OpenMoticsEntity, LightEntity):
     """Representation of a OpenMotics Output light."""
 
     coordinator: OpenMoticsDataUpdateCoordinator
@@ -150,7 +150,7 @@ class OpenMoticsOutputLight(OpenMoticsDevice, LightEntity):
             await self.coordinator.async_refresh()
 
 
-class OpenMoticsLight(OpenMoticsDevice, LightEntity):
+class OpenMoticsLight(OpenMoticsEntity, LightEntity):
     """Representation of a OpenMotics light."""
 
     coordinator: OpenMoticsDataUpdateCoordinator

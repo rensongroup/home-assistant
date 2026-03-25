@@ -40,7 +40,7 @@ development. Aim for zero validation errors.
 **Package Structure (DO NOT create other packages):**
 
 - `coordinator.py` — DataUpdateCoordinator (base + data_processing + error_handling + listeners)
-- `entity.py` — Base entity class (`OpenMoticsDevice`)
+- `entity.py` — Base entity class (`OpenMoticsEntity`)
 - `entity_utils.py` — Entity-specific helpers (device_info, state formatting)
 - `config_flow.py` — Config flow implementation
 - `[platform].py` — One file per platform (sensor, switch, etc.)
@@ -52,7 +52,7 @@ instead. Do NOT create new top-level packages without explicit approval.
 
 **Key patterns** (details in path-specific `*.instructions.md`):
 
-- Entity MRO: `(PlatformEntity, OpenMoticsDevice)` — order matters
+- Entity MRO: `(PlatformEntity, OpenMoticsEntity)` — order matters
 - Unique ID: `{entry_id}_{description.key}` (set in base entity)
 - Services: register in `async_setup()`, NOT `async_setup_entry()` (Quality Scale requirement)
 - Config entry data: `entry.runtime_data.client` / `entry.runtime_data.coordinator`

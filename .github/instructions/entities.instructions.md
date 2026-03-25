@@ -17,13 +17,13 @@ entity utilities
 
 ## Shared Infrastructure
 
-- \*\*`entity.py` - Base entity classes ( `OpenMoticsDevice`)
+- \*\*`entity.py` - Base entity classes ( `OpenMoticsEntity`)
 - **`entity_utils.py`** - Shared utilities (device info, state helpers) used by 3+ entity classes
 - **`coordinator.py`** - Data fetching (entities never call API directly)
 
 ## Base Entity Inheritance
 
-**MUST inherit from:** `(PlatformEntity, OpenMoticsDevice)` - order matters for MRO
+**MUST inherit from:** `(PlatformEntity, OpenMoticsEntity)` - order matters for MRO
 
 **Base class provides:** Coordinator integration, device info, unique ID (`{entry_id}_{description.key}`), attribution,
 entity naming
@@ -31,7 +31,7 @@ entity naming
 **You implement:** Platform-specific properties/methods (`native_value`, `is_on`, `async_press`, etc.)
 
 **Imports pattern:** `from homeassistant.components.PLATFORM import PlatformEntity, PlatformEntityDescription` +
-`from ..entity import OpenMoticsDevice`
+`from ..entity import OpenMoticsEntity`
 
 **Constructor:** Call `super().__init__(coordinator, entity_description)` - base handles setup
 

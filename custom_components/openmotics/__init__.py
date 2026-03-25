@@ -13,9 +13,19 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
+from pyhaopenmotics import (
+    AuthenticationError,
+    OpenMoticsConnectionError,
+    OpenMoticsConnectionSslError,
+    OpenMoticsConnectionTimeoutError,
+)
+
 from homeassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET, CONF_IP_ADDRESS
+from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
-from homeassistant.helpers.config_entry_oauth2_flow import OAuth2Session
+from homeassistant.helpers.config_entry_oauth2_flow import (
+    OAuth2Session,
+)
 
 from .const import CONF_INSTALLATION_ID, DOMAIN, PLATFORMS, STARTUP_MESSAGE
 from .coordinator import (
@@ -82,6 +92,21 @@ async def async_setup_entry(
             name=entry.data.get(CONF_AUTH_IMPLEMENTATION),
         )
         oauth2_session = OAuth2Session(hass, entry, implementation)
+
+        try:
+            await oauth2_session.async_ensure_token_valid()
+        except AuthenticationError as err:
+            msg = "Authentication failed, please check credentials"
+            raise ConfigEntryAuthFailed(msg) from err
+        except (OpenMoticsConnectionTimeoutError, OpenMoticsConnectionError) as err:
+            msg = "Connection error"
+            raise ConfigEntryNotReady(msg) from err
+        except OpenMoticsConnectionSslError as err:
+            msg = "SSL error. please check config"
+            raise ConfigEntryNotReady(msg) from err
+        except Exception as err:
+            _LOGGER.exception("Unexpected error during async_setup_entry")
+            raise ConfigEntryNotReady from err
 
         coordinator = OpenMoticsCloudDataUpdateCoordinator(
             hass,

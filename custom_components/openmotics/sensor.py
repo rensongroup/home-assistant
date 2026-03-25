@@ -17,7 +17,7 @@ from homeassistant.const import (
 )
 
 from .const import DOMAIN, NOT_IN_USE
-from .entity import OpenMoticsDevice
+from .entity import OpenMoticsEntity
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
@@ -77,7 +77,7 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class OpenMoticsSensor(OpenMoticsDevice, SensorEntity):
+class OpenMoticsSensor(OpenMoticsEntity, SensorEntity):
     """Representation of a OpenMotics sensor."""
 
     coordinator: OpenMoticsDataUpdateCoordinator

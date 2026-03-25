@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 type NestedDeviceDict = dict[str, Any | "NestedDeviceDict"]
 
 
-class OpenMoticsDevice(CoordinatorEntity):
+class OpenMoticsEntity(CoordinatorEntity):
     """Representation a base OpenMotics device."""
 
     coordinator: OpenMoticsDataUpdateCoordinator
