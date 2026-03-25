@@ -41,7 +41,7 @@ Report any errors found. Fix critical issues before proceeding.
 
 **Entity Organization:**
 
-- [ ] Entities inherit from both platform base and `OpenMoticsDevice`
+- [ ] Entities inherit from both platform base and `OpenMoticsEntity`
 - [ ] `_attr_has_entity_name = True` for all new entities (MANDATORY 2025)
 - [ ] Entity names use `translation_key` instead of hardcoded `name`
 - [ ] Entity IDs are stable (won't change on restart)

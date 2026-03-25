@@ -9,7 +9,7 @@ from homeassistant.components.cover import ATTR_POSITION, CoverEntity, CoverEnti
 from homeassistant.const import STATE_CLOSED, STATE_CLOSING, STATE_OPEN, STATE_OPENING, STATE_PAUSED, STATE_UNKNOWN
 
 from .const import DOMAIN, NOT_IN_USE
-from .entity import OpenMoticsDevice
+from .entity import OpenMoticsEntity
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
@@ -54,7 +54,7 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class OpenMoticsShutter(OpenMoticsDevice, CoverEntity):
+class OpenMoticsShutter(OpenMoticsEntity, CoverEntity):
     """Representation of a OpenMotics shutter."""
 
     coordinator: OpenMoticsDataUpdateCoordinator

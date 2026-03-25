@@ -33,7 +33,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .entity import OpenMoticsDevice
+from .entity import OpenMoticsEntity
 from .const import DOMAIN
 from .coordinator import OpenMoticsCloudDataUpdateCoordinator
 
@@ -73,7 +73,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import callback
 
 from .coordinator import OpenMoticsCloudDataUpdateCoordinator
-from .entity import OpenMoticsDevice
+from .entity import OpenMoticsEntity
 
 
 class OpenMotics[EntityName](
@@ -232,7 +232,7 @@ script/develop         # Start Home Assistant for testing
 from homeassistant.helpers.device_registry import DeviceInfo
 
 class OpenMotics[EntityName](
-    OpenMoticsDevice,
+    OpenMoticsEntity,
     [PlatformEntityClass],
 ):
     """Entity with device grouping."""
@@ -292,7 +292,7 @@ async def async_press(self) -> None:
 
 ## Validation Checklist
 
-- [ ] Entity class inherits from both `OpenMoticsDevice` and platform class
+- [ ] Entity class inherits from both `OpenMoticsEntity` and platform class
 - [ ] `_attr_has_entity_name = True` set (MANDATORY for new integrations)
 - [ ] Entity uses `translation_key` instead of hardcoded `name`
 - [ ] Unique ID set correctly
@@ -310,7 +310,7 @@ async def async_press(self) -> None:
 
 - **Domain:** `openmotics`
 - **Class prefix:** `OpenMotics`
-- **Base entity:** `OpenMoticsDevice` in `entity.py`
+- **Base entity:** `OpenMoticsEntity` in `entity.py`
 - **Coordinator:** `OpenMoticsCloudDataUpdateCoordinator` or `OpenMoticsLocalDataUpdateCoordinator`
 
 Follow patterns from existing platforms in the integration for consistency.

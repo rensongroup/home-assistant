@@ -20,7 +20,7 @@ from pyhaopenmotics.const import (
 )
 
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.config_entry_oauth2_flow import LocalOAuth2Implementation
+from homeassistant.helpers import config_entry_oauth2_flow
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ def is_valid_uuid(uuid_to_test: str, version: int = 4) -> bool:
     return True
 
 
-class OpenMoticsOauth2Implementation(LocalOAuth2Implementation):
+class OpenMoticsOauth2Implementation(config_entry_oauth2_flow.LocalOAuth2Implementation):
     """Local implementation of OAuth2."""
 
     def __init__(  # pylint: disable=too-many-arguments

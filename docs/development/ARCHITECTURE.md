@@ -101,7 +101,7 @@ Provides common functionality for all entities in the integration:
 - Coordinator integration
 - Availability tracking
 
-**Key class:** `OpenMoticsDevice` (in `entity.py`)
+**Key class:** `OpenMoticsEntity` (in `entity.py`)
 
 ## Platform Organization
 
@@ -114,7 +114,7 @@ Each platform (sensor, binary_sensor, switch, etc.) follows this pattern:
 Platform entities inherit from both:
 
 1. Home Assistant platform base (e.g., `SensorEntity`)
-2. `OpenMoticsDevice` for common functionality
+2. `OpenMoticsEntity` for common functionality
 
 ## Data Flow
 
@@ -261,7 +261,7 @@ To add new functionality:
 
 1. Create file: `custom_components/openmotics/<platform>.py`
 2. Implement `__init__.py` with `async_setup_entry()`
-3. Create entity classes inheriting from platform base + `OpenMoticsDevice`
+3. Create entity classes inheriting from platform base + `OpenMoticsEntity`
 4. Add platform to `PLATFORMS` in `const.py`
 
 ### Adding a New Service Action

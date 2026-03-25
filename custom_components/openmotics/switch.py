@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 from homeassistant.components.switch import SwitchEntity
 
 from .const import DOMAIN, NOT_IN_USE
-from .entity import OpenMoticsDevice
+from .entity import OpenMoticsEntity
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
@@ -49,7 +49,7 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class OpenMoticsSwitch(OpenMoticsDevice, SwitchEntity):
+class OpenMoticsSwitch(OpenMoticsEntity, SwitchEntity):
     """Representation of a OpenMotics switch."""
 
     def __init__(

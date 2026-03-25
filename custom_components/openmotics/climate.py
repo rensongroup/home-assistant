@@ -17,7 +17,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 
 from .const import DOMAIN, NOT_IN_USE, PRESET_AUTO, PRESET_MANUAL, PRESET_PARTY, PRESET_VACATION
-from .entity import OpenMoticsDevice
+from .entity import OpenMoticsEntity
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -118,7 +118,7 @@ async def async_setup_entry(
     async_add_entities(tu_entities)
 
 
-class OpenMoticsThermostatGroup(OpenMoticsDevice, ClimateEntity):
+class OpenMoticsThermostatGroup(OpenMoticsEntity, ClimateEntity):
     """Representation of a OpenMotics switch."""
 
     coordinator: OpenMoticsDataUpdateCoordinator
@@ -149,7 +149,7 @@ class OpenMoticsThermostatGroup(OpenMoticsDevice, ClimateEntity):
         return OM_TO_HVAC_MODES[self.device.status.mode]
 
 
-class OpenMoticsThermostatUnit(OpenMoticsDevice, ClimateEntity):
+class OpenMoticsThermostatUnit(OpenMoticsEntity, ClimateEntity):
     """Representation of a OpenMotics switch."""
 
     coordinator: OpenMoticsDataUpdateCoordinator

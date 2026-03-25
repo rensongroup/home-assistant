@@ -123,6 +123,35 @@ lint.isort.known-first-party = [ "homeassistant" ]
   "used-before-assignment",
 ]
 
+[tool.pyrefly]
+project-includes = [ "custom_components/openmotics" ]
+project-excludes = [ "examples", "tests" ]
+infer-with-first-use = false
+errors.bad-argument-type = "ignore"
+errors.bad-override = "ignore"
+
+[tool.pyright]
+include = [ "custom_components/openmotics" ]
+exclude = [
+  "**/node_modules",
+  "**/__pycache__",
+  "**/.git",
+  "**/.github",
+  "**/docs",
+  "**/venv",
+  "**/.venv",
+  "**/config",
+]
+# venvPath is relative to workspace root. A symlink is created by script/setup/bootstrap
+# This works in VSCode (uses .local/ha-venv) and GitHub Actions (uses active venv)
+venvPath = ".local"
+venv = "ha-venv"
+typeCheckingMode = "basic"
+reportUnusedImport = "none"
+reportUnusedVariable = "none"
+reportUnusedCoroutine = "none"
+reportMissingTypeStubs = "none"
+
 [tool.pytest]
 ini_options.testpaths = [ "tests" ]
 ini_options.norecursedirs = [ ".git", "testing_config" ]
@@ -154,32 +183,3 @@ report.exclude_lines = [
   "raise AssertionError",
   "raise NotImplementedError",
 ]
-
-[tool.pyrefly]
-project-includes = [ "custom_components/openmotics" ]
-project-excludes = [ "examples", "tests" ]
-infer-with-first-use = false
-errors.bad-argument-type = "ignore"
-errors.bad-override = "ignore"
-
-[tool.pyright]
-include = [ "custom_components/openmotics" ]
-exclude = [
-  "**/node_modules",
-  "**/__pycache__",
-  "**/.git",
-  "**/.github",
-  "**/docs",
-  "**/venv",
-  "**/.venv",
-  "**/config",
-]
-# venvPath is relative to workspace root. A symlink is created by script/setup/bootstrap
-# This works in VSCode (uses .local/ha-venv) and GitHub Actions (uses active venv)
-venvPath = ".local"
-venv = "ha-venv"
-typeCheckingMode = "basic"
-reportUnusedImport = "none"
-reportUnusedVariable = "none"
-reportUnusedCoroutine = "none"
-reportMissingTypeStubs = "none"

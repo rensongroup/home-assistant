@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 from homeassistant.components.scene import Scene
 
 from .const import DOMAIN, NOT_IN_USE
-from .entity import OpenMoticsDevice
+from .entity import OpenMoticsEntity
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
@@ -43,7 +43,7 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class OpenMoticsScene(OpenMoticsDevice, Scene):
+class OpenMoticsScene(OpenMoticsEntity, Scene):
     """Representation of a OpenMotics group action."""
 
     coordinator: OpenMoticsDataUpdateCoordinator
