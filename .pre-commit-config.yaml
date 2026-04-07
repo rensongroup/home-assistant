@@ -2,7 +2,7 @@
 repos:
   # pyproject.toml
   - repo: https://github.com/henryiii/validate-pyproject-schema-store
-    rev: 2026.03.29
+    rev: 2026.04.03
     hooks:
       - id: validate-pyproject
 
@@ -57,12 +57,12 @@ repos:
           - --branch=master
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.20.0
+    rev: v2.21.0
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.8
+    rev: v0.15.9
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -156,7 +156,7 @@ repos:
         files: ^(custom_components/openmotics)/.+\.py$
 
   - repo: https://github.com/facebook/pyrefly-pre-commit
-    rev: 0.58.0
+    rev: 0.59.1
     hooks:
       - id: pyrefly-check
         name: Pyrefly (type checking)
