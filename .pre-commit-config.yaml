@@ -57,7 +57,7 @@ repos:
           - --branch=master
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.21.1
+    rev: v2.21.2
     hooks:
       - id: pyproject-fmt
 
@@ -71,7 +71,7 @@ repos:
         files: ^((custom_components/openmotics)/.+)?[^/]+\.py$
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.37.1
+    rev: 0.37.2
     hooks:
       - id: check-github-workflows
       - id: check-github-actions
@@ -156,7 +156,7 @@ repos:
         files: ^(custom_components/openmotics)/.+\.py$
 
   - repo: https://github.com/facebook/pyrefly-pre-commit
-    rev: 0.62.0
+    rev: 0.63.1
     hooks:
       - id: pyrefly-check
         name: Pyrefly (type checking)
