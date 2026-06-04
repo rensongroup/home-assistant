@@ -11,7 +11,7 @@
 # Install with: uv pip install -r requirements_dev.txt
 
 # prek is a reimagined version of pre-commit, built in Rust.
-prek>=0.4.2
+prek>=0.4.3
 # Type Checking
 # pyright==1.1.408
 # HA Core uses mypy, but we prefer pyrefly for better IDE integration and speed
