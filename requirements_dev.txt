@@ -15,7 +15,7 @@ prek>=0.4.5
 # Type Checking
 # pyright==1.1.408
 # HA Core uses mypy, but we prefer pyrefly for better IDE integration and speed
-pyrefly>=1.0.0
+pyrefly>=1.1.1
 
 # Better logging for development scripts
 colorlog>=6.10.1
@@ -26,4 +26,4 @@ zlib_ng>=1.0.0
 isal>=1.8.0
 
 # just is a handy way to save and run project-specific commands.
-rust-just>=1.52.0
+rust-just>=1.53.0
