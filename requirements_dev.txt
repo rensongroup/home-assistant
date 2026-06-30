@@ -26,4 +26,4 @@ zlib_ng>=1.0.0
 isal>=1.8.0
 
 # just is a handy way to save and run project-specific commands.
-rust-just>=1.53.0
+rust-just>=1.54.0
