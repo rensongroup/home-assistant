@@ -2,7 +2,7 @@
 repos:
   # pyproject.toml
   - repo: https://github.com/henryiii/validate-pyproject-schema-store
-    rev: 2026.06.26
+    rev: 2026.07.20
     hooks:
       - id: validate-pyproject
 
@@ -57,12 +57,12 @@ repos:
           - --branch=master
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.25.1
+    rev: v2.25.3
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.20
+    rev: v0.15.22
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -79,7 +79,7 @@ repos:
 
   # codespell is a tool to find and fix common misspellings in text files.
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell
         args:
@@ -112,7 +112,7 @@ repos:
   #       exclude: .github
 
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: "v3.9.1"
+    rev: "v3.9.5"
     hooks:
       - id: prettier
         name: Prettier non-workflow files
