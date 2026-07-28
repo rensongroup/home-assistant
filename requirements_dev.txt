@@ -11,14 +11,14 @@
 # Install with: uv pip install -r requirements_dev.txt
 
 # prek is a reimagined version of pre-commit, built in Rust.
-prek>=0.4.5
+prek>=0.4.10
 # Type Checking
 # pyright==1.1.408
 # HA Core uses mypy, but we prefer pyrefly for better IDE integration and speed
 pyrefly>=1.1.1
 
 # Better logging for development scripts
-colorlog>=6.10.1
+colorlog>=6.11.0
 
 # Performance optimizations (optional but recommended for faster development)
 # These speed up Home Assistant's startup and runtime
@@ -26,4 +26,4 @@ zlib_ng>=1.0.0
 isal>=1.8.0
 
 # just is a handy way to save and run project-specific commands.
-rust-just>=1.54.0
+rust-just>=1.57.0
