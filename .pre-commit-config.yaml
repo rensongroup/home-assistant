@@ -2,7 +2,7 @@
 repos:
   # pyproject.toml
   - repo: https://github.com/henryiii/validate-pyproject-schema-store
-    rev: 2026.07.20
+    rev: 2026.07.28
     hooks:
       - id: validate-pyproject
 
@@ -57,12 +57,12 @@ repos:
           - --branch=master
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.25.3
+    rev: v2.26.0
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.22
+    rev: v0.16.1
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -112,7 +112,7 @@ repos:
   #       exclude: .github
 
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: "v3.9.5"
+    rev: "v3.9.6"
     hooks:
       - id: prettier
         name: Prettier non-workflow files
