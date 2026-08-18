@@ -2,7 +2,7 @@
 repos:
   # pyproject.toml
   - repo: https://github.com/henryiii/validate-pyproject-schema-store
-    rev: 2026.08.05
+    rev: 2026.08.14
     hooks:
       - id: validate-pyproject
 
@@ -57,12 +57,12 @@ repos:
           - --branch=master
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.27.0
+    rev: v2.27.1
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.2
+    rev: v0.16.3
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -71,7 +71,7 @@ repos:
         files: ^((custom_components/openmotics)/.+)?[^/]+\.py$
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.37.4
+    rev: 0.38.0
     hooks:
       - id: check-github-workflows
       - id: check-github-actions
@@ -149,7 +149,7 @@ repos:
         args: []
 
   - repo: https://github.com/PyCQA/pylint.git
-    rev: v4.0.6
+    rev: v4.0.7
     hooks:
       - id: pylint
         args: ["--exit-zero"]
