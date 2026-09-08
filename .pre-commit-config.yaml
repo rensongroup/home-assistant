@@ -2,7 +2,7 @@
 repos:
   # pyproject.toml
   - repo: https://github.com/henryiii/validate-pyproject-schema-store
-    rev: 2026.08.15
+    rev: 2026.09.04
     hooks:
       - id: validate-pyproject
 
@@ -57,12 +57,12 @@ repos:
           - --branch=master
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.28.0
+    rev: v2.29.3
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.4
+    rev: v0.16.6
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -149,7 +149,7 @@ repos:
         args: []
 
   - repo: https://github.com/PyCQA/pylint.git
-    rev: v4.0.7
+    rev: v4.0.8
     hooks:
       - id: pylint
         args: ["--exit-zero"]
