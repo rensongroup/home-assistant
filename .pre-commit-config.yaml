@@ -2,7 +2,7 @@
 repos:
   # pyproject.toml
   - repo: https://github.com/henryiii/validate-pyproject-schema-store
-    rev: 2026.09.17
+    rev: 2026.09.25
     hooks:
       - id: validate-pyproject
 
@@ -62,7 +62,7 @@ repos:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.8
+    rev: v0.16.9
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -71,7 +71,7 @@ repos:
         files: ^((custom_components/openmotics)/.+)?[^/]+\.py$
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.38.0
+    rev: 0.38.2
     hooks:
       - id: check-github-workflows
       - id: check-github-actions
@@ -112,7 +112,7 @@ repos:
   #       exclude: .github
 
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: "v3.9.8"
+    rev: "v3.9.9"
     hooks:
       - id: prettier
         name: Prettier non-workflow files
@@ -149,7 +149,7 @@ repos:
         args: []
 
   - repo: https://github.com/PyCQA/pylint.git
-    rev: v4.0.8
+    rev: v4.0.9
     hooks:
       - id: pylint
         args: ["--exit-zero"]
