@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import dataclasses
 import logging
 from typing import TYPE_CHECKING, Any
 
@@ -46,6 +47,31 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, 
         self.session = None
         self._omclient: OpenMoticsCloud | LocalGateway
         self._install_id = None
+        self._energy_warning_logged = False
+
+    async def _async_get_energysensors(self) -> list[Any]:
+        """Fetch the energy sensors without failing the whole update.
+
+        The gateway omits an energy module from `get_realtime_power` when it cannot read it
+        (communication timeout, maintenance mode, ...), which makes pyhaopenmotics <= 0.1.0
+        raise a `KeyError`. In that case the previous sensor list is reused with its status
+        cleared, so the entities keep their list position and report "unknown" instead of
+        failing the whole update. Connection and authentication errors still propagate.
+        """
+        try:
+            energysensors = await self._omclient.energysensors.get_all()
+        except (KeyError, IndexError, TypeError, ValueError) as err:
+            if not self._energy_warning_logged:
+                _LOGGER.warning("Energy sensors unavailable, reporting them as unknown: %r", err)
+                self._energy_warning_logged = True
+            else:
+                _LOGGER.debug("Energy sensors still unavailable: %r", err)
+            previous = (self.data or {}).get("energysensors") or []
+            return [dataclasses.replace(sensor, status=None) for sensor in previous]
+        if self._energy_warning_logged:
+            _LOGGER.info("Energy sensors available again")
+            self._energy_warning_logged = False
+        return energysensors
 
     async def _async_update_data(self) -> dict[Any, Any]:
         """Fetch data from API endpoint.
@@ -70,7 +96,7 @@ class OpenMoticsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, 
             my_sensors = await self._omclient.sensors.get_all()
             my_thermostatgroups = await self._omclient.thermostats.groups.get_all()
             my_thermostatunits = await self._omclient.thermostats.units.get_all()
-            my_energysensors = await self._omclient.energysensors.get_all()
+            my_energysensors = await self._async_get_energysensors()
 
         except (OpenMoticsConnectionTimeoutError, OpenMoticsConnectionError) as err:
             raise UpdateFailed(
